@@ -12,4 +12,8 @@ let mix = require('laravel-mix');
  */
 
 mix.js('resources/assets/js/app.js', 'public/js')
-   .sass('resources/assets/sass/app.scss', 'public/css');
+   .sass('resources/assets/sass/app.scss', 'public/css')
+   .copyDirectory('resources/assets/images/','public/images')
+   .copyDirectory('resources/assets/js/frontend/','public/js/frontend')
+   .copyDirectory('resources/assets/sass/frontend/','public/css/frontend')
+   .copyDirectory('node_modules/ckeditor/','public/js/frontend/ckeditor');

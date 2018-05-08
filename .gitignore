@@ -13,3 +13,8 @@ yarn-error.log
 framgia_magazine.sublime-workspace
 /public/css
 /public/js
+/public/images
+/public/fonts
+/public/mix-manifest.json
+.bowerrc
+bower.json
