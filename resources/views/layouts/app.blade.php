@@ -14,63 +14,38 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 <body>
-    <div id="app">
-        <nav class="navbar navbar-default navbar-static-top">
-            <div class="container">
-                <div class="navbar-header">
+<div id="app">
+    <nav class="navbar navbar-expand-sm navbar-light bg-light">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#nav-content"
+                aria-controls="nav-content" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <!-- Links -->
+        <div class="collapse navbar-collapse justify-content-end" id="nav-content">
+            <ul class="navbar-nav">
+                @guest
+                    <li><a class="nav-link" href="{{ route('login') }}">{{ trans('auth.login') }}</a></li>
+                    <li><a class="nav-link" href="{{ route('register') }}">{{ trans('auth.register') }}</a></li>
+                @endguest
+                @auth
+                    <li class="nav-item dropdown">
 
-                    <!-- Collapsed Hamburger -->
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#app-navbar-collapse" aria-expanded="false">
-                        <span class="sr-only"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-
-                    <!-- Branding Image -->
-                    <a class="navbar-brand" href="{{ url('/') }}">
-                        {{ config('app.name', 'Laravel') }}
-                    </a>
-                </div>
-
-                <div class="collapse navbar-collapse" id="app-navbar-collapse">
-                    <!-- Left Side Of Navbar -->
-                    <ul class="nav navbar-nav">
-                        &nbsp;
-                    </ul>
-
-                    <!-- Right Side Of Navbar -->
-                    <ul class="nav navbar-nav navbar-right">
-                        <!-- Authentication Links -->
-                        @guest
-                            <li><a href="{{ route('login') }}">{!! trans('auth.login') !!}</a></li>
-                            <li><a href="{{ route('register') }}">{!! trans('auth.register') !!}</a></li>
-                        @else
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" v-pre>
-                                    {{ Auth::user()->name }} <span class="caret"></span>
-                                </a>
-
-                                <ul class="dropdown-menu">
-                                    <li>
-                                        <a href="{{ route('logout') }}"
-                                            onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                            {!! trans('auth.logout') !!}
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-                        @endguest
-                    </ul>
-                </div>
-            </div>
-        </nav>
-
-        @yield('content')
-    </div>
-
-    <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}"></script>
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" id="Preview" href="#" role="button"
+                           aria-haspopup="true" aria-expanded="false">{{ Auth::user()->fullname }}</a>
+                        <div class="dropdown-menu " aria-labelledby="Preview">
+                            <a class="dropdown-item" href="{{ route('logout') }}"
+                               onclick="event.preventDefault();document.getElementById('logout-form').submit();">Logout</a>
+                            {!! Form::open(['route' => 'logout','method' => 'post','class' => 'form-horizontal', 'id' => 'logout-form']) !!}
+                            {!! Form::close() !!}
+                        </div>
+                    </li>
+                @endauth
+            </ul>
+        </div>
+    </nav>
+    @yield('content')
+</div>
+<!-- Scripts -->
+<script src="{{ asset('js/app.js') }}"></script>
 </body>
 </html>
