@@ -18,3 +18,7 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/homepage', function () {
+    return view('frontend.homepage');
+})->name('homepage');
+Route::resource('posts', 'Frontend\PostController');
