@@ -22,10 +22,8 @@ class PostController extends Controller
         return Validator::make($data, [
             'category' => 'required',
             'title' => 'required|string',
-            'subtitle' => 'string',
             'content' => 'required',
-            'tags' => 'string',
-            'img' => 'image',
+            'img' => 'image|max:2000',
         ]);
     }
 
@@ -38,6 +36,7 @@ class PostController extends Controller
     {
         try {
             $post = Post::findOrFail($id);
+
             return $post->update($data);
         } catch (Exception $e) {
             return redirect()->route('homepage');
@@ -101,6 +100,12 @@ class PostController extends Controller
             'avg_rate' => 0,
         ];
 
+        if ($request->image != null) {
+            $img = $request->image;
+            $post_data['img'] = $img->getClientOriginalName();
+            $img->move('upload/posts', $img->getClientOriginalName());
+        }
+
         $post = $this->createPost($post_data);
 
         return redirect()->route('homepage');
@@ -161,7 +166,13 @@ class PostController extends Controller
             return redirect()->back()->withErrors($validate)->withInput($request->all());
         }
         $post = Post::findOrFail($id);
-        $post->update($request->all());
+        $post_data = $request->all();
+        if ($request->image != null) {
+            $img = $request->image;
+            $post_data['img'] = $img->getClientOriginalName();
+            $img->move('upload/posts', $img->getClientOriginalName());
+        }
+        $post->update($post_data);
 
         return redirect()->route('homepage');
     }

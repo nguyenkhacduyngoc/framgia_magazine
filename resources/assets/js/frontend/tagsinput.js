@@ -28,9 +28,9 @@
         delimiter: ',',
         delimiterRegex: null,
         cancelConfirmKeysOnEmpty: false,
-        onTagExists: function (item, $tag) {
-            $tag.addClass('sr-only');
-        },
+        // onTagExists: function (item, $tag) {
+        //     $tag.addClass('');
+        // },
         trimValue: false,
         allowDuplicates: false,
         triggerChange: true

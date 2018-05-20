@@ -51,8 +51,8 @@
             <div class="col-md-8">
                 <div class="searchbar text-right">
                     {!! Form::open(['route' =>'login', 'method' => 'post', 'class' => '']) !!}
-                    {!! Form::input('text', 'search', null, ['class' => 'form-control', 'placeholder' => 'Search Here']) !!}
-                    {!! Form::button(trans('auth.search'), ['type' => 'submit', 'class' => 'btn btn-primary col-md-5' ]) !!}
+                    {!! Form::input('text', 'search', null, ['placeholder' => trans('auth.search_here')]) !!}
+                    {!! Form::button('<i class="fa fa-search"></i>', ['type' => 'submit']) !!}
                     {!! Form::close() !!}
                 </div>
             </div>
@@ -69,30 +69,30 @@
                     <ul class="list-unstyled list-inline">
                         <li class="list-inline-item active"><a
                                     href="{{ route('homepage') }}">{{ trans('auth.home') }}</a></li>
-                        <li class="list-inline-item"><a>{{ trans('auth.home') }}<i class="fa fa-angle-down"></i></a>
+                        <li class="list-inline-item"><a>{{ trans('auth.page') }}<i class="fa fa-angle-down"></i></a>
                             <ul class="list-unstyled">
                                 <li><a href="{{ route('homepage') }}">{{ trans('auth.home') }}</a></li>
-                                <li><a href="{{ route('homepage') }}">{{ trans('auth.home') }}<i
+                                <li><a href="{{ route('homepage') }}">{{ trans('auth.category') }}<i
                                                 class="fa fa-angle-right"></i></a>
                                     <ul class="list-unstyled">
-                                        <li><a href="{{ route('home') }}">{{ trans('auth.home') }}</a></li>
+                                        @foreach($categories as $category)
+                                            <li><a href="{{ route('homepage') }}">{!! $category->name !!}</a></li>
+                                        @endforeach
                                     </ul>
                                 </li>
                             </ul>
                         </li>
-                        <li class="list-inline-item static"><a>{{ trans('auth.home') }}<i class="fa fa-angle-down"></i></a>
+                        <li class="list-inline-item static"><a>{{ trans('auth.page') }}<i class="fa fa-angle-down"></i></a>
                             <ul class="mega-menu list-unstyled">
                                 <li>
-                                    <h4>{{ trans('auth.home') }}</h4>
-                                    <a href="#">{{ trans('auth.home') }}</a>
+                                    <h4>{{ trans('auth.category') }}</h4>
+                                    @foreach($categories as $category)
+                                        <a href="#">{!! $category->name !!}</a>
+                                    @endforeach
                                 </li>
                                 <li>
-                                    <h4>{{ trans('auth.home') }}</h4>
-                                    <a href="#">{{ trans('auth.home') }}</a>
-                                </li>
-                                <li>
-                                    <h4></h4>
-                                    <a href="#">{{ trans('auth.home') }}</a>
+                                    <h4>{{ trans('auth.tags') }}</h4>
+                                    <a href="#">{{ trans('auth.tags') }}</a>
                                 </li>
                             </ul>
                         </li>
@@ -134,8 +134,3 @@
     </div>
 </section>
 <!-- End Mobile Menu -->
-
-<!-- Web Ticker -->
-<section class="top-news">
-</section>
-<!-- End Web Ticker -->

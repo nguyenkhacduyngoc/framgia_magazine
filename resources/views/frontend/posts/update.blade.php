@@ -22,7 +22,7 @@
                         <header class="card-heading">
                         </header>
                         <div class="card-body mx-auto col-md-12">
-                            {!! Form::model($post,['route' => ['posts.update', $post->id],'method' => 'patch','class' => 'form-horizontal']) !!}
+                            {!! Form::model($post,['route' => ['posts.update', $post->id],'method' => 'patch','class' => 'form-horizontal', 'enctype' => 'multipart/form-data']) !!}
                             <div class="form-group form-row">
                                 {!! Form::label('category',trans('auth.category'),['class' => 'col-sm-2 control-label col-form-label']) !!}
                                 <div class="col-lg-10">
