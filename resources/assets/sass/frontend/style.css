@@ -912,7 +912,8 @@ button {
 
 .allnews .latest-slider .latest-item .slider-content .slider-img a img {
     float: left;
-    width: auto;
+    width: 100px;
+    height: 80px;
     margin-right: 15px;
 }
 
@@ -1449,10 +1450,14 @@ button {
 }
 
 .oth-news .more-content {
+    width: 730px;
+    height: 156px;
     margin-bottom: 40px;
 }
 
 .oth-news .more-content .more-img a img {
+    width: 260px;
+    height: 169px;
     float: left;
     margin-right: 20px;
 }
