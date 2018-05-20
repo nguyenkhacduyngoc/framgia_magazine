@@ -28,13 +28,14 @@
                     <div class="news-heading">
                         <h4>{{ $post->title }}</h4>
                         <ul class="list-unstyled list-inline">
-                            <li class="list-inline-item"><i class="fa fa-user"></i><a href="#">{{ $post->user->fullname }}</a>
+                            <li class="list-inline-item"><i class="fa fa-user"></i><a
+                                        href="#">{{ $post->user->fullname }}</a>
                             </li>
                             <li class="list-inline-item"><i class="fa fa-calendar"></i>{{ $post->created_at }}</li>
                             <li class="list-inline-item"><i class="fa fa-comments"></i><a
                                         href="#">{{ trans('auth.number') }} {{ trans('auth.comments') }}</a></li>
                         </ul>
-                        <img src="{{ asset('images/details-1.jpg') }}" alt="" class="img-fluid">
+                        <img src="{{ asset('upload/posts/'.'/'.$post->img) }}" alt="" class="img-fluid">
                         {!! $post->content !!}
                     </div>
                     <div class="row">
@@ -56,7 +57,7 @@
                     </div>
                     <div class="news-author">
                         <img src="images/author.jpg" alt="" class="img-fluid">
-                        <h6>{{ trans('auth.author') }}: <span>{{ $user->fullname }}</span></h6>
+                        <h6>{{ trans('auth.author') }}: <span>{{ $post->user->fullname }}</span></h6>
                         <ul class="list-unstyled list-inline">
                             <li class="list-inline-item"><a href="#"><i class="fa fa-facebook"></i></a></li>
                             <li class="list-inline-item"><a href="#"><i class="fa fa-twitter"></i></a></li>
@@ -95,9 +96,6 @@
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-12">
-                    <div class="add-widget">
-                        <a href="#"><img src="{{ asset('images/add-1.png') }}" alt="" class="img-fluid"></a>
-                    </div>
                     <div class="tab-widget">
                         <!-- Nav tabs -->
                         <ul class="nav nav-tabs" id="myTab" role="tablist">
@@ -171,9 +169,6 @@
                         <ul class="list-unstyled list-inline">
                             <li class="list-inline-item"><a href="#">{{ trans('auth.category') }}</a></li>
                         </ul>
-                    </div>
-                    <div class="add-widget">
-                        <a href="#"><img src="{{ asset('images/add-1.png') }}" alt="" class="img-fluid"></a>
                     </div>
                 </div>
             </div>

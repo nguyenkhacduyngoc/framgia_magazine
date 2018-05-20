@@ -862,7 +862,7 @@ button {
 
 .allnews .latest-slider .latest-item .latest-content img {
     margin-bottom: 20px;
-    width: auto;
+    width: 100%;
 }
 
 .allnews .latest-slider .latest-item .latest-content h6 a {

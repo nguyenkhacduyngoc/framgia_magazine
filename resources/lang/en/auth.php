@@ -49,4 +49,10 @@ return [
     'number' => 'Number',
     'author' => 'AUTHOR',
     'related_news' => 'Related News',
+    'search' => 'Search',
+    'breaking_news' => 'BREAKING NEWS',
+    'lastest_news' => 'LATEST NEWS',
+    'more_news' => 'MORE NEWS',
+    'page' => 'Page',
+    'search_here' => 'Search Here',
 ];
