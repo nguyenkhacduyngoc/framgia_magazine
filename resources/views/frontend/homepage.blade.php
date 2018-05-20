@@ -94,9 +94,7 @@
                                     @foreach($posts['lastest_paginates'] as $lastest_paginate)
                                         <div class="slider-content">
                                             <div class="slider-img">
-                                                <a href="{{ route('posts. show', $lastest_paginate->id) }}"><img
-                                                            src="{!! asset(config('config.link_upload_file'). '/' .$lastest_paginate->img) !!}"
-                                                            alt="" class="img-fluid"></a>
+                                                <a href="{{ route('posts.show', $lastest_paginate->id) }}"><img src="{!! asset(config('config.link_upload_file'). '/' .$lastest_paginate->img) !!}" alt="" class="img-fluid"></a>
                                             </div>
                                             <div class="img-content">
                                                 <p>
@@ -206,9 +204,7 @@
                     @foreach($posts['more_news'] as $more_new)
                         <div class="more-content">
                             <div class="more-img">
-                                <a href="{{ route('posts.show', $more_new->id) }}"><img
-                                            src="{{ asset('upload/posts' . '/' . $more_new->img) }}" alt=""
-                                            class="img-fluid"></a>
+                                <a href="{{ route('posts.show', $more_new->id) }}"><img src="{{ asset('upload/posts' . '/' . $more_new->img) }}" alt="" class="img-fluid"></a>
                             </div>
                             <div class="img-content">
                                 <h6>
