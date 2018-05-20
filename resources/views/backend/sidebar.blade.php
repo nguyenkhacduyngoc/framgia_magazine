@@ -27,8 +27,8 @@
                     <span class="menu-arrow fa fa-arrow-right"></span>
                 </a>
                 <ul class="sub">
-                    <li><a class="fa fa-indent" href=""> {{ trans('admin.manage_category') }} </a></li>
-                    <li><a class="fa fa-plus-square" href=""> {{ trans('admin.create_category') }} </a></li>
+                    <li><a class="fa fa-indent" href="{{ route('categories.index') }}"> {{ trans('admin.manage_category') }} </a></li>
+                    <li><a class="fa fa-plus-square" href="{{ route('categories.create') }}"> {{ trans('admin.create_category') }} </a></li>
                 </ul>
             </li>
             <li class="sub-menu">
