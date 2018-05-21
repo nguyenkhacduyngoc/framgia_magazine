@@ -30,7 +30,7 @@
                             </div>
                         @endif
                         <div class="panel-body">
-                            {!! Form::model($category, ['route' => ['categories.update', $category->id], 'method' => 'patch', 'class' => 'form-horizontal']) !!}
+                            {!! Form::model($category, ['route' => ['admin.categories.update', $category->id], 'method' => 'patch', 'class' => 'form-horizontal']) !!}
                             <div class="form-group">
                                 {!! Form::label('name', 'Name', ['class' => 'col-sm-3 control-label']) !!}
                                 <div class="col-sm-7">

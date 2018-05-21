@@ -31,7 +31,7 @@
                 <span class="profile-ava">
                     <img alt="" src="">
                 </span>
-                    <span class="username">{{ trans('admin.admin') }}</span>
+                    <span class="username">{!! $auth_user->fullname !!}</span>
                 </a>
                 <ul class="dropdown-menu extended logout">
                     <div class="log-arrow-up"></div>
