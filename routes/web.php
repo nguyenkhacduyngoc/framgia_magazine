@@ -13,6 +13,7 @@
 Auth::routes();
 Route::get('/', 'Frontend\PageController@index')->name('');
 Route::get('/homepage', 'Frontend\PageController@index')->name('homepage');
+Route::get('category/{id}', 'Frontend\PageController@category');
 Route::resource('posts', 'Frontend\PostController');
 Route::resource('user', 'Frontend\UserController');
 Route::group(['prefix' => 'admin'], function () {
@@ -36,5 +37,14 @@ Route::group(['prefix' => 'admin'], function () {
         'edit' => 'admin.categories.edit',
         'show' => 'admin.categories.show',
         'index' => 'admin.categories.index',
-    ])->middleware('auth', 'isAdmin');;
+    ])->middleware('auth', 'isAdmin');
+    Route::resource('posts', 'Backend\PostController')->names([
+        'create' => 'admin.posts.create',
+        'update' => 'admin.posts.update',
+        'destroy' => 'admin.posts.destroy',
+        'store' => 'admin.posts.store',
+        'edit' => 'admin.posts.edit',
+        'show' => 'admin.posts.show',
+        'index' => 'admin.posts.index',
+    ])->middleware('auth', 'isAdmin');
 });

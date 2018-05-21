@@ -22,5 +22,12 @@ return [
     'manage_categories' => 'Manage Categories',
     'description' => 'Description',
     'action' => 'Action',
-
+    'rejected' => 'Rejected',
+    'pending' => 'Pending',
+    'accepted' => 'Accepted',
+    'title' => 'Title',
+    'status' => 'Status',
+    'category' => 'Category',
+    'user' => 'User',
+    'created_at' => 'Created At',
 ];

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Validator;
 
 class Post extends Model
 {
@@ -25,6 +26,15 @@ class Post extends Model
         'status',
         'avg_rate',
     ];
+
+    protected $rule_approve_post = [
+        'title' => 'required',
+    ];
+
+    protected function validateApprovePost(array $data)
+    {
+        return Validator::make($data, $this->rule_approve_post);
+    }
 
     public function user()
     {
@@ -58,28 +68,38 @@ class Post extends Model
 
     protected function sliders()
     {
-        $post = $this->orderBy('created_at', 'desc');
-        $slider['main'] = $post->take(self::NUMBER_SLIDER_MAIN)->get();
-        $slider['side'] = $post->skip(self::NUMBER_SLIDER_MAIN)->take(self::NUMBER_SLIDER_SIDE)->get();
+        $post = $this->where('status', 2)->orderBy('created_at', 'desc');
+        $slider['main'] = $post->take(self::NUMBER_SLIDER_MAIN)
+            ->get();
+        $slider['side'] = $post->skip(self::NUMBER_SLIDER_MAIN)
+            ->take(self::NUMBER_SLIDER_SIDE)
+            ->get();
 
         return $slider;
     }
 
     protected function lastest()
     {
-        return $this->orderBy('created_at', 'desc')->first();
+        return $this->where('status', 2)
+            ->orderBy('created_at', 'desc')
+            ->first();
     }
 
     protected function lastestPaginate()
     {
-        $lastestPaginate = $this->orderBy('created_at', 'desc')->take(self::NUMBER_LASTEST_PAGINATE_TAKE)->paginate(self::NUMBER_LASTEST_PAGINATE);
+        $lastestPaginate = $this->where('status', 2)
+            ->orderBy('created_at', 'desc')
+            ->take(self::NUMBER_LASTEST_PAGINATE_TAKE)
+            ->paginate(self::NUMBER_LASTEST_PAGINATE);
 
         return $lastestPaginate;
     }
 
     protected function moreNews()
     {
-        $moreNews = $this->orderBy('created_at', 'desc')->skip(self::NUMBER_MORENEWS_SKIP)->paginate(self::NUMBER_MORENEWS_PAGINATE);
+        $moreNews = $this->where('status', 2)->orderBy('created_at', 'desc')
+            ->skip(self::NUMBER_MORENEWS_SKIP)
+            ->paginate(self::NUMBER_MORENEWS_PAGINATE);
 
         return $moreNews;
     }
