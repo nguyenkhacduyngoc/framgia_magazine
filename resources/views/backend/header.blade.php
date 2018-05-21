@@ -2,7 +2,7 @@
 <header class="header dark-bg">
     <div class="toggle-nav">
         <div class="icon-reorder tooltips" data-original-title="Toggle Navigation" data-placement="bottom">
-            <iclass="fa fa-list"></i>
+            <i class="fa fa-list"></i>
         </div>
     </div>
 

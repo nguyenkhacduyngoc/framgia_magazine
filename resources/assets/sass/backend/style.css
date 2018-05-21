@@ -8691,3 +8691,7 @@ span.customSelect.changed {
 select.form-control {
     height: 34px !important;
 }
+
+#action_th {
+    text-align: center !important;
+}

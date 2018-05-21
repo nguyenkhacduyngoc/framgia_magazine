@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Post;
+use App\Models\Tag;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -55,6 +56,29 @@ class PostController extends Controller
         return $categories_array;
     }
 
+    protected function uploadImage($image)
+    {
+        if ($image != null) {
+            $image_name = $image->getClientOriginalName();
+            $image->move('upload/posts', $image_name);
+
+            return $image_name;
+        }
+        return null;
+    }
+
+    protected function attachTags($tags, $post)
+    {
+        $tags = explode(",", $tags);
+
+        foreach ($tags as $tag_content) {
+            $tag = Tag::where('content', $tag_content)->first();
+            if ($tag == null) {
+                $tag = Tag::create(['content' => $tag_content]);
+            }
+            $post->tags()->sync($tag->id);
+        }
+    }
     /**
      * Display a listing of the resource.
      *
@@ -99,14 +123,13 @@ class PostController extends Controller
             'status' => 0,
             'avg_rate' => 0,
         ];
-
-        if ($request->image != null) {
-            $img = $request->image;
-            $post_data['img'] = $img->getClientOriginalName();
-            $img->move('upload/posts', $img->getClientOriginalName());
+        $image_name = $this->uploadImage($request->image);
+        if ($image_name != null) {
+            $post_data['img'] = $image_name;
         }
 
         $post = $this->createPost($post_data);
+        $this->attachTags($request->tag, $post);
 
         return redirect()->route('homepage');
     }

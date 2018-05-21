@@ -1,0 +1,141 @@
+<?php
+
+namespace App\Http\Controllers\Backend;
+
+use App\Http\Controllers\Controller;
+use App\Models\Category;
+use Illuminate\Http\Request;
+
+class CategoryController extends Controller
+{
+    const CATEGORIES_PAGINATE = 5;
+
+    protected function createCategory(array $data)
+    {
+        return Category::create($data);
+    }
+
+    protected function updateCategory(array $data, $id)
+    {
+        try {
+            $category = Category::findOrFail($id);
+
+            return $category->update($data);
+        } catch (Exception $e) {
+            return redirect()->route('homepage');
+        }
+
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        $categories = Category::paginate(self::CATEGORIES_PAGINATE);
+
+        return view('backend.categories.index', compact('categories'));
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        return view('backend.categories.create');
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        $validate = Category::validateCategory($request->all());
+        if ($validate->fails()) {
+            return redirect()->back()->withErrors($validate)->withInput($request->all());
+        }
+        $category = $this->createCategory($request->all());
+
+        return redirect()->route('categories.show', ['id' => $category->id]);
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        try {
+            $category = Category::findOrFail($id);
+
+            return view('backend.categories.view', compact('category'));
+        } catch (Exception $e) {
+            return redirect()->route('homepage');
+        }
+
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        try {
+            $category = Category::findOrFail($id);
+
+            return view('backend.categories.update', compact('category'));
+        } catch (Exception $e) {
+            return redirect()->route('homepage');
+        }
+
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        $validate = $this->validateCategory($request->all());
+        if ($validate->fails()) {
+            return redirect()->back()->withErrors($validate)->withInput($request->all());
+        }
+        $this->updateCategory($request->all(), $id);
+
+        return redirect()->route('categories.show', $id);
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        try {
+            $category = Category::findOrFail($id);
+            $category->delete();
+            Post::whereCategoryId($id)->update(['category_id' => null, 'status' => 0]);
+
+            return redirect()->route('categories.index');
+        } catch (Exception $e) {
+            return redirect()->route('homepage');
+        }
+    }
+}
