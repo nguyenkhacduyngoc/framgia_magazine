@@ -37,7 +37,7 @@
                     <span class="menu-arrow fa fa-arrow-right"></span>
                 </a>
                 <ul class="sub">
-                    <li><a class="fa fa-bars " href=""> {{ trans('admin.manage_posts') }} </a></li>
+                    <li><a class="fa fa-bars " href="{{ route('admin.posts.index') }}"> {{ trans('admin.manage_posts') }} </a></li>
                 </ul>
             </li>
             <li class="sub-menu ">

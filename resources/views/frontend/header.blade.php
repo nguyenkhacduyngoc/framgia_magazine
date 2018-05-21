@@ -92,7 +92,9 @@
                                 </li>
                                 <li>
                                     <h4>{{ trans('auth.tags') }}</h4>
-                                    <a href="#">{{ trans('auth.tags') }}</a>
+                                    @foreach($tags as $tag)
+                                        <a href="">#{!! $tag->content !!}</a>
+                                    @endforeach
                                 </li>
                             </ul>
                         </li>

@@ -6609,6 +6609,24 @@ ul.amounts li {
 
 }
 
+#table-title{
+    width: 228px !important;
+    height: auto;
+
+}
+
+#table-category{
+    width: 109px !important;
+    height: auto;
+
+}
+
+#table-user{
+    width: 215px !important;
+    height: auto;
+
+}
+
 .no-border {
 
     border-bottom: none;

@@ -726,6 +726,18 @@ button {
     margin-bottom: 10px;
 }
 
+.slider-layer{
+    width: 100%;
+    height: auto;
+}
+
+#slider-main{
+    width: 745px;
+    height: 487px;
+}
+
+.break-word { word-wrap: break-word;}
+
 .slider-area .owl-slider .slider-content .slider-layer p a {
     font-size: 16px;
     color: #fff;

@@ -50,11 +50,9 @@
                                             <i class="icon_close_alt2"></i></a> --}}
                                             {!! Form::open(['route' => ['admin.users.destroy', $user->id], 'action' => 'UserController@destroy', 'method' => 'delete']) !!}
                                             <a class="btn btn-primary"
-                                               href="{{ route('admin.users.edit', ['user' => $user]) }}"><i
-                                                        class="fa fa-pencil-square-o"></i></a>
+                                               href="{{ route('admin.users.edit', ['user' => $user]) }}"><i class="fa fa-pencil-square-o"></i></a>
                                             <a class="btn btn-success"
-                                               href="{{ route('admin.users.show', ['user' => $user]) }}"><i
-                                                        class="fa fa-eye"></i></a>
+                                               href="{{ route('admin.users.show', ['user' => $user]) }}"><i class="fa fa-eye"></i></a>
                                             {!! Form::button('<i class="fa fa-trash"></i>', ['type' => 'submit', 'class' => 'btn btn-danger']) !!}
                                             {!! Form::close() !!}
                                         </div>
