@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Validator;
 
 class User extends Authenticatable
 {
@@ -26,6 +27,28 @@ class User extends Authenticatable
         'gender',
         'password',
     ];
+
+    protected $rules_update = [
+        'fullname' => 'string|max:100',
+        'email' => 'email',
+        'avatar' => 'image|max:2000',
+        'address' => 'string',
+        'job' => 'string',
+    ];
+
+    protected $rules_role_user = [
+        'role' => 'integer',
+    ];
+
+    protected function validateUpdateUser(array $data)
+    {
+        return Validator::make($data, $this->rules_update);
+    }
+
+    protected function validateUpdateRoleUser(array $data)
+    {
+        return Validator::make($data, $this->rules_role_user);
+    }
 
     /**
      * The attributes that should be hidden for arrays.
