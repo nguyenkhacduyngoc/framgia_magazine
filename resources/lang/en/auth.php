@@ -46,6 +46,7 @@ return [
     'most_viewed' => 'Most Viewed',
     'comments' => 'Comments',
     'categories' => 'Categories',
+    'top_categories' => 'Top Categories',
     'number' => 'Number',
     'author' => 'AUTHOR',
     'related_news' => 'Related News',
@@ -67,4 +68,9 @@ return [
     'role' => 'Role',
     'user' => 'User',
     'reply' => 'Reply',
+    'about' => 'About',
+    'result_for' => 'results for',
+    'in' => 'in',
+    'pnf' => 'Oops...Page Not Found!',
+    'wcnf' => 'We could not found the page you are looking for.',
 ];

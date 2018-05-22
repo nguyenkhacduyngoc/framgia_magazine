@@ -50,9 +50,9 @@
             </div>
             <div class="col-md-8">
                 <div class="searchbar text-right">
-                    {!! Form::open(['route' =>'login', 'method' => 'post', 'class' => '']) !!}
-                    {!! Form::input('text', 'search', null, ['placeholder' => trans('auth.search_here')]) !!}
-                    {!! Form::button('<i class="fa fa-search"></i>', ['type' => 'submit']) !!}
+                    {!! Form::open(['route' =>'posts.search', 'method' => 'post', 'class' => '']) !!}
+                        {!! Form::input('text', 'search', null, ['placeholder' => trans('auth.search_here')]) !!}
+                        {!! Form::button('<i class="fa fa-search"></i>', ['type' => 'submit']) !!}
                     {!! Form::close() !!}
                 </div>
             </div>
@@ -76,7 +76,7 @@
                                                 class="fa fa-angle-right"></i></a>
                                     <ul class="list-unstyled">
                                         @foreach($categories as $category)
-                                            <li><a href="{{ route('homepage') }}">{!! $category->name !!}</a></li>
+                                            <li><a href="{{ route('category', $category->id) }}">{!! $category->name !!}</a></li>
                                         @endforeach
                                     </ul>
                                 </li>
@@ -85,9 +85,9 @@
                         <li class="list-inline-item static"><a>{{ trans('auth.page') }}<i class="fa fa-angle-down"></i></a>
                             <ul class="mega-menu list-unstyled">
                                 <li>
-                                    <h4>{{ trans('auth.category') }}</h4>
-                                    @foreach($categories as $category)
-                                        <a href="#">{!! $category->name !!}</a>
+                                    <h4>{{ trans('auth.top_categories') }}</h4>
+                                    @foreach($categories_topview as $category)
+                                        <a href="{{ route('category', $category->id) }}">{!! $category->name !!}</a>
                                     @endforeach
                                 </li>
                                 <li>
@@ -98,7 +98,9 @@
                                 </li>
                             </ul>
                         </li>
-                        <li class="list-inline-item"><a href="#">{{ trans('auth.home') }}</a></li>
+                        @foreach($categories_topview as $category)
+                            <li class="list-inline-item static"><a href="{{ route('category', $category->id) }}">{!! $category->name !!}</a>
+                        @endforeach
                     </ul>
                 </div>
                 <div class="col-lg-2 col-md-12">

@@ -26,8 +26,19 @@ class PageController extends Controller
         try {
             $category = Category::findOrFail($id);
             $posts = $category->posts()->paginate(self::CATEGORY_PAGINATE);
-
             return view('frontend.category', compact('category', 'posts'));
+        } catch (Exception $e) {
+            return view('frontend.homepage');
+        }
+    }
+
+    public function tag($id)
+    {
+        try {
+            $tag = Tag::findOrFail($id);
+            $posts = $tag->posts()->paginate(self::CATEGORY_PAGINATE);
+
+            return view('frontend.tag', compact('tag', 'posts'));
         } catch (Exception $e) {
             return view('frontend.homepage');
         }

@@ -23,17 +23,17 @@
                     <div class="profile-widget profile-widget-info">
                         <div class="panel-body">
                             <div class="col-lg-2 col-sm-2">
-                                <h4>Jenifer Smith</h4>
+                                <h4>{!! $user->fullname !!}</h4>
                                 <div class="follow-ava">
-                                    <img src="img/profile-widget-avatar.jpg" alt="">
+                                    {!! Html::image(config('config.link_avatar').'/'.$user->avatar) !!}
                                 </div>
-                                <h6>Administrator</h6>
+                                <h6>{!! trans('auth.administrator') !!}</h6>
                             </div>
                             <div class="col-lg-4 col-sm-4 follow-info">
-                                <p>@jenifersmith</p>
+                                <p> {!! '@'.$user->username !!}</p>
                                 <h6>
-                                    <span><i class=""></i>Join At : </span>
-                                    <span><i class=""></i>25.10.13</span>
+                                    <span><i class=""></i>{!! trans('auth.join_at') !!} : </span>
+                                    <span><i class=""></i>{!! $user->created_at !!}</span>
                                 </h6>
                             </div>
                         </div>

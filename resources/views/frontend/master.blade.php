@@ -23,6 +23,7 @@
     {!! Html::style('css/frontend/normalize.css') !!}
     {!! Html::style('css/frontend/style.css') !!}
     {!! Html::style('css/frontend/responsive.css') !!}
+    {{-- {!! Html::style('css/backend/bootstrap-theme.css') !!} --}}
     @yield('add-css')
 </head>
 <body>

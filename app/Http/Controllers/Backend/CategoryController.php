@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Models\Post;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
@@ -22,7 +23,7 @@ class CategoryController extends Controller
 
             return $category->update($data);
         } catch (Exception $e) {
-            return redirect()->route('homepage');
+            return redirect()->route('admin');
         }
 
     }
@@ -63,7 +64,7 @@ class CategoryController extends Controller
         }
         $category = $this->createCategory($request->all());
 
-        return redirect()->route('categories.show', ['id' => $category->id]);
+        return redirect()->route('admin.categories.show', ['id' => $category->id]);
     }
 
     /**
@@ -117,7 +118,7 @@ class CategoryController extends Controller
         }
         $this->updateCategory($request->all(), $id);
 
-        return redirect()->route('categories.show', $id);
+        return redirect()->route('admin.categories.show', $id);
     }
 
     /**
@@ -133,9 +134,9 @@ class CategoryController extends Controller
             $category->delete();
             Post::whereCategoryId($id)->update(['category_id' => null, 'status' => 0]);
 
-            return redirect()->route('categories.index');
+            return redirect()->route('admin.categories.index');
         } catch (Exception $e) {
-            return redirect()->route('homepage');
+            return redirect()->route('admin');
         }
     }
 }
