@@ -3,9 +3,26 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Validator;
 
 class Comment extends Model
 {
+    protected $fillable = [
+        'user_id',
+        'content',
+        'commentable_id',
+        'commentable_type',
+    ];
+
+    protected $rule_comment = [
+        'content' => 'required|string|max:1000',
+    ];
+
+    protected function validateComment(array $data)
+    {
+        return Validator::make($data, $this->rule_comment);
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class);

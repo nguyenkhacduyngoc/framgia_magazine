@@ -66,4 +66,5 @@ return [
     'birthday' => 'Birthday',
     'role' => 'Role',
     'user' => 'User',
+    'reply' => 'Reply',
 ];

@@ -16,6 +16,8 @@ Route::get('/homepage', 'Frontend\PageController@index')->name('homepage');
 Route::get('category/{id}', 'Frontend\PageController@category');
 Route::resource('posts', 'Frontend\PostController');
 Route::resource('user', 'Frontend\UserController');
+Route::post('comments/{id}', 'Frontend\CommentController@storeComment')->name('comments.store_comment');
+Route::resource('comments', 'Frontend\CommentController');
 Route::group(['prefix' => 'admin'], function () {
     Route::get('/', function () {
         return view('backend.master');
