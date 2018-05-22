@@ -18,19 +18,18 @@
         <!-- Tab panes -->
         <div class="tab-content">
             <div class="tab-pane fade show active" id="m-view" role="tabpanel">
-                <div class="m-view-content">
-                    <div class="m-view-img">
-                        <a href="#"><img src="images/latest-5.jpg" alt="" class="img-fluid"></a>
-                    </div>
-                    <div class="img-content">
-                        <p><a href="#">{{ trans('auth.home') }}</a></p>
-                        <ul class="list-unstyled list-inline">
-                            <li class="list-inline-item"><i class="fa fa-star"></i></li>
-                            <li class="list-inline-item"><i class="fa fa-star"></i></li>
-                            <li class="list-inline-item"><i class="fa fa-star"></i></li>
-                            <li class="list-inline-item"><i class="fa fa-star"></i></li>
-                            <li class="list-inline-item"><i class="fa fa-star-o"></i></li>
-                        </ul>
+                <div class="m-view-content catagory-content">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <ul class="list-unstyled">
+                            @foreach($mostviewed_posts as $mostviewed_post)
+                                <li><a href="{!! route('posts.show', ['id' => $mostviewed_post->id]) !!}">{!! substr($mostviewed_post->title, 0, 17) !!}{!! strlen($mostviewed_post->title) > 17 ? "...": "" !!}
+                                        <span>{!! $mostviewed_post->count_viewed !!}</span>
+                                    </a>
+                                </li>
+                            @endforeach
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -67,7 +66,7 @@
         <h4>{{ trans('auth.tags') }}</h4>
         <ul class="list-unstyled list-inline">
         @foreach($tags as $tag)
-            <li class="list-inline-item"><a href="#">{{ $tag->content }}</a></li>
+            <li class="list-inline-item"><a href="#">#{{ $tag->content }}</a></li>
         @endforeach
         </ul>
     </div>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Frontend;
 
+use App\Events\PostViewed;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Post;
@@ -15,7 +16,7 @@ class PostController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth', ['only' => ['create', 'store', 'edit', 'update']]);
     }
 
     protected function validatePost(array $data)
@@ -76,8 +77,12 @@ class PostController extends Controller
             if ($tag == null) {
                 $tag = Tag::create(['content' => $tag_content]);
             }
-            $post->tags()->sync($tag->id);
+            if (!$post->tags()->where('content', $tag_content)->exists()) {
+                $post->tags()->attach($tag->id);
+            }
         }
+
+        return $tags;
     }
     /**
      * Display a listing of the resource.
@@ -86,7 +91,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        return view('frontend.posts.my-post');
+        return redirect()->route('homepage');
     }
 
     /**
@@ -144,9 +149,14 @@ class PostController extends Controller
     {
         try {
             $post = Post::findOrFail($id);
-            $categories_array = $this->queryCategoriesArray();
+            if ($post->status == 2) {
+                $categories_array = $this->queryCategoriesArray();
+                event(new PostViewed($post));
+                $post->update();
+                return view('frontend.posts.index', compact('post', 'categories_array'));
+            }
+            return redirect()->route('homepage');
 
-            return view('frontend.posts.index', compact('post', 'categories_array'));
         } catch (Exception $e) {
             return redirect()->route('homepage');
         }
@@ -196,7 +206,7 @@ class PostController extends Controller
             $img->move('upload/posts', $img->getClientOriginalName());
         }
         $post->update($post_data);
-
+        $this->attachTags($request->tag, $post);
         return redirect()->route('homepage');
     }
 

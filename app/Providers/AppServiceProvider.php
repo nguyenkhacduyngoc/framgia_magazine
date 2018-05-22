@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Models\Category;
+use App\Models\Post;
 use App\Models\Tag;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\ServiceProvider;
@@ -10,6 +11,7 @@ use Illuminate\Support\ServiceProvider;
 class AppServiceProvider extends ServiceProvider
 {
     const NUMBER_TAG_HOMEPAGE = 4;
+    const NUMBER_MOST_VIEWED_POSTS = 10;
     /**
      * Bootstrap any application services.
      *
@@ -32,9 +34,11 @@ class AppServiceProvider extends ServiceProvider
         view()->composer('frontend.sidebar', function ($view) {
             $categories = Category::all();
             $tags = Tag::all();
+            $mostviewed_posts = Post::orderBy('count_viewed', 'desc')->take(self::NUMBER_MOST_VIEWED_POSTS)->get();
             $view->with([
                 'categories' => $categories,
                 'tags' => $tags,
+                'mostviewed_posts' => $mostviewed_posts,
             ]);
         });
     }

@@ -3934,3 +3934,8 @@ footer .footer-c .back-to-top i:hover {
 .clearfix:after {
     clear: both;
 }
+
+.post_img {
+    width: 730px;
+    height: 477px;
+}
