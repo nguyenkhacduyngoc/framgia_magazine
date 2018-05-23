@@ -29,7 +29,7 @@
                             </div>
                         @endif
                         <div class="panel-body">
-                            {!! Form::model($post, ['route' => ['admin.posts.update', $post->id], 'method' => 'patch', 'class' => 'form-horizontal']) !!}
+                            {!! Form::model($post, ['route' => ['admin.posts.update', $post->slug], 'method' => 'patch', 'class' => 'form-horizontal']) !!}
                             <div class="form-group">
                                 {!! Form::label('title', 'Title', ['class' => 'col-sm-3 control-label']) !!}
                                 <div class="col-sm-7">

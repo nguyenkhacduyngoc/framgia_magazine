@@ -51,13 +51,15 @@ class PostController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int  $slug
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($slug)
     {
         try {
-            $post = Post::findOrFail($id);
+            $post = Post::where('slug', $slug)
+                ->orWhere('id', $slug)
+                ->firstOrFail();
 
             return view('backend.posts.view', compact('post'));
         } catch (Exception $e) {
@@ -68,13 +70,15 @@ class PostController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int  $slug
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($slug)
     {
         try {
-            $post = Post::findOrFail($id);
+            $post = Post::where('slug', $slug)
+                ->orWhere('id', $slug)
+                ->firstOrFail();
 
             return view('backend.posts.update', ['post' => $post]);
         } catch (Exception $e) {
@@ -86,16 +90,16 @@ class PostController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  int  $slug
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $slug)
     {
         $validate = Post::validateApprovePost($request->all());
         if ($validate->fails()) {
             return redirect()->back()->withErrors($validate)->withInput($request->all());
         }
-        $post = Post::find($id);
+        $post = Post::find($slug);
         $post->update($request->all());
 
         return redirect()->route('admin.posts.index');
@@ -104,13 +108,15 @@ class PostController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int  $slug
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($slug)
     {
         try {
-            $post = Post::findOrFail($id);
+            $post = Post::where('slug', $slug)
+                ->orWhere('id', $slug)
+                ->firstOrFail();
             $post->tags()->detach();
             $post->delete();
 

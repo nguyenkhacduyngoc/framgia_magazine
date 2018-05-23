@@ -49,7 +49,7 @@
                                     <td>{{ $post->created_at }}</td>
                                     <td style="text-align: center" class="">
                                         <div class="btn-group">
-                                            {!! Form::open(['route' => ['admin.posts.destroy', $post->id], 'action' => 'PostController@destroy', 'method' => 'delete']) !!}
+                                            {!! Form::open(['route' => ['admin.posts.destroy', $post->slug], 'action' => 'PostController@destroy', 'method' => 'delete']) !!}
                                             <a class="btn btn-primary"
                                                href="{{ route('admin.posts.edit', ['post' => $post]) }}"><i class="fa fa-pencil-square-o"></i></a>
                                             <a class="btn btn-success"

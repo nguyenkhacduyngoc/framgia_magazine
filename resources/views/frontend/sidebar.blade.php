@@ -23,9 +23,8 @@
                         <div class="col-md-6">
                             <ul class="list-unstyled">
                             @foreach($mostviewed_posts as $mostviewed_post)
-                                <li><a href="{!! route('posts.show', ['id' => $mostviewed_post->id]) !!}">{!! substr($mostviewed_post->title, 0, 17) !!}{!! strlen($mostviewed_post->title) > 17 ? "...": "" !!}
+                                <li><a href="{!! route('posts.show', $mostviewed_post->slug ? $mostviewed_post->slug : $mostviewed_post->id) !!}">{!! substr($mostviewed_post->title, 0, 17) !!}{!! strlen($mostviewed_post->title) > 17 ? "...": "" !!}
                                         <span>{!! $mostviewed_post->count_viewed !!}</span>
-                                    </a>
                                 </li>
                             @endforeach
                             </ul>
