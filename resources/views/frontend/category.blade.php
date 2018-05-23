@@ -25,11 +25,18 @@
         	<div class="container">
                 <div class="row">
                     <div class="col-lg-8 col-md-12">
+                    @if($posts->count() == 0)
+                        <div class="err-content text-center">
+                            <h1><span></span></h1>
+                            <p>{!! trans('auth.wcnf') !!}</p>
+                        </div>
+                    @else
                     @foreach($posts as $post)
-                        <div class="catagory-content">
+                        <div class="catagory-content catagory-content-view">
                             <div class="cat-img">
-                                <a href="#"><img src="" alt="" class="img-fluid">
-                                {!! Html::image(config('config.link_upload_file') . $post->img, null, ['class' => 'img-fluid' ]) !!}</a>
+                                <a href="#">
+                                    {!! Html::image(config('config.link_upload_file') . $post->img, null, ['class' => 'img-fluid img-post-category' ]) !!}
+                                </a>
                             </div>
                             <div class="img-content">
                                 <h6><a href="#">{!! substr($post->title, 0, 200) !!}{!! strlen($post->title) > 200 ? "...": "" !!}</a></h6>
@@ -41,19 +48,8 @@
                             </div>
                         </div>
                     @endforeach
-                        <div class="pagi">
-                            <ul class="list-unstyled list-inline">
-                                <li class="list-inline-item active"><a href="#">1</a></li>
-                                <li class="list-inline-item"><a href="#"></a></li>
-                                <li class="list-inline-item"><a href="#"></a></li>
-                                <li class="list-inline-item"><a href="#"></a></li>
-                                <li class="list-inline-item"><a href="#"></a></li>
-                                <li class="list-inline-item"><a href="#"><i class="fa fa-angle-right"></i></a></li>
-                                <li class="list-inline-item"><a href="#"><i class="fa fa-angle-double-right"></i></a></li>
-                            </ul>
-                            {!! $posts->links() !!}
-                        </div>
-
+                    {!! $posts->links() !!}
+                    @endif
                     </div>
                     @include('frontend.sidebar')
                 </div>

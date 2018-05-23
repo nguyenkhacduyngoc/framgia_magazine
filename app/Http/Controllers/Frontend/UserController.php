@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -101,9 +102,13 @@ class UserController extends Controller
     {
         try {
             $user = User::findOrFail($id);
-            $user_gender = self::USER_GENDER;
+            if (Auth::user()->id == $id) {
+                $user_gender = self::USER_GENDER;
 
-            return view('frontend.users.update', compact('user', 'user_gender'));
+                return view('frontend.users.update', compact('user', 'user_gender'));
+            }
+            return redirect()->route('homepage');
+
         } catch (Exception $e) {
             return redirect()->route('homepage');
         }

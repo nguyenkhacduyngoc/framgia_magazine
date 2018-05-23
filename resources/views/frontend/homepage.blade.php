@@ -104,9 +104,7 @@
                                             </div>
                                         </div>
                                     @endforeach
-                                    <div class="text-center">
                                         {!! $posts['lastest_paginates']->links() !!}
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -143,9 +141,7 @@
                             </div>
                         </div>
                     @endforeach
-                    <div class="text-center">
-                        {!! $posts['more_news']->links() !!}
-                    </div>
+                    {!! $posts['more_news']->links() !!}
                 </div>
             </div>
         </div>

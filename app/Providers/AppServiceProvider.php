@@ -21,9 +21,13 @@ class AppServiceProvider extends ServiceProvider
     {
         view()->composer('frontend.header', function ($view) {
             $categories = Category::all();
+            $categories_topview = Category::with('posts')->take(self::NUMBER_TAG_HOMEPAGE)->get()->sortBy(function ($category) {
+                return $category->posts->count();
+            }, SORT_REGULAR, true);
             $tags = Tag::orderBy('created_at', 'desc')->take(self::NUMBER_TAG_HOMEPAGE)->get();
             $view->with([
                 'categories' => $categories,
+                'categories_topview' => $categories_topview,
                 'tags' => $tags,
             ]);
         });
@@ -32,9 +36,11 @@ class AppServiceProvider extends ServiceProvider
             $view->with('auth_user', $auth_user);
         });
         view()->composer('frontend.sidebar', function ($view) {
-            $categories = Category::all();
+            $categories = Category::with('posts')->get()->sortBy(function ($category) {
+                return $category->posts->count();
+            }, SORT_REGULAR, true);
             $tags = Tag::all();
-            $mostviewed_posts = Post::orderBy('count_viewed', 'desc')->take(self::NUMBER_MOST_VIEWED_POSTS)->get();
+            $mostviewed_posts = Post::orderBy('count_viewed', 'desc')->where('status', 2)->take(self::NUMBER_MOST_VIEWED_POSTS)->get();
             $view->with([
                 'categories' => $categories,
                 'tags' => $tags,

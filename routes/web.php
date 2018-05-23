@@ -13,7 +13,8 @@
 Auth::routes();
 Route::get('/', 'Frontend\PageController@index')->name('');
 Route::get('/homepage', 'Frontend\PageController@index')->name('homepage');
-Route::get('category/{id}', 'Frontend\PageController@category');
+Route::get('category/{id}', 'Frontend\PageController@category')->name('category');
+Route::post('posts/search', 'Frontend\PostController@search')->name('posts.search');
 Route::resource('posts', 'Frontend\PostController');
 Route::resource('user', 'Frontend\UserController');
 Route::post('comments/{id}', 'Frontend\CommentController@storeComment')->name('comments.store_comment');

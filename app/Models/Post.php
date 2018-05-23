@@ -14,6 +14,7 @@ class Post extends Model
     const NUMBER_MORENEWS_SKIP = 5;
     const NUMBER_MORENEWS_PAGINATE = 4;
     const UPLOAD_LINK = 'upload/posts/';
+    const NUMBER_PAGENATE_SEARCH = 10;
 
     protected $fillable = [
         'user_id',

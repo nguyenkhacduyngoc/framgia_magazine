@@ -56,7 +56,7 @@
                             <div class="form-group form-row">
                                 {!! Form::label('tag', trans('auth.tags'),['class' => 'col-sm-2 control-label']) !!}
                                 <div class="col-lg-10">
-                                    {!! Form::input('text', 'tag', null, ['class' => 'form-control', 'placeholder' => trans('auth.tags'), 'data-role'=> 'tagsinput'])  !!}
+                                    {!! Form::input('text', 'tag', implode(',', $tags_array), ['class' => 'form-control', 'placeholder' => trans('auth.tags'), 'data-role'=> 'tagsinput'])  !!}
                                 </div>
                             </div>
                             <div class="form-group">

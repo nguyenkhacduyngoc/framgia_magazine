@@ -38,8 +38,11 @@ class PostController extends Controller
     {
         try {
             $post = Post::findOrFail($id);
-
+            if ($post->status == 0) {
+                return redirect()->route('homepage');
+            }
             return $post->update($data);
+
         } catch (Exception $e) {
             return redirect()->route('homepage');
         }
@@ -175,8 +178,11 @@ class PostController extends Controller
             $post = Post::findOrFail($id);
             if ($post->user->id == Auth::user()->id) {
                 $categories_array = $this->queryCategoriesArray();
-
-                return view('frontend.posts.update', compact('post', 'categories_array'));
+                $tags_array = [];
+                foreach ($post->tags()->get() as $tag) {
+                    $tags_array[$tag->id] = $tag->content;
+                }
+                return view('frontend.posts.update', compact('post', 'categories_array', 'tags_array'));
             }
             return redirect()->route('homepage');
         } catch (Exception $e) {
@@ -219,5 +225,17 @@ class PostController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function search(Request $request)
+    {
+        $keyword = $request->search;
+        $posts = Post::where('title', 'LIKE', '%' . $keyword . '%')
+            ->orwhereHas('tags', function ($query) {
+                $query->where('content', 'LIKE', '%11111111%');
+            })
+            ->orWhere('content', 'LIKE', '%' . $keyword . '%')
+            ->paginate(Post::NUMBER_PAGENATE_SEARCH);
+        return view('frontend.search', compact('posts', 'keyword'));
     }
 }
