@@ -34,7 +34,7 @@
                             <div class="slider-content">
                                 {!! Html::image(config('config.link_upload_file') . '/' . $slider->img) !!}
                                 <div class="slider-layer">
-                                    <p><a href="{{ route('posts.show', $slider->id) }}">{!! $slider->title !!}</a></p>
+                                    <p><a href="{!! route('posts.show', $slider->slug ? $slider->slug : $slider->id)!!}">{!! $slider->title !!}</a></p>
                                     <ul class="list-unstyled list-inline">
                                         <li class="list-inline-item">{!! strtoupper($slider->category->name) !!}</li>
                                         <li class="list-inline-item">{!! $slider->created_at !!}</li>
@@ -50,7 +50,7 @@
                             {!! Html::image(config('config.link_upload_file') . '/' . $slider->img, null, ['class' => 'img-fluid']) !!}
                             <div class="sidebar-layer">
                                 <p>
-                                    <a href="{{ route('posts.show', $slider->id) }}">{!! substr($slider->title, 0, 90) !!}{!! strlen($slider->title) > 50 ? "...": "" !!}</a>
+                                    <a href="{{ route('posts.show', $slider->slug ? $slider->slug : $slider->id) }}">{!! substr($slider->title, 0, 90) !!}{!! strlen($slider->title) > 50 ? "...": "" !!}</a>
                                 </p>
                                 <ul class="list-unstyled list-inline">
                                     <li class="list-inline-item">{!! strtoupper($slider->category->name) !!}</li>
@@ -81,7 +81,7 @@
                                         <img src="{!! asset(config('config.link_upload_file'). '/' .$posts['lastest']->img) !!}" alt=""
                                              class="img-fluid">
                                         <h6>
-                                            <a href="{{ route('posts.show', $posts['lastest']->id) }}">{!! $posts['lastest']->title !!}</a>
+                                            <a href="{{ route('posts.show', $posts['lastest']->slug ? $posts['lastest']->slug : $posts['lastest']->id) }}">{!! $posts['lastest']->title !!}</a>
                                         </h6>
                                         <ul class="list-unstyled list-inline">
                                             <li class="list-inline-item">{!! strtoupper($posts['lastest']->category->name) !!}</li>
@@ -94,11 +94,11 @@
                                     @foreach($posts['lastest_paginates'] as $lastest_paginate)
                                         <div class="slider-content">
                                             <div class="slider-img">
-                                                <a href="{{ route('posts.show', $lastest_paginate->id) }}"><img src="{!! asset(config('config.link_upload_file'). '/' .$lastest_paginate->img) !!}" alt="" class="img-fluid"></a>
+                                                <a href="{{ route('posts.show', $lastest_paginate->slug ? $lastest_paginate->slug : $lastest_paginate->id) }}"><img src="{!! asset(config('config.link_upload_file'). '/' .$lastest_paginate->img) !!}" alt="" class="img-fluid"></a>
                                             </div>
                                             <div class="img-content">
                                                 <p>
-                                                    <a href="{{ route('posts.show', $lastest_paginate->id) }}">{!! substr($lastest_paginate->title, 0, 60) !!}{!! strlen($lastest_paginate->content) > 50 ? "...": "" !!}</a>
+                                                    <a href="{{ route('posts.show', $lastest_paginate->slug ? $lastest_paginate->slug : $lastest_paginate->id) }}">{!! substr($lastest_paginate->title, 0, 60) !!}{!! strlen($lastest_paginate->content) > 50 ? "...": "" !!}</a>
                                                 </p>
                                                 <span>{!! $lastest_paginate->updated_at !!}</span>
                                             </div>
@@ -127,11 +127,11 @@
                     @foreach($posts['more_news'] as $more_new)
                         <div class="more-content">
                             <div class="more-img">
-                                <a href="{{ route('posts.show', $more_new->id) }}"><img src="{{ asset('upload/posts' . '/' . $more_new->img) }}" alt="" class="img-fluid"></a>
+                                <a href="{{ route('posts.show', $more_new->slug ? $more_new->slug : $more_new->id) }}"><img src="{{ asset('upload/posts' . '/' . $more_new->img) }}" alt="" class="img-fluid"></a>
                             </div>
                             <div class="img-content">
                                 <h6>
-                                    <a href="{{ route('posts.show', $more_new->id) }}">{!! substr($more_new->title, 0, 100) !!}{!! strlen($more_new->title) > 50 ? "....": "" !!}</a>
+                                    <a href="{{ route('posts.show', $more_new->slug ? $more_new->slug : $more_new->id) }}">{!! substr($more_new->title, 0, 100) !!}{!! strlen($more_new->title) > 50 ? "....": "" !!}</a>
                                 </h6>
                                 <ul class="list-unstyled list-inline">
                                     <li class="list-inline-item">{!! $more_new->category->name !!}</li>

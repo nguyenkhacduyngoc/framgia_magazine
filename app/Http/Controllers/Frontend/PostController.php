@@ -34,10 +34,12 @@ class PostController extends Controller
         return Post::create($data);
     }
 
-    protected function updatePost(array $data, $id)
+    protected function updatePost(array $data, $slug)
     {
         try {
-            $post = Post::findOrFail($id);
+            $post = Post::where('slug', $slug)
+                ->orWhere('id', $slug)
+                ->firstOrFail();
             if ($post->status == 0) {
                 return redirect()->route('homepage');
             }
@@ -148,14 +150,17 @@ class PostController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($slug)
     {
         try {
-            $post = Post::findOrFail($id);
+            $post = Post::where('slug', $slug)
+                ->orWhere('id', $slug)
+                ->firstOrFail();
             if ($post->status == 2) {
                 $categories_array = $this->queryCategoriesArray();
                 event(new PostViewed($post));
                 $post->update();
+
                 return view('frontend.posts.index', compact('post', 'categories_array'));
             }
             return redirect()->route('homepage');
@@ -172,10 +177,12 @@ class PostController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($slug)
     {
         try {
-            $post = Post::findOrFail($id);
+            $post = Post::where('slug', $slug)
+                ->orWhere('id', $slug)
+                ->firstOrFail();
             if ($post->user->id == Auth::user()->id) {
                 $categories_array = $this->queryCategoriesArray();
                 $tags_array = [];
@@ -198,13 +205,15 @@ class PostController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $slug)
     {
         $validate = $this->validatePost($request->all());
         if ($validate->fails()) {
             return redirect()->back()->withErrors($validate)->withInput($request->all());
         }
-        $post = Post::findOrFail($id);
+        $post = Post::where('slug', $slug)
+            ->orWhere('id', $slug)
+            ->firstOrFail();
         $post_data = $request->all();
         if ($request->image != null) {
             $img = $request->image;
@@ -231,8 +240,8 @@ class PostController extends Controller
     {
         $keyword = $request->search;
         $posts = Post::where('title', 'LIKE', '%' . $keyword . '%')
-            ->orwhereHas('tags', function ($query) {
-                $query->where('content', 'LIKE', '%11111111%');
+            ->orwhereHas('tags', function ($query) use ($keyword) {
+                $query->where('content', 'LIKE', '%' . $keyword . '%');
             })
             ->orWhere('content', 'LIKE', '%' . $keyword . '%')
             ->paginate(Post::NUMBER_PAGENATE_SEARCH);

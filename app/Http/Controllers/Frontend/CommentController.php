@@ -47,10 +47,12 @@ class CommentController extends Controller
 
     }
 
-    public function storeComment(Request $request, $post_id)
+    public function storeComment(Request $request, $slug)
     {
         try {
-            $post = Post::findOrFail($post_id);
+            $post = Post::where('slug', $slug)
+                ->orWhere('id', $slug)
+                ->firstOrFail();
 
             $validate = Comment::validateComment($request->all());
             if ($validate->fails()) {
@@ -63,7 +65,7 @@ class CommentController extends Controller
             ];
             $post->comments()->create($comment_data);
 
-            return redirect()->route('posts.show', ['id' => $post_id]);
+            return redirect()->route('posts.show', ['slug' => $slug]);
         } catch (Exception $e) {
             return redirect()->route('homepage');
         }

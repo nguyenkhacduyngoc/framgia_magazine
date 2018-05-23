@@ -2,11 +2,14 @@
 
 namespace App\Models;
 
+use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Validator;
 
 class Post extends Model
 {
+    use Sluggable;
+
     const NUMBER_SLIDER_MAIN = 3;
     const NUMBER_SLIDER_SIDE = 2;
     const NUMBER_LASTEST_PAGINATE_TAKE = 12;
@@ -65,6 +68,20 @@ class Post extends Model
     public function likes()
     {
         return $this->hasMany(Like::class);
+    }
+
+    /**
+     * Return the sluggable configuration array for this model.
+     *
+     * @return array
+     */
+    public function sluggable()
+    {
+        return [
+            'slug' => [
+                'source' => 'title',
+            ],
+        ];
     }
 
     protected function sliders()
