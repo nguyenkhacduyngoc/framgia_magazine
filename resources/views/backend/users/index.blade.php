@@ -1,4 +1,7 @@
 @extends('backend.master')
+@section('backend-add-css')
+{!! Html::style('css/frontend/dataTables.bootstrap4.min.css') !!}
+@endsection
 @section('backend-content')
     <!--main content start-->
     <section id="main-content">
@@ -21,16 +24,16 @@
                         <header class="panel-heading">
                             {!! trans('auth.user') !!}
                         </header>
-                        <table class="table table-striped table-advance table-hover">
+                        <table id="datatable" class="table table-striped table-advance table-hover table-bordered">
+                            <thead>
+                                <th><i class="fa fa-user"></i> {!! trans('auth.fullname') !!}</th>
+                                <th><i class="fa fa-user"></i> {!! trans('auth.username') !!}</th>
+                                <th><i class="fa fa-envelope"></i> {!! trans('auth.email') !!}</th>
+                                <th><i class="fa fa-cog"></i> {!! trans('auth.role') !!}</th>
+                                <th><i class="fa fa-intersex"></i> {!! trans('auth.gender') !!}</th>
+                                <th style="text-align: center"><i class="fa fa-cogs"></i> Action</th>
+                            </thead>
                             <tbody>
-                            <tr>
-                                <th><i class="icon_profile"></i> {!! trans('auth.fullname') !!}</th>
-                                <th><i class="icon_profile"></i> {!! trans('auth.username') !!}</th>
-                                <th><i class="icon_mail_alt"></i> {!! trans('auth.email') !!}</th>
-                                <th><i class="icon_cog"></i> {!! trans('auth.role') !!}</th>
-                                <th><i class="icon_profile"></i> {!! trans('auth.gender') !!}</th>
-                                <th style="text-align: center"><i class="icon_cogs"></i> Action</th>
-                            </tr>
                             @foreach($users as $user)
                                 <tr>
                                     <td>{{ $user->fullname }}</td>
@@ -68,4 +71,16 @@
             <!-- page end-->
         </section>
     </section>
+@endsection
+@section('backend-add-js')
+{!! HTML::script('js/frontend/jquery.dataTables.min.js') !!}
+{!! HTML::script('js/frontend/dataTables.bootstrap4.min.js') !!}
+<script>
+    $(document).ready(function() {
+        $('#datatable').DataTable();
+        $('.dataTables_filter').css({'display':'inline','float':'right'});
+        $('.dataTables_length').css({'display':'none'});
+        $('.dataTables_paginate').css({'display':'none'});
+    } );
+</script>
 @endsection

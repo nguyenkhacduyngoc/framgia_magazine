@@ -1,4 +1,7 @@
 @extends('backend.master')
+@section('backend-add-css')
+{!! Html::style('css/frontend/dataTables.bootstrap4.min.css') !!}
+@endsection
 @section('backend-content')
     <!--main content start-->
     <section id="main-content">
@@ -23,13 +26,13 @@
                             <a class="btn btn-primary pull-right"
                                href="{{ route('admin.categories.create') }}"> {{ trans('admin.create_category') }} </a>
                         </header>
-                        <table class="table table-striped table-advance table-hover">
-                            <tbody>
-                            <tr>
+                        <table id="datatable" class="table table-striped table-advance table-hover table-bordered">
+                            <thead>
                                 <th><i class="fa fa-list-ul"></i> {{ trans('admin.categories') }} </th>
                                 <th><i class="fa fa-pencil"></i> {{ trans('admin.description') }} </th>
                                 <th id='action_th'><i class="fa fa-cogs"></i> {{ trans('admin.action') }} </th>
-                            </tr>
+                            </thead>
+                            <tbody>
                             @foreach($categories as $category)
                                 <tr>
                                     <td>{{ $category->name }}</td>
@@ -58,4 +61,16 @@
             <!-- page end-->
         </section>
     </section>
+@endsection
+@section('backend-add-js')
+{!! HTML::script('js/frontend/jquery.dataTables.min.js') !!}
+{!! HTML::script('js/frontend/dataTables.bootstrap4.min.js') !!}
+<script>
+    $(document).ready(function() {
+        $('#datatable').DataTable();
+        $('.dataTables_filter').css({'display':'inline','float':'right'});
+        $('.dataTables_length').css({'display':'none'});
+        $('.dataTables_paginate').css({'display':'none'});
+    } );
+</script>
 @endsection

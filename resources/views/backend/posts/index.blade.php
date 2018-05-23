@@ -1,4 +1,7 @@
 @extends('backend.master')
+@section('backend-add-css')
+{!! Html::style('css/frontend/dataTables.bootstrap4.min.css') !!}
+@endsection
 @section('backend-content')
     <!--main content start-->
     <section id="main-content">
@@ -21,8 +24,17 @@
                         <header class="panel-heading">
                             {!! trans('admin.posts') !!}
                         </header>
-                        <table class="table table-striped table-advance table-hover">
-                            <tbody>
+                        <table id="datatable" class="table table-striped table-advance table-hover table-bordered">
+                            <thead>
+                                <th><i class="fa fa-pencil"></i> {!! trans('admin.title') !!} </th>
+                                <th><i class="fa fa-star"></i> {!! trans('admin.status') !!} </th>
+                                <th><i class="fa fa-archive"></i> {!! trans('admin.category') !!} </th>
+                                <th><i class="fa fa-user"></i> {!! trans('admin.user') !!} </th>
+                                <th><i class="fa fa-clock-o"></i> {!! trans('admin.created_at') !!} </th>
+                                <th style="text-align: center"><i class="fa fa-cogs"></i> {!! trans('admin.action') !!}
+                                </th>
+                            </thead>
+                            <tbody>{{--
                             <tr>
                                 <th><i class="fa fa-pencil"></i> {!! trans('admin.title') !!} </th>
                                 <th><i class="fa fa-star"></i> {!! trans('admin.status') !!} </th>
@@ -31,14 +43,14 @@
                                 <th><i class="fa fa-clock-o"></i> {!! trans('admin.created_at') !!} </th>
                                 <th style="text-align: center"><i class="fa fa-cogs"></i> {!! trans('admin.action') !!}
                                 </th>
-                            </tr>
+                            </tr> --}}
                             @foreach($posts as $post)
                                 <tr>
                                     <td id="table-title"> {!! substr($post->title, 0, 50) !!}{!! strlen($post->title) > 50 ? "...": "" !!} </td>
                                     <td>
-                                        @if($post->status ==0)
+                                        @if($post->status ==1)
                                             <label for="" class="label label-danger"> {!! trans('admin.rejected') !!} </label>
-                                        @elseif($post->status==1)
+                                        @elseif($post->status==0)
                                             <label for="" class="label label-warning"> {!! trans('admin.pending') !!} </label>
                                         @else
                                             <label for="" class="label label-success"> {!! trans('admin.accepted') !!} </label>
@@ -69,4 +81,16 @@
             <!-- page end-->
         </section>
     </section>
+@endsection
+@section('backend-add-js')
+{!! HTML::script('js/frontend/jquery.dataTables.min.js') !!}
+{!! HTML::script('js/frontend/dataTables.bootstrap4.min.js') !!}
+<script>
+    $(document).ready(function() {
+        $('#datatable').DataTable();
+        $('.dataTables_filter').css({'display':'inline','float':'right'});
+        $('.dataTables_length').css({'display':'none'});
+        $('.dataTables_paginate').css({'display':'none'});
+    } );
+</script>
 @endsection

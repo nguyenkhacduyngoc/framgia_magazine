@@ -39,7 +39,9 @@
                         <a href="#"><i class="icon_profile"></i>{{ trans('admin.profile') }}</a>
                     </li>
                     <li class="eborder-top">
-                        <a href="{{ route('logout') }}"><i class="icon_key_alt"></i>{{ trans('auth.logout') }}</a>
+                        <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit()">{{ trans('auth.logout') }}</a>
+                        {!! Form::open(['route' => 'logout','method' => 'post','class' => 'form-horizontal', 'id' => 'logout-form']) !!}
+                        {!! Form::close() !!}
                     </li>
                 </ul>
             </li>

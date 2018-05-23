@@ -850,7 +850,7 @@ button {
 08. All News
 ==================== */
 .allnews {
-    padding: 50px 0 40px;
+    padding: 50px 0 0;
 }
 
 .allnews .latest-top h4 {
@@ -3901,7 +3901,7 @@ footer .footer-c .back-to-top i:hover {
 20. Helper Classes
 ==================== */
 .hidden {
-    display: none !important;
+    display: none;
 }
 
 .visuallyhidden {
@@ -4022,4 +4022,11 @@ footer .footer-c .back-to-top i:hover {
     background-color: #ffffff;
     border-color: #dddddd;
     cursor: not-allowed;
+}
+
+.js #manage_reply_enquiry {
+    display:none; /* hide for JS enabled browsers */
+}
+#manage_reply_enquiry {
+    /* form styles here */
 }

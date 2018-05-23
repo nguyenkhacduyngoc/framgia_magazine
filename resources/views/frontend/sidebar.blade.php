@@ -20,10 +20,10 @@
             <div class="tab-pane fade show active" id="m-view" role="tabpanel">
                 <div class="m-view-content catagory-content">
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                             <ul class="list-unstyled">
                             @foreach($mostviewed_posts as $mostviewed_post)
-                                <li><a href="{!! route('posts.show', $mostviewed_post->slug ? $mostviewed_post->slug : $mostviewed_post->id) !!}">{!! substr($mostviewed_post->title, 0, 17) !!}{!! strlen($mostviewed_post->title) > 17 ? "...": "" !!}
+                                <li><a href="{!! route('posts.show', $mostviewed_post->slug ? $mostviewed_post->slug : $mostviewed_post->id) !!}">{!! substr($mostviewed_post->title, 0, 40) !!}{!! strlen($mostviewed_post->title) > 40 ? "...": "" !!}
                                         <span>{!! $mostviewed_post->count_viewed !!}</span>
                                 </li>
                             @endforeach
@@ -46,7 +46,7 @@
             <div class="tab-pane fade" id="catagory" role="tabpanel">
                 <div class="catagory-content">
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                             <ul class="list-unstyled">
                             @foreach($categories as $category)
                                 <li><a href="#">{!! $category->name !!}

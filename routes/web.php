@@ -18,11 +18,12 @@ Route::post('posts/search', 'Frontend\PostController@search')->name('posts.searc
 Route::resource('posts', 'Frontend\PostController');
 Route::resource('user', 'Frontend\UserController');
 Route::post('comments/{id}', 'Frontend\CommentController@storeComment')->name('comments.store_comment');
+Route::post('replyComments/{id}/{slug}', 'Frontend\CommentController@storeReplyComment')->name('comments.store_reply_comment');
 Route::resource('comments', 'Frontend\CommentController');
-Route::group(['prefix' => 'admin'], function () {
+Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'isAdmin']], function () {
     Route::get('/', function () {
         return view('backend.master');
-    })->middleware('auth', 'isAdmin');
+    });
     Route::resource('users', 'Backend\UserController')->names([
         'create' => 'admin.users.create',
         'update' => 'admin.users.update',
@@ -31,7 +32,7 @@ Route::group(['prefix' => 'admin'], function () {
         'edit' => 'admin.users.edit',
         'show' => 'admin.users.show',
         'index' => 'admin.users.index',
-    ])->middleware('auth', 'isAdmin');
+    ]);
     Route::resource('categories', 'Backend\CategoryController')->names([
         'create' => 'admin.categories.create',
         'update' => 'admin.categories.update',
@@ -40,7 +41,7 @@ Route::group(['prefix' => 'admin'], function () {
         'edit' => 'admin.categories.edit',
         'show' => 'admin.categories.show',
         'index' => 'admin.categories.index',
-    ])->middleware('auth', 'isAdmin');
+    ]);
     Route::resource('posts', 'Backend\PostController')->names([
         'create' => 'admin.posts.create',
         'update' => 'admin.posts.update',
@@ -49,5 +50,5 @@ Route::group(['prefix' => 'admin'], function () {
         'edit' => 'admin.posts.edit',
         'show' => 'admin.posts.show',
         'index' => 'admin.posts.index',
-    ])->middleware('auth', 'isAdmin');
+    ]);
 });

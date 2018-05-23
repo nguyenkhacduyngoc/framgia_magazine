@@ -84,6 +84,18 @@ class Post extends Model
         ];
     }
 
+    public function sortByTime()
+    {
+        return $this->sortBy(function ($comment) {
+            return $comment->created_at;
+        }, SORT_REGULAR, true);
+    }
+
+    public function setPageName($pageName)
+    {
+        $this->pageName = $pageName;
+    }
+
     protected function sliders()
     {
         $post = $this->where('status', 2)->orderBy('created_at', 'desc');
@@ -100,24 +112,28 @@ class Post extends Model
     {
         return $this->where('status', 2)
             ->orderBy('created_at', 'desc')
-            ->first();
+            ->firstOrFail();
     }
 
     protected function lastestPaginate()
     {
         $lastestPaginate = $this->where('status', 2)
             ->orderBy('created_at', 'desc')
+            ->where('id', '<>', $this->lastest()->id)
             ->take(self::NUMBER_LASTEST_PAGINATE_TAKE)
-            ->paginate(self::NUMBER_LASTEST_PAGINATE);
+            ->paginate(self::NUMBER_LASTEST_PAGINATE, ['*'], 'lastest_news');
 
         return $lastestPaginate;
     }
 
     protected function moreNews()
     {
+        $post = $this->where('status', 2)
+            ->orderBy('created_at', 'asc')
+            ->skip(self::NUMBER_MORENEWS_SKIP)->firstOrFail();
         $moreNews = $this->where('status', 2)->orderBy('created_at', 'desc')
-            ->skip(self::NUMBER_MORENEWS_SKIP)
-            ->paginate(self::NUMBER_MORENEWS_PAGINATE);
+            ->where('id', '<', $post->id)
+            ->paginate(self::NUMBER_MORENEWS_PAGINATE, ['*'], 'more_news');
 
         return $moreNews;
     }

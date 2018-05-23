@@ -14,6 +14,13 @@ use Illuminate\Support\Facades\Validator;
 
 class PostController extends Controller
 {
+    const POST_PAGINATE = 5;
+    const POST_STATUS = [
+        'Pending',
+        'Rejected',
+        'Accepted',
+    ];
+
     public function __construct()
     {
         $this->middleware('auth', ['only' => ['create', 'store', 'edit', 'update']]);
@@ -96,7 +103,9 @@ class PostController extends Controller
      */
     public function index()
     {
-        return redirect()->route('homepage');
+
+        $posts = Auth::user()->posts()->orderBy('created_at', 'desc')->paginate(self::POST_PAGINATE);
+        return view('frontend.posts.index', compact('posts'));
     }
 
     /**
@@ -161,7 +170,7 @@ class PostController extends Controller
                 event(new PostViewed($post));
                 $post->update();
 
-                return view('frontend.posts.index', compact('post', 'categories_array'));
+                return view('frontend.posts.view', compact('post', 'categories_array'));
             }
             return redirect()->route('homepage');
 
