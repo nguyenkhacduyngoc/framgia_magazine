@@ -96,7 +96,7 @@ class UserController extends Controller
     {
         $this->updateUser($request->all(), $id);
 
-        return redirect()->route('users.show', ['id' => $id]);
+        return redirect()->route('admin.users.show', ['id' => $id]);
     }
 
     /**
@@ -110,6 +110,6 @@ class UserController extends Controller
         $user = User::find($id);
         $user->delete();
 
-        return redirect()->route('users.index');
+        return redirect()->route('admin.users.index');
     }
 }

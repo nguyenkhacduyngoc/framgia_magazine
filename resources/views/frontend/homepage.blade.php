@@ -104,7 +104,7 @@
                                             </div>
                                         </div>
                                     @endforeach
-                                        {!! $posts['lastest_paginates']->links() !!}
+                                        {!! $posts['lastest_paginates']->appends(['more_news' => $posts['more_news']->currentPage()])->links() !!}
                                 </div>
                             </div>
                         </div>
@@ -141,7 +141,7 @@
                             </div>
                         </div>
                     @endforeach
-                    {!! $posts['more_news']->links() !!}
+                    {!! $posts['more_news']->appends(['lastest_news' => $posts['lastest_paginates']->currentPage()])->links() !!}
                 </div>
             </div>
         </div>

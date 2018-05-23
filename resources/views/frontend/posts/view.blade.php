@@ -68,21 +68,6 @@
                             <li class="list-inline-item"><a href="#"><i class="fa fa-pinterest"></i></a></li>
                         </ul>
                     </div>
-                    <div class="news-comment">
-                        <h4>{{ trans('auth.comments') }} <span>({!! $post->comments->count() !!})</span></h4>
-                        @foreach($post->comments as $comment)
-                        <div class="comment-box d-flex">
-                            <div class="comment-img">
-                                {!! Html::image(config('config.link_avatar').'/'.$comment->user->avatar, 'avatar', ['class' => 'img-fluid']) !!}
-                            </div>
-                            <div class="img-content">
-                                <h6><a href="#">{!! $comment->user->fullname !!}</a> {!! $comment->created_at !!}</h6>
-                                <p>{!! $comment->content !!}</p>
-                                <span><a href="#">{!! trans('auth.reply') !!}</a></span>
-                            </div>
-                        </div>
-                        @endforeach
-                    </div>
                     <div class="comment-reply">
                         <h4>{{ trans('auth.comments') }}</h4>
                         {!! Form::open(['route' => ['comments.store_comment', $post->slug] ,'method' => 'post', 'id' => 'ajax-contact']) !!}
@@ -96,6 +81,45 @@
                             </div>
                         {!! Form::close() !!}
                     </div>
+                    <div class="news-comment">
+                        <h4>{{ trans('auth.comments') }} <span>({!! $post->comments->count() !!})</span></h4>
+                        @foreach($post->comments()->orderBy('created_at', 'desc')->get() as $comment)
+                            <div class="comment-box d-flex">
+                                <div class="comment-img">
+                                    {!! Html::image(config('config.link_avatar').'/'.$comment->user->avatar, 'avatar', ['class' => 'img-fluid']) !!}
+                                </div>
+                                <div class="img-content">
+                                    <h6><a href="#">{!! $comment->user->fullname !!}</a> {!! $comment->created_at !!}</h6>
+                                    <p>{!! $comment->content !!}</p>
+                                    <span><a class="reply" data-id="{{ $comment->id }}" onclick="showHide('replycomment-{{ $comment->id }}');">{!! trans('auth.reply') !!}</a></span>
+                                </div>
+                            </div>
+                            @foreach($comment->comment()->orderBy('created_at', 'desc')->get() as $rep_comment)
+                            <div class="comment-box comment-box2 d-flex">
+                                <div class="comment-img">
+                                    {!! Html::image(config('config.link_avatar').'/'.$rep_comment->user->avatar, 'avatar', ['class' => 'img-fluid']) !!}
+                                </div>
+                                <div class="img-content">
+                                    <h6><a href="#">{!! $rep_comment->user->fullname !!}</a> {!! $rep_comment->created_at !!}</h6>
+                                    <p>{!! $rep_comment->content !!}</p>
+                                    <span><a data-id="{{ $comment->id }}" onclick="showHide('replycomment-{{ $comment->id }}');">{!! trans('auth.reply') !!}</a></span>
+                                </div>
+                            </div>
+                            @endforeach
+                            <div class="comment-reply hidden" id="{!! 'replycomment-'.$comment->id !!}">
+                                {!! Form::open(['route' => ['comments.store_reply_comment', $comment->id, $post->slug] ,'method' => 'post', ]) !!}
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <p>{!! Form::textarea('content', null, ['class' => 'form-control', 'placeholder' => 'COMMENT'])  !!}</p>
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <p>{!! Form::button('Submit', ['type' => 'submit']) !!}</p>
+                                        </div>
+                                    </div>
+                                {!! Form::close() !!}
+                            </div>
+                        @endforeach
+                    </div>
                     <div class="relate-news">
                         <h4>{{ trans('auth.related_news') }}</h4>
                     </div>
@@ -104,5 +128,13 @@
             </div>
         </div>
     </section>
+
     <!-- End News Details -->
+@endsection
+@section('add-js')
+<script>
+    function showHide(id){
+        $("#"+id).toggle();
+    }
+</script>
 @endsection

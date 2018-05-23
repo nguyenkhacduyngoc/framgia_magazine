@@ -64,7 +64,27 @@ class CommentController extends Controller
                 'content' => $request['content'],
             ];
             $post->comments()->create($comment_data);
+            return redirect()->route('posts.show', ['slug' => $slug]);
+        } catch (Exception $e) {
+            return redirect()->route('homepage');
+        }
+    }
 
+    public function storeReplyComment(Request $request, $id, $slug)
+    {
+        try {
+            $comment = Comment::where('id', $id)->firstOrFail();
+
+            $validate = Comment::validateComment($request->all());
+            if ($validate->fails()) {
+                return redirect()->back()->withErrors($validate)->withInput($request->all());
+            }
+            $user_id = Auth::user()->id;
+            $comment_data = [
+                'user_id' => $user_id,
+                'content' => $request['content'],
+            ];
+            $comment->comment()->create($comment_data);
             return redirect()->route('posts.show', ['slug' => $slug]);
         } catch (Exception $e) {
             return redirect()->route('homepage');

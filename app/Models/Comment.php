@@ -42,4 +42,11 @@ class Comment extends Model
     {
         return $this->morphMany(Comment::class, 'commentable');
     }
+
+    public function sortByTime()
+    {
+        return $this->sortBy(function ($comment) {
+            return $comment->created_at;
+        }, SORT_REGULAR, true);
+    }
 }
