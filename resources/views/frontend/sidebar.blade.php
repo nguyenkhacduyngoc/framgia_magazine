@@ -49,7 +49,7 @@
                         <div class="col-md-12">
                             <ul class="list-unstyled">
                             @foreach($categories as $category)
-                                <li><a href="#">{!! $category->name !!}
+                                <li><a href="{!! route('category', $category->id ) !!}">{!! $category->name !!}
                                         <span>{!! $category->posts()->count() !!}</span>
                                     </a>
                                 </li>
@@ -65,7 +65,7 @@
         <h4>{{ trans('auth.tags') }}</h4>
         <ul class="list-unstyled list-inline">
         @foreach($tags as $tag)
-            <li class="list-inline-item"><a href="#">#{{ $tag->content }}</a></li>
+            <li class="list-inline-item"><a href="{!! route('tag', $tag->id ) !!}">#{{ $tag->content }}</a></li>
         @endforeach
         </ul>
     </div>

@@ -39,7 +39,7 @@
                             <div class="form-group">
                                 {!! Form::label('status', 'Status', ['class' => 'col-sm-3 control-label']) !!}
                                 <div class="col-sm-7">
-                                    {!! Form::select('status', ['Rejected', 'Pending', 'Accepted'], $post->status, ['class' => 'form-control m-bot15']) !!}
+                                    {!! Form::select('status', ['Pending', 'Rejected', 'Accepted'], $post->status, ['class' => 'form-control m-bot15']) !!}
                                 </div>
                             </div>
                             <div class="form-group">

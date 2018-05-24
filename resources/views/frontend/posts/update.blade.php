@@ -48,6 +48,12 @@
                                 </div>
                             </div>
                             <div class="form-group form-row">
+                                {!! Form::label('image', trans('auth.last_img'),['class' => 'col-sm-2 control-label']) !!}
+                                <div class="col-lg-10">
+                                    {!! Html::image(config('config.link_upload_file') . '/' . $post->img, null, ['class' => 'img-fluid']) !!}
+                                </div>
+                            </div>
+                            <div class="form-group form-row">
                                 {!! Form::label('content',trans('auth.content'),['class' => 'col-sm-2 control-label']) !!}
                                 <div class="col-lg-10">
                                     {!! Form::textarea('content', null, ['class' => 'form-control ckeditor', 'placeholder' => 'Subtitle', 'rows'=> '6'])  !!}

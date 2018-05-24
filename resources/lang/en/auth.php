@@ -73,4 +73,8 @@ return [
     'in' => 'in',
     'pnf' => 'Oops...Page Not Found!',
     'wcnf' => 'We could not found the page you are looking for.',
+    'my_post' => 'My Post',
+    'last_img' => 'Last Image',
+    'my_profile' => 'My Profile',
+    'update_profile' => 'Update Profile',
 ];

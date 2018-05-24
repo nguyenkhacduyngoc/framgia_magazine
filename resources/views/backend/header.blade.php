@@ -36,7 +36,7 @@
                 <ul class="dropdown-menu extended logout">
                     <div class="log-arrow-up"></div>
                     <li class="eborder-top">
-                        <a href="#"><i class="icon_profile"></i>{{ trans('admin.profile') }}</a>
+                        <a href="{{ route('admin.users.show', Auth::user()->id) }}"><i class="icon_profile"></i>{{ trans('admin.profile') }}</a>
                     </li>
                     <li class="eborder-top">
                         <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit()">{{ trans('auth.logout') }}</a>

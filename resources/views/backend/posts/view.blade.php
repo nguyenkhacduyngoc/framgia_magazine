@@ -41,7 +41,9 @@
 	                            <div class="news-tag text-right">
 	                                <ul class="list-unstyled list-inline">
 	                                    <li class="list-inline-item">{{ trans('auth.tags') }}:</li>
-	                                    <li class="list-inline-item"><a href="#">{{ trans('auth.tags') }}</a></li>
+	                                    @foreach($post->tags as $tag)
+	                                        <li class="list-inline-item"><a href="#">#{!! $tag->content !!}</a></li>
+	                                    @endforeach
 	                                </ul>
 	                            </div>
 	                        </div>
