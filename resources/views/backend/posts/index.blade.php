@@ -34,16 +34,7 @@
                                 <th style="text-align: center"><i class="fa fa-cogs"></i> {!! trans('admin.action') !!}
                                 </th>
                             </thead>
-                            <tbody>{{--
-                            <tr>
-                                <th><i class="fa fa-pencil"></i> {!! trans('admin.title') !!} </th>
-                                <th><i class="fa fa-star"></i> {!! trans('admin.status') !!} </th>
-                                <th><i class="fa fa-archive"></i> {!! trans('admin.category') !!} </th>
-                                <th><i class="fa fa-user"></i> {!! trans('admin.user') !!} </th>
-                                <th><i class="fa fa-clock-o"></i> {!! trans('admin.created_at') !!} </th>
-                                <th style="text-align: center"><i class="fa fa-cogs"></i> {!! trans('admin.action') !!}
-                                </th>
-                            </tr> --}}
+                            <tbody>
                             @foreach($posts as $post)
                                 <tr>
                                     <td id="table-title"> {!! substr($post->title, 0, 50) !!}{!! strlen($post->title) > 50 ? "...": "" !!} </td>

@@ -17,8 +17,7 @@
                                 <div class="col-lg-2 col-sm-2">
                                     <h4>{!! $user->fullname !!}</h4>
                                     <div class="follow-ava">
-                                        {!! Html::image(config('config.link_upload_file').$user->avatar) !!}
-                                        {{-- <img src="{!! (config('config.link_upload_file').$user->avatar) !!}" alt=""> --}}
+                                        {!! Html::image(config('config.link_avatar').'/'.$user->avatar) !!}
                                     </div>
                                     <h6>{!! trans('auth.administrator') !!}</h6>
                                 </div>

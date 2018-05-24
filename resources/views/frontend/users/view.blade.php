@@ -52,6 +52,9 @@
                                         {!! trans('auth.profile') !!}
                                     </a>
                                 </li>
+                                @if(Auth::user()->id == $user->id)
+                                    <a href="{!! route('user.edit', $user->id) !!}" class="btn btn-success float-left">{!! trans('auth.update_profile') !!}</a>
+                                @endif
                             </ul>
                         </header>
                         <div class="panel-body">
@@ -101,6 +104,38 @@
                 </div>
             </div>
             <!-- page end-->
+        </div>
+    </section>
+    <section class="catagory news-details">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 col-md-12">
+                @if($user->posts->count() == 0)
+                    <div class="err-content text-center">
+                        <h1><span></span></h1>
+                        <p>{!! trans('auth.wcnf') !!}</p>
+                    </div>
+                @else
+                @foreach($user->posts as $post)
+                    <div class="catagory-content catagory-content-view">
+                        <div class="cat-img">
+                            <a href="{!! route('posts.show', $post->slug ? $post->slug : $post->id) !!}">
+                                {!! Html::image(config('config.link_upload_file') . $post->img, null, ['class' => 'img-fluid img-post-category' ]) !!}
+                            </a>
+                        </div>
+                        <div class="img-content">
+                            <h6><a href=" {!! route('posts.show', $post->slug ? $post->slug : $post->id) !!} ">{!! substr($post->title, 0, 200) !!}{!! strlen($post->title) > 200 ? "...": "" !!}</a></h6>
+                            <ul class="list-unstyled list-inline">
+                                <li class="list-inline-item">{!! $post->category->name !!}</li>
+                                <li class="list-inline-item">{!! $post->created_at !!}</li>
+                            </ul>
+                            <p>{!! substr($post->content, 0, 210) !!}{!! strlen($post->content) > 210 ? "...": "" !!}</p>
+                        </div>
+                    </div>
+                @endforeach
+                @endif
+                </div>
+            </div>
         </div>
     </section>
 @endsection

@@ -112,7 +112,7 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $validate = $this->validateCategory($request->all());
+        $validate = Category::validateCategory($request->all());
         if ($validate->fails()) {
             return redirect()->back()->withErrors($validate)->withInput($request->all());
         }

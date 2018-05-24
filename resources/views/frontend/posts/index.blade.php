@@ -10,7 +10,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="p-content">
-                            <h4>{{ trans('auth.post') }}</h4>
+                            <h4>{{ trans('auth.my_post') }}</h4>
                             <ul class="list-unstyled list-inline">
                                 <li class="list-inline-item"><a
                                             href="{{ route('homepage') }}">{{ trans('auth.homepage') }}</a></li>
@@ -44,11 +44,11 @@
                                 <td id="table-title"> {!! substr($post->title, 0, 50) !!}{!! strlen($post->title) > 50 ? "...": "" !!} </td>
                                 <td>
                                     @if($post->status ==0)
-                                        <label for="" class="label label-danger"> {!! trans('admin.rejected') !!} </label>
+                                        <label for="" class="badge badge-danger"> {!! trans('admin.rejected') !!} </label>
                                     @elseif($post->status==1)
-                                        <label for="" class="label label-warning"> {!! trans('admin.pending') !!} </label>
+                                        <label for="" class="badge badge-warning"> {!! trans('admin.pending') !!} </label>
                                     @else
-                                        <label for="" class="label label-success"> {!! trans('admin.accepted') !!} </label>
+                                        <label for="" class="badge badge-success"> {!! trans('admin.accepted') !!} </label>
                                     @endif
                                 </td>
                                 <td id="table-category">{!! ($post->category ==null) ? null : $post->category->name !!}</td>

@@ -192,6 +192,9 @@ class PostController extends Controller
             $post = Post::where('slug', $slug)
                 ->orWhere('id', $slug)
                 ->firstOrFail();
+            if ($post->status != 0) {
+                abort('404');
+            }
             if ($post->user->id == Auth::user()->id) {
                 $categories_array = $this->queryCategoriesArray();
                 $tags_array = [];

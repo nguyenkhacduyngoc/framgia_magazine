@@ -14,6 +14,7 @@ Auth::routes();
 Route::get('/', 'Frontend\PageController@index')->name('');
 Route::get('/homepage', 'Frontend\PageController@index')->name('homepage');
 Route::get('category/{id}', 'Frontend\PageController@category')->name('category');
+Route::get('tag/{id}', 'Frontend\PageController@tag')->name('tag');
 Route::post('posts/search', 'Frontend\PostController@search')->name('posts.search');
 Route::resource('posts', 'Frontend\PostController');
 Route::resource('user', 'Frontend\UserController');
@@ -23,7 +24,7 @@ Route::resource('comments', 'Frontend\CommentController');
 Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'isAdmin']], function () {
     Route::get('/', function () {
         return view('backend.master');
-    });
+    })->name('admin');
     Route::resource('users', 'Backend\UserController')->names([
         'create' => 'admin.users.create',
         'update' => 'admin.users.update',

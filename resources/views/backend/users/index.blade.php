@@ -41,7 +41,7 @@
                                     <td>{{ $user->email }}</td>
                                     <td>
                                         @if($user->role == 1)
-                                            {!! trans('auth.admin') !!}
+                                            {!! trans('admin.admin') !!}
                                         @else
                                             {!! trans('auth.user') !!}
                                         @endif

@@ -1,7 +1,3 @@
-<!-- Pre-Loader -->
-{{-- <div id="page-preloader"><span class="spinner"></span></div> --}}
-<!-- End Pre-Loader -->
-
 <!-- Top Bar -->
 <section class="top-bar">
     <div class="container">
@@ -23,10 +19,13 @@
                             <a class="nav-link dropdown-toggle" data-toggle="dropdown" id="Preview" href="#"
                                role="button" aria-haspopup="true" aria-expanded="false">{{ Auth::user()->fullname }}</a>
                             <div class="dropdown-menu " aria-labelledby="Preview">
-                                <a class="dropdown-item"
-                                   href="{{ route('posts.create') }}">{{ trans('auth.create_post') }}</a>
-                                <a class="dropdown-item" href="{{ route('logout') }}"
-                                   onclick="event.preventDefault();document.getElementById('logout-form').submit();">{{ trans('auth.logout') }}</a>
+                                <a class="dropdown-item" href="{{ route('posts.create') }}">{{ trans('auth.create_post') }}</a>
+                                <a class="dropdown-item" href="{{ route('posts.index') }}">{{ trans('auth.my_post') }}</a>
+                                <a class="dropdown-item" href="{{ route('user.show', Auth::user()->id) }}">{{ trans('auth.my_profile') }}</a>
+                                @if(Auth::user()->role ==1)
+                                <a class="dropdown-item" href="{{ route('admin') }}">{{ trans('admin.admin') }}</a>
+                                @endif
+                                <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();">{{ trans('auth.logout') }}</a>
                                 {!! Form::open(['route' => 'logout','method' => 'post','class' => 'form-horizontal', 'id' => 'logout-form']) !!}
                                 {!! Form::close() !!}
                             </div>
@@ -93,7 +92,7 @@
                                 <li>
                                     <h4>{{ trans('auth.tags') }}</h4>
                                     @foreach($tags as $tag)
-                                        <a href="">#{!! $tag->content !!}</a>
+                                        <a href="{!! route('tag', $tag->id ) !!}">#{!! $tag->content !!}</a>
                                     @endforeach
                                 </li>
                             </ul>

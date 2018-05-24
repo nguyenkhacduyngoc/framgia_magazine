@@ -4,7 +4,7 @@
         <!-- sidebar menu start-->
         <ul class="sidebar-menu">
             <li class="">
-                <a class="" href="">
+                <a class="" href="{{ route('admin') }}">
                     <i class="fa fa-home"></i>
                     <span> {{ trans('admin.dashboard') }} </span>
                 </a>
@@ -47,7 +47,7 @@
                     <span class="menu-arrow fa fa-arrow-right"></span>
                 </a>
                 <ul class="sub">
-                    <li><a class="fa fa-user-o" href=""> {{ trans('admin.profile') }} </a></li>
+                    <li><a class="fa fa-user-o" href="{{ route('admin.users.show', Auth::user()->id) }}"> {{ trans('admin.profile') }} </a></li>
                 </ul>
             </li>
         </ul>

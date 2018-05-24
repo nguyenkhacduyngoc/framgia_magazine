@@ -46,7 +46,7 @@
                             <div class="form-group">
                                 {!! Form::button('Update', ['type' => 'submit', 'class' => 'col-md-1 col-md-offset-5 btn btn-primary']) !!}
                                 <a class="col-md-1 col-md-offset-1 btn btn-danger"
-                                   href="{{ route('categories.index') }}"> {!! 'Cancel' !!} </a>
+                                   href="{{ route('admin.categories.index') }}"> {!! 'Cancel' !!} </a>
                             </div>
                             {!! Form::close() !!}
                         </div>
