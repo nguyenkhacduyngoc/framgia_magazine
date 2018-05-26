@@ -8,7 +8,7 @@
             </li>
             <li class="nav-item">
                 <a class="nav-link" data-toggle="tab" href="#comment"
-                   role="tab">{{ trans('auth.comments') }}</a>
+                   role="tab"><h6>{{ trans('auth.most_viewed') }} week</h6></a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" data-toggle="tab" href="#catagory"
@@ -33,6 +33,22 @@
                 </div>
             </div>
             <div class="tab-pane fade" id="comment" role="tabpanel">
+                <div class="m-view-content catagory-content">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <ul class="list-unstyled">
+                            @foreach($mostviewed_lastweek_posts as $mostviewed_lastweek_post)
+                                <li><a href="{!! route('posts.show', $mostviewed_lastweek_post->slug ? $mostviewed_lastweek_post->slug : $mostviewed_lastweek_post->id) !!}">{!! substr($mostviewed_lastweek_post->title, 0, 40) !!}{!! strlen($mostviewed_lastweek_post->title) > 40 ? "...": "" !!}
+                                    <span>{!! $mostviewed_lastweek_post->count_viewed !!}</span>
+                                    </a>
+                                </li>
+                            @endforeach
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {{-- <div class="tab-pane fade" id="comment" role="tabpanel">
                 <div class="comment-content">
                     <div class="comment-img">
                         <a href="#"><i class="fa fa-user"></i></a>
@@ -42,7 +58,7 @@
                         </p>
                     </div>
                 </div>
-            </div>
+            </div> --}}
             <div class="tab-pane fade" id="catagory" role="tabpanel">
                 <div class="catagory-content">
                     <div class="row">
@@ -50,7 +66,7 @@
                             <ul class="list-unstyled">
                             @foreach($categories as $category)
                                 <li><a href="{!! route('category', $category->id ) !!}">{!! $category->name !!}
-                                        <span>{!! $category->posts()->count() !!}</span>
+                                        <span>{!! $category->posts()->where('status', 2)->count() !!}</span>
                                     </a>
                                 </li>
                             @endforeach

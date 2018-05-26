@@ -47,50 +47,83 @@ class CommentController extends Controller
 
     }
 
-    public function storeComment(Request $request, $slug)
+    public function storeComment(Request $request)
     {
         try {
-            $post = Post::where('slug', $slug)
-                ->orWhere('id', $slug)
-                ->firstOrFail();
+            if ($request->ajax()) {
 
-            $validate = Comment::validateComment($request->all());
-            if ($validate->fails()) {
-                return redirect()->back()->withErrors($validate)->withInput($request->all());
+                $post = Post::where('slug', $request->id)
+                    ->orWhere('id', $request->id)
+                    ->firstOrFail();
+
+                $validate = Comment::validateComment($request->all());
+                if ($validate->fails()) {
+                    return redirect()->back()->withErrors($validate)->withInput($request->all());
+                }
+                $user_id = Auth::user()->id;
+                $comment_data = [
+                    'user_id' => $user_id,
+                    'content' => $request['content'],
+                ];
+                $post->comments()->create($comment_data);
+
+                return view('frontend.posts.comment', compact('post'));
             }
-            $user_id = Auth::user()->id;
-            $comment_data = [
-                'user_id' => $user_id,
-                'content' => $request['content'],
-            ];
-            $post->comments()->create($comment_data);
-            return redirect()->route('posts.show', ['slug' => $slug]);
+
+            return redirect()->route('homepage');
         } catch (Exception $e) {
             return redirect()->route('homepage');
         }
     }
 
-    public function storeReplyComment(Request $request, $id, $slug)
+    public function storeReplyComment(Request $request)
     {
         try {
-            $comment = Comment::where('id', $id)->firstOrFail();
+            if ($request->ajax()) {
+                $post = Post::where('slug', $request->slug)
+                    ->orWhere('id', $request->slug)
+                    ->firstOrFail();
+                $comment = Comment::where('id', $request->id)->firstOrFail();
+                $user_id = Auth::user()->id;
 
-            $validate = Comment::validateComment($request->all());
-            if ($validate->fails()) {
-                return redirect()->back()->withErrors($validate)->withInput($request->all());
+                $comment_data = [
+                    'user_id' => $user_id,
+                    'content' => $request['content'],
+                ];
+                $validate = Comment::validateComment($comment_data);
+                if ($validate->fails()) {
+                    return redirect()->back()->withErrors($validate)->withInput($request->all());
+                }
+                $comment->comment()->create($comment_data);
+
+                return view('frontend.posts.comment', compact('post'));
             }
-            $user_id = Auth::user()->id;
-            $comment_data = [
-                'user_id' => $user_id,
-                'content' => $request['content'],
-            ];
-            $comment->comment()->create($comment_data);
-            return redirect()->route('posts.show', ['slug' => $slug]);
+
+            return redirect()->route('homepage');
         } catch (Exception $e) {
             return redirect()->route('homepage');
         }
     }
 
+    public function destroyComment(Request $request)
+    {
+        try {
+            if ($request->ajax()) {
+                $post = Post::where('slug', $request->slug)
+                    ->orWhere('id', $request->slug)
+                    ->firstOrFail();
+                $comment = Comment::where('id', $request->id)->firstOrFail();
+
+                $comment->delete();
+
+                return view('frontend.posts.comment', compact('post'));
+            }
+
+            return redirect()->route('homepage');
+        } catch (Exception $e) {
+            return redirect()->route('homepage');
+        }
+    }
     /**
      * Display the specified resource.
      *

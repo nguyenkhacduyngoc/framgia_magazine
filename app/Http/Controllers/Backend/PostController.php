@@ -9,11 +9,6 @@ use Illuminate\Http\Request;
 class PostController extends Controller
 {
     const POST_PAGINATE = 5;
-    const POST_STATUS = [
-        'Pending',
-        'Rejected',
-        'Accepted',
-    ];
 
     /**
      * Display a listing of the resource.
@@ -99,10 +94,20 @@ class PostController extends Controller
         if ($validate->fails()) {
             return redirect()->back()->withErrors($validate)->withInput($request->all());
         }
-        $post = Post::find($slug);
-        $post->update($request->all());
+        try {
+            $post = Post::where('slug', $slug)
+                ->orWhere('id', $slug)
+                ->firstOrFail();
+            if ($post->category == null) {
+                return redirect()->route('admin.posts.index');
+            }
+            $post->update($request->all());
 
-        return redirect()->route('admin.posts.index');
+            return redirect()->route('admin.posts.index');
+        } catch (Exception $e) {
+            return redirect()->route('admin.posts.index');
+        }
+
     }
 
     /**

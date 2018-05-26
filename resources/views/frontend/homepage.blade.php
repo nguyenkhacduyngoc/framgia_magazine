@@ -30,21 +30,24 @@
             <div class="row">
                 <div class="col-lg-8 col-md-12 padding-fix-r">
                     <div class="owl-carousel owl-slider">
+                    @if($posts['sliders']['main'] != null )
                         @foreach($posts['sliders']['main'] as $slider)
                             <div class="slider-content">
                                 {!! Html::image(config('config.link_upload_file') . '/' . $slider->img) !!}
                                 <div class="slider-layer">
                                     <p><a href="{!! route('posts.show', $slider->slug ? $slider->slug : $slider->id)!!}">{!! $slider->title !!}</a></p>
                                     <ul class="list-unstyled list-inline">
-                                        <li class="list-inline-item">{!! strtoupper($slider->category->name) !!}</li>
+                                        <li class="list-inline-item">{!! $slider->category ==null ? null : strtoupper($slider->category->name) !!}</li>
                                         <li class="list-inline-item">{!! $slider->created_at !!}</li>
                                     </ul>
                                 </div>
                             </div>
                         @endforeach
+                    @endif
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-12 slider-fix">
+                @if($posts['sliders']['side'] != null )
                     @foreach($posts['sliders']['side'] as $slider)
                         <div class="slider-sidebar sidebar-o">
                             {!! Html::image(config('config.link_upload_file') . '/' . $slider->img, null, ['class' => 'img-fluid']) !!}
@@ -53,12 +56,13 @@
                                     <a href="{{ route('posts.show', $slider->slug ? $slider->slug : $slider->id) }}">{!! substr($slider->title, 0, 90) !!}{!! strlen($slider->title) > 50 ? "...": "" !!}</a>
                                 </p>
                                 <ul class="list-unstyled list-inline">
-                                    <li class="list-inline-item">{!! strtoupper($slider->category->name) !!}</li>
+                                    <li class="list-inline-item">{!! $slider->category ==null ? null : strtoupper($slider->category->name) !!}</li>
                                     <li class="list-inline-item">{!! $slider->created_at !!}</li>
                                 </ul>
                             </div>
                         </div>
                     @endforeach
+                @endif
                 </div>
             </div>
         </div>
@@ -84,7 +88,7 @@
                                             <a href="{{ route('posts.show', $posts['lastest']->slug ? $posts['lastest']->slug : $posts['lastest']->id) }}">{!! $posts['lastest']->title !!}</a>
                                         </h6>
                                         <ul class="list-unstyled list-inline">
-                                            <li class="list-inline-item">{!! strtoupper($posts['lastest']->category->name) !!}</li>
+                                            <li class="list-inline-item">{!! $posts['lastest']->category == null ? null : strtoupper($posts['lastest']->category->name) !!}</li>
                                             <li class="list-inline-item">{!! $posts['lastest']->updated_at !!}</li>
                                         </ul>
                                         <p>{!! substr($posts['lastest']->content, 0, 100) !!}{!! strlen($posts['lastest']->content) > 50 ? "....": "" !!}</p>
@@ -134,7 +138,7 @@
                                     <a href="{{ route('posts.show', $more_new->slug ? $more_new->slug : $more_new->id) }}">{!! substr($more_new->title, 0, 100) !!}{!! strlen($more_new->title) > 50 ? "....": "" !!}</a>
                                 </h6>
                                 <ul class="list-unstyled list-inline">
-                                    <li class="list-inline-item">{!! $more_new->category->name !!}</li>
+                                    <li class="list-inline-item">{!! $more_new->category ==null ? null :  $more_new->category->name !!}</li>
                                     <li class="list-inline-item">{!! $more_new->updated_at !!}</li>
                                 </ul>
                                 <p>{!! substr($more_new->content, 0, 100) !!}{!! strlen($more_new->content) > 50 ? "....": "" !!}</p>

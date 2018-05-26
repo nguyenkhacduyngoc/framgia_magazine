@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -107,7 +108,8 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        $user = User::find($id);
+        $user = User::findOrFail($id);
+        $user->posts()->update(['user_id' => Post::NON_USER_ID, 'status' => 0]);
         $user->delete();
 
         return redirect()->route('admin.users.index');
