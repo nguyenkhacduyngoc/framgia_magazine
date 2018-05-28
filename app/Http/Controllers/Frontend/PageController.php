@@ -10,6 +10,7 @@ use App\Models\Tag;
 class PageController extends Controller
 {
     const CATEGORY_PAGINATE = 5;
+
     public function index()
     {
         $posts = [
@@ -18,15 +19,23 @@ class PageController extends Controller
             'lastest_paginates' => Post::lastestPaginate(),
             'more_news' => Post::moreNews(),
         ];
+        try {
+            if (empty($posts['sliders']) || empty($posts['lastest']) || empty($posts['lastest_paginates']) || empty($posts['more_news'])) {
+                throw new Exception();
+            }
 
-        return view('frontend.homepage', compact('posts'));
+            return view('frontend.homepage', compact('posts'));
+        } catch (Exception $e) {
+            return abort('404');
+        }
     }
 
     public function category($id)
     {
         try {
             $category = Category::findOrFail($id);
-            $posts = $category->posts()->paginate(self::CATEGORY_PAGINATE);
+            $posts = $category->posts()->where('status', Post::POST_STATUS['accepted'])->paginate(self::CATEGORY_PAGINATE);
+
             return view('frontend.category', compact('category', 'posts'));
         } catch (Exception $e) {
             return view('frontend.homepage');
@@ -37,7 +46,7 @@ class PageController extends Controller
     {
         try {
             $tag = Tag::findOrFail($id);
-            $posts = $tag->posts()->paginate(self::CATEGORY_PAGINATE);
+            $posts = $tag->posts()->where('status', 2)->paginate(self::CATEGORY_PAGINATE);
 
             return view('frontend.tag', compact('tag', 'posts'));
         } catch (Exception $e) {

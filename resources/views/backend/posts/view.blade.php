@@ -20,7 +20,7 @@
 	                    <div class="news-heading">
 	                        <h4>{{ $post->title }}</h4>
 	                        <ul class="list-unstyled list-inline">
-	                            <li class="list-inline-item"><i class="fa fa-user"></i><a href="#"> {{ $post->user->fullname }} </a>
+	                            <li class="list-inline-item"><i class="fa fa-user"></i><a href="#"> {!! ($post->user == null) ? null : $post->user->fullname !!} </a>
 	                            </li>
 	                            <li class="list-inline-item"><i class="fa fa-calendar"></i> {{ $post->created_at }} </li>
 	                            <li class="list-inline-item"><i class="fa fa-comments"></i><a
@@ -50,7 +50,7 @@
 	                    </div>
 	                    <div class="news-author">
 	                        <img src="images/author.jpg" alt="" class="img-fluid">
-	                        <h6>{{ trans('auth.author') }}: <span>{{ $post->user->fullname }}</span></h6>
+	                        <h6>{{ trans('auth.author') }}: <span>{!! ($post->user == null) ? null : $post->user->fullname !!}</span></h6>
 	                        <ul class="list-unstyled list-inline">
 	                            <li class="list-inline-item"><a href="#"><i class="fa fa-facebook"></i></a></li>
 	                            <li class="list-inline-item"><a href="#"><i class="fa fa-twitter"></i></a></li>

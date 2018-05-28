@@ -15,11 +15,6 @@ use Illuminate\Support\Facades\Validator;
 class PostController extends Controller
 {
     const POST_PAGINATE = 5;
-    const POST_STATUS = [
-        'Pending',
-        'Rejected',
-        'Accepted',
-    ];
 
     public function __construct()
     {
@@ -251,12 +246,16 @@ class PostController extends Controller
     public function search(Request $request)
     {
         $keyword = $request->search;
-        $posts = Post::where('title', 'LIKE', '%' . $keyword . '%')
-            ->orwhereHas('tags', function ($query) use ($keyword) {
-                $query->where('content', 'LIKE', '%' . $keyword . '%');
-            })
-            ->orWhere('content', 'LIKE', '%' . $keyword . '%')
-            ->paginate(Post::NUMBER_PAGENATE_SEARCH);
+        $categories = Category::where('id', '>', 0)->pluck('id')->toArray();
+        $posts = Post::whereIn('category_id', $categories)
+            ->where('status', 2)
+            ->where(function ($query) use ($keyword) {
+                $query->where('title', 'LIKE', '%' . $keyword . '%');
+                $query->orwhereHas('tags', function ($query) use ($keyword) {
+                    $query->where('content', 'LIKE', '%' . $keyword . '%');
+                });
+                $query->orWhere('content', 'LIKE', '%' . $keyword . '%');
+            })->paginate(self::POST_PAGINATE);
         return view('frontend.search', compact('posts', 'keyword'));
     }
 }

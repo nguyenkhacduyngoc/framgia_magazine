@@ -18,8 +18,8 @@ Route::get('tag/{id}', 'Frontend\PageController@tag')->name('tag');
 Route::post('posts/search', 'Frontend\PostController@search')->name('posts.search');
 Route::resource('posts', 'Frontend\PostController');
 Route::resource('user', 'Frontend\UserController');
-Route::post('comments/{id}', 'Frontend\CommentController@storeComment')->name('comments.store_comment');
-Route::post('replyComments/{id}/{slug}', 'Frontend\CommentController@storeReplyComment')->name('comments.store_reply_comment');
+Route::post('comments-post', 'Frontend\CommentController@storeComment')->name('comments.store_comment');
+Route::post('replyComments', 'Frontend\CommentController@storeReplyComment')->name('comments.store_reply_comment');
 Route::resource('comments', 'Frontend\CommentController');
 Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'isAdmin']], function () {
     Route::get('/', function () {

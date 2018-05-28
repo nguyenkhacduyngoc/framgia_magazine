@@ -18,6 +18,12 @@ class Post extends Model
     const NUMBER_MORENEWS_PAGINATE = 4;
     const UPLOAD_LINK = 'upload/posts/';
     const NUMBER_PAGENATE_SEARCH = 10;
+    const NON_USER_ID = 0;
+    const POST_STATUS = [
+        'pending' => 0,
+        'rejected' => 1,
+        'accepted' => 2,
+    ];
 
     protected $fillable = [
         'user_id',
@@ -34,6 +40,17 @@ class Post extends Model
     protected $rule_approve_post = [
         'title' => 'required',
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function ($post) {
+            // before delete() method call this
+            $post->comments()->delete();
+            // do the rest of the cleanup...
+        });
+    }
 
     protected function validateApprovePost(array $data)
     {
@@ -96,9 +113,15 @@ class Post extends Model
         $this->pageName = $pageName;
     }
 
+    protected function hasCategory()
+    {
+        $categories = Category::where('id', '>', 0)->pluck('id')->toArray();
+        return Post::whereIn('category_id', $categories);
+    }
+
     protected function sliders()
     {
-        $post = $this->where('status', 2)->orderBy('created_at', 'desc');
+        $post = $this->hasCategory()->where('status', 2)->orderBy('created_at', 'desc');
         $slider['main'] = $post->take(self::NUMBER_SLIDER_MAIN)
             ->get();
         $slider['side'] = $post->skip(self::NUMBER_SLIDER_MAIN)
@@ -110,14 +133,14 @@ class Post extends Model
 
     protected function lastest()
     {
-        return $this->where('status', 2)
+        return $this->hasCategory()->where('status', 2)
             ->orderBy('created_at', 'desc')
             ->firstOrFail();
     }
 
     protected function lastestPaginate()
     {
-        $lastestPaginate = $this->where('status', 2)
+        $lastestPaginate = $this->hasCategory()->where('status', 2)
             ->orderBy('created_at', 'desc')
             ->where('id', '<>', $this->lastest()->id)
             ->take(self::NUMBER_LASTEST_PAGINATE_TAKE)
@@ -131,7 +154,7 @@ class Post extends Model
         $post = $this->where('status', 2)
             ->orderBy('created_at', 'asc')
             ->skip(self::NUMBER_MORENEWS_SKIP)->firstOrFail();
-        $moreNews = $this->where('status', 2)->orderBy('created_at', 'desc')
+        $moreNews = $this->hasCategory()->where('status', 2)->orderBy('created_at', 'desc')
             ->where('id', '<', $post->id)
             ->paginate(self::NUMBER_MORENEWS_PAGINATE, ['*'], 'more_news');
 

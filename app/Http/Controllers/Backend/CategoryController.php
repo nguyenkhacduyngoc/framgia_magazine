@@ -132,7 +132,7 @@ class CategoryController extends Controller
         try {
             $category = Category::findOrFail($id);
             $category->delete();
-            Post::whereCategoryId($id)->update(['category_id' => null, 'status' => 0]);
+            Post::whereCategoryId($id)->update(['category_id' => 0, 'status' => 0]);
 
             return redirect()->route('admin.categories.index');
         } catch (Exception $e) {

@@ -43,9 +43,9 @@
                             <tr>
                                 <td id="table-title"> {!! substr($post->title, 0, 50) !!}{!! strlen($post->title) > 50 ? "...": "" !!} </td>
                                 <td>
-                                    @if($post->status ==0)
+                                    @if($post->status ==1)
                                         <label for="" class="badge badge-danger"> {!! trans('admin.rejected') !!} </label>
-                                    @elseif($post->status==1)
+                                    @elseif($post->status==0)
                                         <label for="" class="badge badge-warning"> {!! trans('admin.pending') !!} </label>
                                     @else
                                         <label for="" class="badge badge-success"> {!! trans('admin.accepted') !!} </label>

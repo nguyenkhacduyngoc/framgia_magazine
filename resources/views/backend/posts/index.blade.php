@@ -48,7 +48,7 @@
                                         @endif
                                     </td>
                                     <td id="table-category">{!! ($post->category ==null) ? null : $post->category->name !!}</td>
-                                    <td id="table-user">{{ $post->user->fullname }}</td>
+                                    <td id="table-user">{!! ($post->user == null) ? null : $post->user->fullname !!}</td>
                                     <td>{{ $post->created_at }}</td>
                                     <td style="text-align: center" class="">
                                         <div class="btn-group">
