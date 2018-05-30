@@ -8713,3 +8713,8 @@ select.form-control {
 #action_th {
     text-align: center !important;
 }
+
+.post_img {
+    width: 730px;
+    height: 477px;
+}

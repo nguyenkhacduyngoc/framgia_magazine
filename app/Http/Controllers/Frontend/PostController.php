@@ -138,7 +138,7 @@ class PostController extends Controller
         }
         $user_id = Auth::user()->id;
         $post_data = [
-            'category_id' => $request['category'],
+            'category_id' => $request['category_id'],
             'user_id' => $user_id,
             'title' => $request['title'],
             'subtitle' => $request['subtitle'],
@@ -238,7 +238,13 @@ class PostController extends Controller
         $post = Post::where('slug', $slug)
             ->orWhere('id', $slug)
             ->firstOrFail();
-        $post_data = $request->all();
+        $post_data = [
+            'category_id' => $request['category'],
+            'user_id' => $user_id,
+            'title' => $request['title'],
+            'subtitle' => $request['subtitle'],
+            'content' => $request['content'],
+        ];
         if ($request->image != null) {
             $img = $request->image;
             $post_data['img'] = $img->getClientOriginalName();

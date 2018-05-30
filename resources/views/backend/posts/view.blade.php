@@ -15,6 +15,57 @@
 	    <!-- News Details -->
 	    <section class="news-details">
 	        <div class="container">
+	        	<div class="row">
+	                <div class="col-lg-12">
+	                    <section class="panel">
+	                        <header class="panel-heading">
+	                            {!! trans('auth.posts') !!}
+	                        </header>
+	                        @if ($errors->any())
+	                            <div class="alert alert-danger">
+	                                <ul>
+	                                    @foreach ($errors->all() as $error)
+	                                        <li>{{ $error }}</li>
+	                                    @endforeach
+	                                </ul>
+	                            </div>
+	                        @endif
+	                        @if(Session::has('status'))
+	                        <div class="alert alert-danger">
+	                                <ul>
+	                                    <li>{{ Session::get('status') }}</li>
+	                                </ul>
+	                            </div>
+							@endif
+	                        <div class="panel-body">
+	                            {!! Form::model($post, ['route' => ['admin.posts.update', $post->slug], 'method' => 'patch', 'class' => 'form-horizontal']) !!}
+	                            <div class="form-group">
+	                                {!! Form::label('category',trans('auth.category'),['class' => 'col-sm-3 control-label']) !!}
+	                                <div class="col-sm-7">
+	                                    {!! Form::select('category_id', $categories_array , null, ['class' => 'form-control m-bot15'])  !!}
+	                                </div>
+	                            </div>
+	                            <div class="form-group">
+	                                {!! Form::label('slider', 'Chose Slider', ['class' => 'col-sm-3 control-label']) !!}
+	                                <div class="col-sm-7">
+	                                    {!! Form::select('slider', $slider_option_array, $post->slider, ['class' => 'form-control m-bot15']) !!}
+	                                </div>
+	                            </div>
+	                            <div class="form-group">
+	                                {!! Form::label('status', 'Status', ['class' => 'col-sm-3 control-label']) !!}
+	                                <div class="col-sm-7">
+	                                    {!! Form::select('status', ['Pending', 'Rejected', 'Accepted'], $post->status, ['class' => 'form-control m-bot15']) !!}
+	                                </div>
+	                            </div>
+	                            <div class="form-group">
+	                                {!! Form::button('Update', ['type' => 'submit', 'class' => 'col-md-1 col-md-offset-5 btn btn-primary']) !!}
+	                                <a class="col-md-1 col-md-offset-1 btn btn-danger" href="{{ route('admin.posts.index') }}">{!! 'Cancel' !!}</a>
+	                            </div>
+	                            {!! Form::close() !!}
+	                        </div>
+	                    </section>
+	                </div>
+	            </div>
 	            <div class="row">
 	                <div class="offset-lg-1 col-lg-9 col-md-12">
 	                    <div class="news-heading">
@@ -26,7 +77,7 @@
 	                            <li class="list-inline-item"><i class="fa fa-comments"></i><a
 	                                        href="#"> {{ trans('auth.number') }} {{ trans('auth.comments') }} </a></li>
 	                        </ul>
-	                        <img src="{{ asset('upload/posts/'.'/'.$post->img) }}" alt="" class="img-fluid">
+	                        <img src="{{ asset(config('config.link_upload_file').$post->img) }}" alt="" class="post_img img-fluid">
 	                        {!! $post->content !!}
 	                    </div>
 	                    <div class="row">

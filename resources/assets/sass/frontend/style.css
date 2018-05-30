@@ -703,6 +703,15 @@ button {
 /* ====================
 07. Slider Area
 ==================== */
+.slider-main{
+    width: 745px;
+    height: 488px;
+}
+.slider-main img {
+    width: 745px;
+    height: 500px;   
+}
+
 .slider-area .owl-slider {
     position: relative;
 }
@@ -812,6 +821,16 @@ button {
     height: auto;
 }
 
+/*.slider-sidebar{
+    width: 358px;
+    height: 234px;
+}*/
+
+.img-side{
+    width: 358px;
+    height: 234px;   
+}
+
 .slider-area .slider-fix .slider-sidebar .sidebar-layer p {
     margin-bottom: 10px;
 }
@@ -848,7 +867,7 @@ button {
 }
 
 .sidebar-o{
-    margin-bottom: 28px;   
+    margin-bottom: 20px;   
 }
 
 /* ====================

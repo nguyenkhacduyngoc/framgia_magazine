@@ -30,4 +30,7 @@ return [
     'category' => 'Category',
     'user' => 'User',
     'created_at' => 'Created At',
+    'enough_slider_side' => 'Have enough slider side',
+    'enough_slider_main' => 'Have enough slider main',
+    'need_approve' => 'Have to approve first',
 ];
