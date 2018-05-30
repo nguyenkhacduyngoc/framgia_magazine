@@ -6,6 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class Rate extends Model
 {
+    protected $fillable = [
+        'post_id',
+        'user_id',
+        'rate',
+        'content',
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class);

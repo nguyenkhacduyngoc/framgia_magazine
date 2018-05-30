@@ -1,4 +1,7 @@
 @extends('frontend.master')
+@section('add-css')
+    {!! Html::style('css/frontend/rate.css') !!}
+@endsection
 @section('content')
     <!-- Page Heading -->
     <section class="p-heading text-center">
@@ -66,6 +69,55 @@
                             <li class="list-inline-item"><a href="#"><i class="fa fa-pinterest"></i></a></li>
                         </ul>
                     </div>
+                    @auth
+                    <div class="like">
+                        @if(isset($like))
+                        <span><i class="fa fa-thumbs-up like-button">Liked</i></span>
+                        @else
+                        <span><i class="fa fa-thumbs-o-up like-button">Like</i></span>
+                        @endif
+                    </div>
+                    <div>
+                        <span><i class="fa fa-thumbs-up liked-post"><p class="text"></p></i></span>
+                    </div>
+                    <div class="">
+                        @if(isset($user_rate))
+                            <span class="heading">User Rating</span>
+                            @for($i = 1; $i <= $user_rate->rate;$i++)
+                            <span id="star-{!! $i !!}" class="fa fa-star rating-star checked"></span>
+                            @endfor
+                            @for($i = $user_rate->rate +1 ; $i <=5; $i++)
+                            <span id="star-{!! $i !!}" class="fa fa-star rating-star"></span>
+                            @endfor
+                        @else
+                            <span class="heading">Make rate for this post</span>
+                            <span id="star-1" class="fa fa-star rating-star"></span>
+                            <span id="star-2" class="fa fa-star rating-star"></span>
+                            <span id="star-3" class="fa fa-star rating-star"></span>
+                            <span id="star-4" class="fa fa-star rating-star"></span>
+                            <span id="star-5" class="fa fa-star rating-star"></span>
+                        @endif
+                    </div>
+                    @endauth
+                    <div class="rating-area">
+                        <p>{!! empty($post->rates->avg('rate')) ? 0 : round($post->rates->avg('rate'),2) !!} average based on {!! $post->rates->count() !!} reviews.</p>
+                        <hr style="border:3px solid #f1f1f1">
+                        <div class="row">
+                        @for($i =5 ; $i>0; $i--)
+                            <div class="side">
+                                <div>{!! $i !!} star</div>
+                            </div>
+                            <div class="middle">
+                                <div class="bar-container">
+                                    <div class="bar-{!! $i !!}" data-id="{!! $post->rates->where('rate', $i)->count() !!}"></div>
+                                </div>
+                            </div>
+                            <div class="side right">
+                                <div>{!! $post->rates->where('rate', $i)->count() !!}</div>
+                            </div>
+                        @endfor
+                        </div>
+                    </div>
                     <div class="comment-area">
                         <div class="comment-reply">
                             <h4>{{ trans('auth.comments') }}</h4>
@@ -128,11 +180,17 @@
 @section('add-js')
 {!! Html::script('js/frontend/test.js') !!}
 <script type="text/javascript">
-    function showHide(id){
-        $("#"+id).toggle();
-    }
+    // function showHide(id){
+    //     $("#"+id).toggle();
+    // }
     var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
     var url_commment = '{!! route('comments.store_comment') !!}';
     var url_reply_commment = '{!! route('comments.store_reply_comment') !!}';
+    var url_rate_post =  '{!! route('posts.rate_post') !!}'
+    var url_like_post =  '{!! route('posts.like_post') !!}'
+    var all_rate = parseFloat('{!! $post->rates->count() !!}');
+    var slug = "{!! $post->slug !!}";
+    var post_liked = "{!! $post->likes->count() !!}"
+
 </script>
 @endsection
