@@ -11,13 +11,20 @@
 |
  */
 Auth::routes();
+
 Route::get('/', 'Frontend\PageController@index')->name('');
 Route::get('/homepage', 'Frontend\PageController@index')->name('homepage');
 Route::get('category/{id}', 'Frontend\PageController@category')->name('category');
 Route::get('tag/{id}', 'Frontend\PageController@tag')->name('tag');
+
 Route::post('posts/search', 'Frontend\PostController@search')->name('posts.search');
+Route::post('posts/rate', 'Frontend\PostController@ratePost')->name('posts.rate_post');
+Route::post('posts/like', 'Frontend\PostController@likePost')->name('posts.like_post');
+
 Route::resource('posts', 'Frontend\PostController');
+
 Route::resource('user', 'Frontend\UserController');
+
 Route::post('comments-post', 'Frontend\CommentController@storeComment')->name('comments.store_comment');
 Route::post('replyComments', 'Frontend\CommentController@storeReplyComment')->name('comments.store_reply_comment');
 Route::resource('comments', 'Frontend\CommentController');

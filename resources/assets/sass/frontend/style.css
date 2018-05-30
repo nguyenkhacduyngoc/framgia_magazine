@@ -807,6 +807,11 @@ button {
     background: linear-gradient(to bottom, rgba(0, 0, 0, 0.02), rgba(0, 0, 0, 0.4) 25%);
 }
 
+.sidebar-layer{
+    width: 358px;
+    height: auto;
+}
+
 .slider-area .slider-fix .slider-sidebar .sidebar-layer p {
     margin-bottom: 10px;
 }

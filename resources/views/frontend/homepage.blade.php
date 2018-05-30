@@ -89,7 +89,7 @@
                                         </h6>
                                         <ul class="list-unstyled list-inline">
                                             <li class="list-inline-item">{!! $posts['lastest']->category == null ? null : strtoupper($posts['lastest']->category->name) !!}</li>
-                                            <li class="list-inline-item">{!! $posts['lastest']->updated_at !!}</li>
+                                            <li class="list-inline-item">{!! $posts['lastest']->created_at !!}</li>
                                         </ul>
                                         <p>{!! substr($posts['lastest']->content, 0, 100) !!}{!! strlen($posts['lastest']->content) > 50 ? "....": "" !!}</p>
                                     </div>
@@ -104,7 +104,7 @@
                                                 <p>
                                                     <a href="{{ route('posts.show', $lastest_paginate->slug ? $lastest_paginate->slug : $lastest_paginate->id) }}">{!! substr($lastest_paginate->title, 0, 60) !!}{!! strlen($lastest_paginate->content) > 50 ? "...": "" !!}</a>
                                                 </p>
-                                                <span>{!! $lastest_paginate->updated_at !!}</span>
+                                                <span>{!! $lastest_paginate->created_at !!}</span>
                                             </div>
                                         </div>
                                     @endforeach
@@ -139,7 +139,7 @@
                                 </h6>
                                 <ul class="list-unstyled list-inline">
                                     <li class="list-inline-item">{!! $more_new->category ==null ? null :  $more_new->category->name !!}</li>
-                                    <li class="list-inline-item">{!! $more_new->updated_at !!}</li>
+                                    <li class="list-inline-item">{!! $more_new->created_at !!}</li>
                                 </ul>
                                 <p>{!! substr($more_new->content, 0, 100) !!}{!! strlen($more_new->content) > 50 ? "....": "" !!}</p>
                             </div>

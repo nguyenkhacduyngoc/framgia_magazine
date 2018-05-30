@@ -55,6 +55,25 @@
                         'X-CSRF-TOKEN': CSRF_TOKEN
                     }
             });
+        $(".comment").on('click', function() {
+            $.ajax({
+                url: url_commment,
+                type: 'POST',
+                data: {
+                     id: $('.comment').attr('id'),
+                     content: $('.comment-content').val(),
+                },
+                success: function (result) {
+                    $('.comment-area').replaceWith(result)
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    if(xhr.status == 401)
+                    {
+                        alert('Need login to do this');
+                    }
+                }
+            });
+        });
 
         $(".reply-comment").on('click',function(){
             var comment_id=  $(this).attr('id');
@@ -71,8 +90,16 @@
                 },
                 success: function (result) {
                     $('.comment-area').replaceWith(result)
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    if(xhr.status == 401)
+                    {
+                        alert('Need login to do this');
+                    }
+
                 }
             });
         });
     });
+
 </script>

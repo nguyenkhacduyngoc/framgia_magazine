@@ -48,6 +48,8 @@ class Post extends Model
         static::deleting(function ($post) {
             // before delete() method call this
             $post->comments()->delete();
+            $post->rates()->delete();
+            $post->likes()->forceDelete();
             // do the rest of the cleanup...
         });
     }
@@ -152,7 +154,7 @@ class Post extends Model
     protected function moreNews()
     {
         $post = $this->where('status', 2)
-            ->orderBy('created_at', 'asc')
+            ->orderBy('created_at', 'desc')
             ->skip(self::NUMBER_MORENEWS_SKIP)->firstOrFail();
         $moreNews = $this->hasCategory()->where('status', 2)->orderBy('created_at', 'desc')
             ->where('id', '<', $post->id)

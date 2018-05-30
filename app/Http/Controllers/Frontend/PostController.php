@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Frontend;
 use App\Events\PostViewed;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Models\Like;
 use App\Models\Post;
+use App\Models\Rate;
 use App\Models\Tag;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -18,7 +20,7 @@ class PostController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth', ['only' => ['create', 'store', 'edit', 'update']]);
+        $this->middleware('auth', ['only' => ['create', 'store', 'edit', 'update', 'ratePost', 'likePost']]);
     }
 
     protected function validatePost(array $data)
@@ -91,6 +93,13 @@ class PostController extends Controller
 
         return $tags;
     }
+
+    protected function isExistRate($rate_data)
+    {
+        return (Rate::where('user_id', $rate_data['user_id'])
+                ->where('post_id', $rate_data['post_id'])->first() != null);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -164,13 +173,21 @@ class PostController extends Controller
                 $categories_array = $this->queryCategoriesArray();
                 event(new PostViewed($post));
                 $post->update();
+                if (Auth::check()) {
+                    $user = Auth::user();
+                    $like = Like::where('user_id', $user->id)
+                        ->where('post_id', $post->id)
+                        ->first();
+                    $user_rate = $user->rates()->select('rate')->where('post_id', $post->id)->first();
+                }
 
-                return view('frontend.posts.view', compact('post', 'categories_array'));
+                return view('frontend.posts.view', compact('post', 'categories_array', 'user_rate', 'like'));
             }
-            return redirect()->route('homepage');
+
+            return abort('404');
 
         } catch (Exception $e) {
-            return redirect()->route('homepage');
+            return abort('404');
         }
 
     }
@@ -198,9 +215,9 @@ class PostController extends Controller
                 }
                 return view('frontend.posts.update', compact('post', 'categories_array', 'tags_array'));
             }
-            return redirect()->route('homepage');
+            return abort('404');
         } catch (Exception $e) {
-            return redirect()->route('homepage');
+            return abort('404');
         }
 
     }
@@ -257,5 +274,79 @@ class PostController extends Controller
                 $query->orWhere('content', 'LIKE', '%' . $keyword . '%');
             })->paginate(self::POST_PAGINATE);
         return view('frontend.search', compact('posts', 'keyword'));
+    }
+
+    public function ratePost(Request $request)
+    {
+        try {
+            if ($request->ajax()) {
+                $post = Post::where('slug', $request->slug)
+                    ->orWhere('id', $request->slug)
+                    ->firstOrFail();
+                $user = Auth::user();
+                $rate_data = [
+                    'user_id' => $user->id,
+                    'post_id' => $post->id,
+                    'rate' => $request->star_rate,
+                ];
+                $rate = Rate::where('user_id', $rate_data['user_id'])
+                    ->where('post_id', $rate_data['post_id'])
+                    ->first();
+                if ($rate != null) {
+                    $rate->update($rate_data);
+                } else {
+                    $rate = Rate::create($rate_data);
+                }
+
+                return view('frontend.posts.rate', compact('rate', 'post'));
+            }
+        } catch (Exception $e) {
+            return abort('404');
+        }
+    }
+
+    protected function checkSoftDelete($like_data)
+    {
+        return (Like::onlyTrashed()
+                ->where('user_id', $like_data['user_id'])
+                ->where('post_id', $like_data['post_id'])
+                ->first() != null);
+    }
+    public function likePost(Request $request)
+    {
+        try {
+            if ($request->ajax()) {
+                $post = Post::where('slug', $request->slug)
+                    ->orWhere('id', $request->slug)
+                    ->firstOrFail();
+                $user = Auth::user();
+                $like_data = [
+                    'user_id' => $user->id,
+                    'post_id' => $post->id,
+                ];
+                $like = Like::where('user_id', $like_data['user_id'])
+                    ->where('post_id', $like_data['post_id'])
+                    ->first();
+                if ($like == null) {
+                    if ($this->checkSoftDelete($like_data)) {
+                        $like = Like::onlyTrashed()
+                            ->where('user_id', $like_data['user_id'])
+                            ->where('post_id', $like_data['post_id'])
+                            ->restore();
+                    } else {
+                        Like::create($like_data);
+                        $like = Like::where('user_id', $like_data['user_id'])
+                            ->where('post_id', $like_data['post_id'])->get();
+                    }
+                    return $like;
+                } else {
+                    $like->delete();
+
+                    return null;
+                }
+            }
+        } catch (Exception $e) {
+            return abort('404');
+        }
     }
 }

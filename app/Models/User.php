@@ -40,6 +40,19 @@ class User extends Authenticatable
         'role' => 'integer',
     ];
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function ($user) {
+            // before delete() method call this
+            $user->comments()->delete();
+            $user->rates()->delete();
+            $user->likes()->forceDelete();
+            // do the rest of the cleanup...
+        });
+    }
+
     protected function validateUpdateUser(array $data)
     {
         return Validator::make($data, $this->rules_update);

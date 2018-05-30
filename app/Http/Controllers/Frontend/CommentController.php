@@ -14,7 +14,7 @@ class CommentController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth', ['only' => ['storeComment']]);
+        $this->middleware('auth', ['only' => ['storeComment', 'storeReplyComment']]);
     }
     /**
      * Display a listing of the resource.
@@ -92,7 +92,7 @@ class CommentController extends Controller
                 ];
                 $validate = Comment::validateComment($comment_data);
                 if ($validate->fails()) {
-                    return redirect()->back()->withErrors($validate)->withInput($request->all());
+                    return view('frontend.posts.comment', compact('post'))->withErrors($validate)->withInput($request->all());
                 }
                 $comment->comment()->create($comment_data);
 
@@ -113,7 +113,6 @@ class CommentController extends Controller
                     ->orWhere('id', $request->slug)
                     ->firstOrFail();
                 $comment = Comment::where('id', $request->id)->firstOrFail();
-
                 $comment->delete();
 
                 return view('frontend.posts.comment', compact('post'));
