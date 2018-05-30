@@ -32,8 +32,8 @@
                     <div class="owl-carousel owl-slider">
                     @if($posts['sliders']['main'] != null )
                         @foreach($posts['sliders']['main'] as $slider)
-                            <div class="slider-content">
-                                {!! Html::image(config('config.link_upload_file') . '/' . $slider->img) !!}
+                            <div class="slider-content slider-main">
+                                {!! Html::image(config('config.link_upload_file') . $slider->img) !!}
                                 <div class="slider-layer">
                                     <p><a href="{!! route('posts.show', $slider->slug ? $slider->slug : $slider->id)!!}">{!! $slider->title !!}</a></p>
                                     <ul class="list-unstyled list-inline">
@@ -50,7 +50,7 @@
                 @if($posts['sliders']['side'] != null )
                     @foreach($posts['sliders']['side'] as $slider)
                         <div class="slider-sidebar sidebar-o">
-                            {!! Html::image(config('config.link_upload_file') . '/' . $slider->img, null, ['class' => 'img-fluid']) !!}
+                            {!! Html::image(config('config.link_upload_file') . '/' . $slider->img, null, ['class' => 'img-side img-fluid']) !!}
                             <div class="sidebar-layer">
                                 <p>
                                     <a href="{{ route('posts.show', $slider->slug ? $slider->slug : $slider->id) }}">{!! substr($slider->title, 0, 90) !!}{!! strlen($slider->title) > 50 ? "...": "" !!}</a>

@@ -49,14 +49,12 @@
                                     <td>{{ $user->gender }}</td>
                                     <td style="text-align: center">
                                         <div class="btn-group">
-                                            {{-- <a class="btn btn-danger" href="{{ route('admin.users.destroy',['user' => $user]) }}">
-                                            <i class="icon_close_alt2"></i></a> --}}
-                                            {!! Form::open(['route' => ['admin.users.destroy', $user->id], 'action' => 'UserController@destroy', 'method' => 'delete']) !!}
+                                            {!! Form::open(['route' => ['admin.users.destroy', $user->id], 'action' => 'UserController@destroy', 'method' => 'delete', 'onsubmit' => 'return ConfirmDelete()']) !!}
                                             <a class="btn btn-primary"
                                                href="{{ route('admin.users.edit', ['user' => $user]) }}"><i class="fa fa-pencil-square-o"></i></a>
                                             <a class="btn btn-success"
                                                href="{{ route('admin.users.show', ['user' => $user]) }}"><i class="fa fa-eye"></i></a>
-                                            {!! Form::button('<i class="fa fa-trash"></i>', ['type' => 'submit', 'class' => 'btn btn-danger', 'onsubmit' => 'return ConfirmDelete()']) !!}
+                                            {!! Form::button('<i class="fa fa-trash"></i>', ['type' => 'submit', 'class' => 'btn btn-danger']) !!}
                                             {!! Form::close() !!}
                                         </div>
                                     </td>
@@ -64,7 +62,7 @@
                             @endforeach
                             </tbody>
                         </table>
-                        {{ $users->links() }}
+                        {{-- {{ $users->links() }} --}}
                     </section>
                 </div>
             </div>
@@ -73,23 +71,17 @@
     </section>
 @endsection
 @section('backend-add-js')
+
 {!! HTML::script('js/frontend/jquery.dataTables.min.js') !!}
 {!! HTML::script('js/frontend/dataTables.bootstrap4.min.js') !!}
-{!! Html::script('js/frontend/test.js') !!}
 <script>
-    function ConfirmDelete()
-    {
-        var x = confirm("Are you sure you want to delete?");
-        if (x)
-            return true;
-        else
-           return false;
-    }
     $(document).ready(function() {
         $('#datatable').DataTable();
         $('.dataTables_filter').css({'display':'inline','float':'right'});
-        $('.dataTables_length').css({'display':'none'});
-        $('.dataTables_paginate').css({'display':'none'});
+        // $('.dataTables_length').css({'display':'none'});
+        // $('.dataTables_paginate').css({'display':'none'});
     } );
 </script>
+{!! Html::script('js/frontend/test.js') !!}
+
 @endsection

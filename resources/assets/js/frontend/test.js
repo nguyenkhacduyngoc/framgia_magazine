@@ -12,6 +12,7 @@ function ConfirmDelete()
 }
 
 $(document).ready(function() {
+    var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
     $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': CSRF_TOKEN,

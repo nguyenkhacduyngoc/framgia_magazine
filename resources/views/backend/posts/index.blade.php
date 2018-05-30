@@ -30,6 +30,7 @@
                                 <th><i class="fa fa-star"></i> {!! trans('admin.status') !!} </th>
                                 <th><i class="fa fa-archive"></i> {!! trans('admin.category') !!} </th>
                                 <th><i class="fa fa-user"></i> {!! trans('admin.user') !!} </th>
+                                <th><i class="fa fa-user"></i> {!! trans('Slider') !!} </th>
                                 <th><i class="fa fa-clock-o"></i> {!! trans('admin.created_at') !!} </th>
                                 <th style="text-align: center"><i class="fa fa-cogs"></i> {!! trans('admin.action') !!}
                                 </th>
@@ -49,15 +50,14 @@
                                     </td>
                                     <td id="table-category">{!! ($post->category ==null) ? null : $post->category->name !!}</td>
                                     <td id="table-user">{!! ($post->user == null) ? null : $post->user->fullname !!}</td>
+                                    <td id="table-user">{!! $post->slider !!}</td>
                                     <td>{{ $post->created_at }}</td>
                                     <td style="text-align: center" class="">
                                         <div class="btn-group">
-                                            {!! Form::open(['route' => ['admin.posts.destroy', $post->slug], 'action' => 'PostController@destroy', 'method' => 'delete']) !!}
-                                            <a class="btn btn-primary"
-                                               href="{{ route('admin.posts.edit', ['post' => $post]) }}"><i class="fa fa-pencil-square-o"></i></a>
-                                            <a class="btn btn-success"
-                                               href="{{ route('admin.posts.show', ['post' => $post]) }}"><i class="fa fa-eye"></i></a>
-                                            {!! Form::button('<i class="fa fa-trash"></i>', ['type' => 'submit', 'class' => 'btn btn-danger']) !!}
+                                            {!! Form::open(['route' => ['admin.posts.destroy', $post->slug], 'action' => 'PostController@destroy', 'method' => 'delete', 'onsubmit' => 'return ConfirmDelete()']) !!}
+                                                <a class="btn btn-success"
+                                                   href="{{ route('admin.posts.show', ['post' => $post]) }}"><i class="fa fa-eye"></i></a>
+                                                {!! Form::button('<i class="fa fa-trash"></i>', ['type' => 'submit', 'class' => 'btn btn-danger']) !!}
                                             {!! Form::close() !!}
                                         </div>
                                     </td>
@@ -65,7 +65,7 @@
                             @endforeach
                             </tbody>
                         </table>
-                        {{ $posts->links() }}
+                        {{-- {{ $posts->links() }} --}}
                     </section>
                 </div>
             </div>
@@ -77,11 +77,15 @@
 {!! HTML::script('js/frontend/jquery.dataTables.min.js') !!}
 {!! HTML::script('js/frontend/dataTables.bootstrap4.min.js') !!}
 <script>
+    var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
     $(document).ready(function() {
-        $('#datatable').DataTable();
+        $('#datatable').DataTable({
+            "order": [[ 4, "desc" ]]
+        });
         $('.dataTables_filter').css({'display':'inline','float':'right'});
-        $('.dataTables_length').css({'display':'none'});
-        $('.dataTables_paginate').css({'display':'none'});
+        // $('.dataTables_length').css({'display':'none'});
+        // $('.dataTables_paginate').css({'display':'none'});
     } );
 </script>
+{!! Html::script('js/frontend/test.js') !!}
 @endsection

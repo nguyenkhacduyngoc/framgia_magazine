@@ -39,7 +39,7 @@
                                     <td>{{ $category->description }}</td>
                                     <td style="text-align: center" class="">
                                         <div class="btn-group">
-                                            {!! Form::open(['route' => ['admin.categories.destroy', $category->id], 'action' => 'CategoryController@destroy', 'method' => 'delete']) !!}
+                                            {!! Form::open(['route' => ['admin.categories.destroy', $category->id], 'action' => 'CategoryController@destroy', 'method' => 'delete', 'onsubmit' => 'return ConfirmDelete()']) !!}
                                             <a class="btn btn-primary"
                                                href="{{ route('admin.categories.edit', ['category' => $category]) }}"><i
                                                         class="fa fa-pencil-square-o "></i></a>
@@ -54,7 +54,7 @@
                             @endforeach
                             </tbody>
                         </table>
-                        {{ $categories->links() }}
+                        {{-- {{ $categories->links() }} --}}
                     </section>
                 </div>
             </div>
@@ -66,11 +66,13 @@
 {!! HTML::script('js/frontend/jquery.dataTables.min.js') !!}
 {!! HTML::script('js/frontend/dataTables.bootstrap4.min.js') !!}
 <script>
+    var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
     $(document).ready(function() {
         $('#datatable').DataTable();
         $('.dataTables_filter').css({'display':'inline','float':'right'});
-        $('.dataTables_length').css({'display':'none'});
-        $('.dataTables_paginate').css({'display':'none'});
+        // $('.dataTables_length').css({'display':'none'});
+        // $('.dataTables_paginate').css({'display':'none'});
     } );
 </script>
+{!! Html::script('js/frontend/test.js') !!}
 @endsection

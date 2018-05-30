@@ -24,7 +24,7 @@
                         <div class="card-body mx-auto col-md-12">
                             {!! Form::model($post,['route' => ['posts.update', $post->slug],'method' => 'patch','class' => 'form-horizontal', 'enctype' => 'multipart/form-data']) !!}
                             <div class="form-group form-row">
-                                {!! Form::label('category',trans('auth.category'),['class' => 'col-sm-2 control-label col-form-label']) !!}
+                                {!! Form::label('category_id',trans('auth.category'),['class' => 'col-sm-2 control-label col-form-label']) !!}
                                 <div class="col-lg-10">
                                     {!! Form::select('category', $categories_array , null, ['class' => 'form-control'])  !!}
                                 </div>

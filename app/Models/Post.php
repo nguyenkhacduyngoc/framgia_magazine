@@ -25,6 +25,12 @@ class Post extends Model
         'accepted' => 2,
     ];
 
+    const SLIDER_OPTIONS = [
+        '' => 'None',
+        'main' => 'Main Slider',
+        'side' => 'Side Slider',
+    ];
+
     protected $fillable = [
         'user_id',
         'category_id',
@@ -35,10 +41,11 @@ class Post extends Model
         'img',
         'status',
         'avg_rate',
+        'slider',
     ];
 
     protected $rule_approve_post = [
-        'title' => 'required',
+        'title' => 'string',
     ];
 
     protected static function boot()
@@ -121,14 +128,22 @@ class Post extends Model
         return Post::whereIn('category_id', $categories);
     }
 
+    protected function approvedPost()
+    {
+        return $this->hasCategory()->where('status', 2)->orderBy('created_at', 'desc');
+    }
+
     protected function sliders()
     {
-        $post = $this->hasCategory()->where('status', 2)->orderBy('created_at', 'desc');
-        $slider['main'] = $post->take(self::NUMBER_SLIDER_MAIN)
-            ->get();
-        $slider['side'] = $post->skip(self::NUMBER_SLIDER_MAIN)
-            ->take(self::NUMBER_SLIDER_SIDE)
-            ->get();
+        $number_slider_main = $this->approvedPost()->where('slider', 'main')->count();
+        $number_slider_side = $this->approvedPost()->where('slider', 'side')->count();
+        $slider['main'] = $number_slider_main >= self::NUMBER_SLIDER_MAIN
+        ? $this->approvedPost()->where('slider', 'main')->get()
+        : $this->approvedPost()->take(self::NUMBER_SLIDER_MAIN)->get();
+
+        $slider['side'] = ($number_slider_side == self::NUMBER_SLIDER_SIDE)
+        ? $this->approvedPost()->where('slider', 'side')->get()
+        : $this->approvedPost()->skip(self::NUMBER_SLIDER_SIDE)->take(self::NUMBER_SLIDER_SIDE)->get();
 
         return $slider;
     }
