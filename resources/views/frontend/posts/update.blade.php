@@ -26,7 +26,7 @@
                             <div class="form-group form-row">
                                 {!! Form::label('category_id',trans('auth.category'),['class' => 'col-sm-2 control-label col-form-label']) !!}
                                 <div class="col-lg-10">
-                                    {!! Form::select('category', $categories_array , null, ['class' => 'form-control'])  !!}
+                                    {!! Form::select('category_id', $categories_array , null, ['class' => 'form-control'])  !!}
                                 </div>
                             </div>
                             <div class="form-group form-row">
@@ -50,7 +50,7 @@
                             <div class="form-group form-row">
                                 {!! Form::label('image', trans('auth.last_img'),['class' => 'col-sm-2 control-label']) !!}
                                 <div class="col-lg-10">
-                                    {!! Html::image(config('config.link_upload_file') . '/' . $post->img, null, ['class' => 'img-fluid']) !!}
+                                    {!! Html::image(config('config.link_upload_file') . '/' . $post->img, null, ['class' => 'post_img img-fluid']) !!}
                                 </div>
                             </div>
                             <div class="form-group form-row">
@@ -69,7 +69,7 @@
                                 <div class="mx-auto col-md-12">
                                     {!! Form::button(trans('auth.update'), ['type' => 'submit','class' => 'btn btn-primary col-md-2 offset-4']) !!}
                                     <a class="btn btn-danger offset-1 col-md-2"
-                                       href="{{ route('homepage') }}">{!! trans('auth.cancel') !!}</a>
+                                       href="{{ URL::previous() }}">{!! trans('auth.cancel') !!}</a>
                                 </div>
                             </div>
                             {!! Form::close() !!}

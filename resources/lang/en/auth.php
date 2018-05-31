@@ -77,4 +77,5 @@ return [
     'last_img' => 'Last Image',
     'my_profile' => 'My Profile',
     'update_profile' => 'Update Profile',
+    'cant_edit_post' => "You can't edit approved post",
 ];

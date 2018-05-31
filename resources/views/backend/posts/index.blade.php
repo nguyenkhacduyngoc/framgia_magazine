@@ -80,7 +80,11 @@
     var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
     $(document).ready(function() {
         $('#datatable').DataTable({
-            "order": [[ 4, "desc" ]]
+            "order": [[ 4, "desc" ]],
+            "columnDefs": [
+                { "width": "15%", "targets": 0 },
+                { "width": "10%", "targets": 6 }
+            ]
         });
         $('.dataTables_filter').css({'display':'inline','float':'right'});
         // $('.dataTables_length').css({'display':'none'});

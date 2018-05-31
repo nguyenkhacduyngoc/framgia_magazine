@@ -116,7 +116,7 @@
                         <p>{!! trans('auth.wcnf') !!}</p>
                     </div>
                 @else
-                @foreach($user->posts as $post)
+                @foreach($user->posts->where('status',2) as $post)
                     <div class="catagory-content catagory-content-view">
                         <div class="cat-img">
                             <a href="{!! route('posts.show', $post->slug ? $post->slug : $post->id) !!}">

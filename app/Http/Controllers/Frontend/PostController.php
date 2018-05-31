@@ -26,7 +26,7 @@ class PostController extends Controller
     protected function validatePost(array $data)
     {
         return Validator::make($data, [
-            'category' => 'required',
+            'category_id' => 'required',
             'title' => 'required|string',
             'content' => 'required',
             'img' => 'image|max:2000',
@@ -48,7 +48,6 @@ class PostController extends Controller
                 return redirect()->route('homepage');
             }
             return $post->update($data);
-
         } catch (Exception $e) {
             return redirect()->route('homepage');
         }
@@ -108,7 +107,7 @@ class PostController extends Controller
     public function index()
     {
 
-        $posts = Auth::user()->posts()->orderBy('created_at', 'desc')->paginate(self::POST_PAGINATE);
+        $posts = Auth::user()->posts()->orderBy('created_at', 'desc')->where('status', '<>', Post::POST_STATUS['rejected'])->get();
         return view('frontend.posts.index', compact('posts'));
     }
 
@@ -169,7 +168,7 @@ class PostController extends Controller
             $post = Post::where('slug', $slug)
                 ->orWhere('id', $slug)
                 ->firstOrFail();
-            if ($post->status == 2) {
+            if ($post->status == Post::POST_STATUS['accepted']) {
                 $categories_array = $this->queryCategoriesArray();
                 event(new PostViewed($post));
                 $post->update();
@@ -205,7 +204,8 @@ class PostController extends Controller
                 ->orWhere('id', $slug)
                 ->firstOrFail();
             if ($post->status != 0) {
-                abort('404');
+                request()->session()->flash('status', trans('auth.cant_edit_post'));
+                return redirect()->back();
             }
             if ($post->user->id == Auth::user()->id) {
                 $categories_array = $this->queryCategoriesArray();
@@ -238,8 +238,9 @@ class PostController extends Controller
         $post = Post::where('slug', $slug)
             ->orWhere('id', $slug)
             ->firstOrFail();
+        $user_id = Auth::user()->id;
         $post_data = [
-            'category_id' => $request['category'],
+            'category_id' => $request['category_id'],
             'user_id' => $user_id,
             'title' => $request['title'],
             'subtitle' => $request['subtitle'],
@@ -252,7 +253,7 @@ class PostController extends Controller
         }
         $post->update($post_data);
         $this->attachTags($request->tag, $post);
-        return redirect()->route('homepage');
+        return redirect()->route('posts.index');
     }
 
     /**

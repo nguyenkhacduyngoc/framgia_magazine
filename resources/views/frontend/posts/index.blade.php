@@ -28,6 +28,13 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 col-md-12">
+                    @if(Session::has('status'))
+                    <div class="alert alert-danger">
+                            <ul>
+                                <li>{{ Session::get('status') }}</li>
+                            </ul>
+                        </div>
+                    @endif
                     <table id="datatable" class="table table-striped table-bordered">
                         <thead>
                             <th><i class="fa fa-pencil"></i> {!! trans('admin.title') !!} </th>
@@ -69,7 +76,7 @@
                         @endforeach
                         </tbody>
                     </table>
-                    {{ $posts->links() }}
+                    {{-- {{ $posts->links() }} --}}
                 </div>
                 {{-- @include('frontend.sidebar') --}}
             </div>
@@ -84,8 +91,8 @@
     $(document).ready(function() {
         $('#datatable').DataTable();
         $('.dataTables_filter').css({'display':'inline','float':'right'});
-        $('.dataTables_length').css({'display':'none'});
-        $('.dataTables_paginate').css({'display':'none'});
+        // $('.dataTables_length').css({'display':'none'});
+        // $('.dataTables_paginate').css({'display':'none'});
     } );
 </script>
 

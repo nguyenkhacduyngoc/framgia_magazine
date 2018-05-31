@@ -22,9 +22,9 @@ class AppServiceProvider extends ServiceProvider
     {
         view()->composer('frontend.header', function ($view) {
             $categories = Category::all();
-            $categories_topview = Category::with('posts')->take(self::NUMBER_TAG_HOMEPAGE)->get()->sortBy(function ($category) {
+            $categories_topview = Category::with('posts')->get()->sortBy(function ($category) {
                 return $category->posts->count();
-            }, SORT_REGULAR, true);
+            }, SORT_REGULAR, true)->take(self::NUMBER_TAG_HOMEPAGE);
             $tags = Tag::orderBy('created_at', 'desc')->take(self::NUMBER_TAG_HOMEPAGE)->get();
             $view->with([
                 'categories' => $categories,
@@ -46,6 +46,7 @@ class AppServiceProvider extends ServiceProvider
                 ->whereHas('posts', function ($query) {
                     $query->where('status', Post::POST_STATUS['accepted']);
                 })
+                ->orderBy('created_at', 'desc')
                 ->get()
                 ->sortBy(function ($category) {
                     return $category->posts->count();

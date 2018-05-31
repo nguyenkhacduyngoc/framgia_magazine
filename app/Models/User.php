@@ -32,8 +32,6 @@ class User extends Authenticatable
         'fullname' => 'string|max:100',
         'email' => 'email',
         'avatar' => 'image|max:2000',
-        'address' => 'string',
-        'job' => 'string',
     ];
 
     protected $rules_role_user = [

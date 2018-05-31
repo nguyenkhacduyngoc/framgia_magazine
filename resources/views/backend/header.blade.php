@@ -36,6 +36,9 @@
                 <ul class="dropdown-menu extended logout">
                     <div class="log-arrow-up"></div>
                     <li class="eborder-top">
+                        <a href="{{ route('homepage') }}"><i class="icon_profile"></i>{{ trans('auth.home') }}</a>
+                    </li>
+                    <li class="eborder-top">
                         <a href="{{ route('admin.users.show', Auth::user()->id) }}"><i class="icon_profile"></i>{{ trans('admin.profile') }}</a>
                     </li>
                     <li class="eborder-top">

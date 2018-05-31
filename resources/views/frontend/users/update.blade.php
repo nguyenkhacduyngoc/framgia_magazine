@@ -54,6 +54,15 @@
                                 </li>
                             </ul>
                         </header>
+                        @if ($errors->any())
+                            <div class="alert alert-danger">
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
                         <div class="panel-body">
                             <div class="tab-content">
                                 <!-- edit-profile -->
@@ -102,7 +111,7 @@
                                                 <div class="mx-auto col-md-12">
                                                     {!! Form::button(trans('auth.create'), ['type' => 'submit','class' => 'btn btn-primary col-md-2 offset-4']) !!}
                                                     <a class="btn btn-danger offset-1 col-md-2"
-                                                       href="{{ route('homepage') }}">{!! trans('auth.cancel') !!}</a>
+                                                       href="{{ URL::previous() }}">{!! trans('auth.cancel') !!}</a>
                                                 </div>
                                             </div>
                                             {!! Form::close() !!}

@@ -10,6 +10,7 @@ use App\Models\Tag;
 class PageController extends Controller
 {
     const CATEGORY_PAGINATE = 5;
+    const NUMBER_POST_HOMEPAGE = 4;
 
     public function index()
     {
@@ -23,8 +24,10 @@ class PageController extends Controller
             if (empty($posts['sliders']) || empty($posts['lastest']) || empty($posts['lastest_paginates']) || empty($posts['more_news'])) {
                 throw new Exception();
             }
-
-            return view('frontend.homepage', compact('posts'));
+            $categories = Category::with('posts')->get()->sortBy(function ($category) {
+                return $category->posts->count();
+            }, SORT_REGULAR, true)->take(self::NUMBER_POST_HOMEPAGE);
+            return view('frontend.homepage', compact('posts', 'categories'));
         } catch (Exception $e) {
             return abort('404');
         }
@@ -34,7 +37,7 @@ class PageController extends Controller
     {
         try {
             $category = Category::findOrFail($id);
-            $posts = $category->posts()->where('status', Post::POST_STATUS['accepted'])->paginate(self::CATEGORY_PAGINATE);
+            $posts = $category->posts()->where('status', Post::POST_STATUS['accepted'])->orderBy('created_at', 'desc')->paginate(self::CATEGORY_PAGINATE);
 
             return view('frontend.category', compact('category', 'posts'));
         } catch (Exception $e) {

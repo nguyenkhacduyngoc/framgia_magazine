@@ -108,10 +108,52 @@
                                             </div>
                                         </div>
                                     @endforeach
-                                        {!! $posts['lastest_paginates']->appends(['more_news' => $posts['more_news']->currentPage()])->links() !!}
                                 </div>
                             </div>
                         </div>
+                    </div>
+                    <div class="latest-top">
+                        <h4>{!! trans('auth.categories') !!}</h4>
+                    </div>
+                    <div class="owl-carousel latest-slider">
+                    @foreach($categories as $category)
+                        @if($category->posts != null)
+                        <div class="latest-item">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="latest-content">
+                                    <?php $first_post_category = $category->posts->sortByDesc('created_at')->firstWhere('status', 2);?>
+                                        <img src="{!! asset(config('config.link_upload_file'). '/' .$first_post_category['img']) !!}" alt=""
+                                             class="img-fluid">
+                                        <h6>
+                                            <a href="{{ route('posts.show', $first_post_category['slug'] ? $first_post_category['slug'] : $first_post_category['id']) }}">{!! $first_post_category['title']!!}</a>
+                                        </h6>
+                                        <ul class="list-unstyled list-inline">
+                                            <li class="list-inline-item">{!! $first_post_category['category'] == null ? null : strtoupper($category->name) !!}</li>
+                                            <li class="list-inline-item">{!! $first_post_category['created_at'] !!}</li>
+                                        </ul>
+                                        <p>{!! substr($first_post_category['content'], 0, 100) !!}{!! strlen($first_post_category['content']) > 50 ? "....": "" !!}</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    @foreach($category->posts->sortByDesc('created_at')->where('status', 2)->take(5)->slice(1) as $lastest_paginate)
+                                        <div class="slider-content">
+                                            <div class="slider-img">
+                                                <a href="{{ route('posts.show', $lastest_paginate->slug ? $lastest_paginate->slug : $lastest_paginate->id) }}"><img src="{!! asset(config('config.link_upload_file'). '/' .$lastest_paginate->img) !!}" alt="" class="img-fluid"></a>
+                                            </div>
+                                            <div class="img-content">
+                                                <p>
+                                                    <a href="{{ route('posts.show', $lastest_paginate->slug ? $lastest_paginate->slug : $lastest_paginate->id) }}">{!! substr($lastest_paginate->title, 0, 60) !!}{!! strlen($lastest_paginate->content) > 50 ? "...": "" !!}</a>
+                                                </p>
+                                                <span>{!! $lastest_paginate->created_at !!}</span>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
+                        @endif
+                    @endforeach
                     </div>
                 </div>
                 @include('frontend.sidebar')
@@ -145,7 +187,7 @@
                             </div>
                         </div>
                     @endforeach
-                    {!! $posts['more_news']->appends(['lastest_news' => $posts['lastest_paginates']->currentPage()])->links() !!}
+                    {!! $posts['more_news']->links() !!}
                 </div>
             </div>
         </div>

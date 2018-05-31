@@ -12,7 +12,7 @@ class Post extends Model
 
     const NUMBER_SLIDER_MAIN = 3;
     const NUMBER_SLIDER_SIDE = 2;
-    const NUMBER_LASTEST_PAGINATE_TAKE = 12;
+    const NUMBER_LASTEST_PAGINATE_TAKE = 4;
     const NUMBER_LASTEST_PAGINATE = 4;
     const NUMBER_MORENEWS_SKIP = 5;
     const NUMBER_MORENEWS_PAGINATE = 4;
@@ -161,7 +161,8 @@ class Post extends Model
             ->orderBy('created_at', 'desc')
             ->where('id', '<>', $this->lastest()->id)
             ->take(self::NUMBER_LASTEST_PAGINATE_TAKE)
-            ->paginate(self::NUMBER_LASTEST_PAGINATE, ['*'], 'lastest_news');
+            ->get();
+        // ->paginate(self::NUMBER_LASTEST_PAGINATE, ['*'], 'lastest_news');
 
         return $lastestPaginate;
     }

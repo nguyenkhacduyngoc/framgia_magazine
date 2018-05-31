@@ -4054,3 +4054,7 @@ footer .footer-c .back-to-top i:hover {
 #manage_reply_enquiry {
     /* form styles here */
 }
+
+.navbar-nav{
+    float: right !important;
+}

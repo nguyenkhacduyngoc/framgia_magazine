@@ -68,6 +68,7 @@
 	            </div>
 	            <div class="row">
 	                <div class="offset-lg-1 col-lg-9 col-md-12">
+	                <h4>POST REVIEW</h4>
 	                    <div class="news-heading">
 	                        <h4>{{ $post->title }}</h4>
 	                        <ul class="list-unstyled list-inline">

@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
@@ -13,6 +15,12 @@ class UserController extends Controller
         'male' => 'Male',
         'female' => 'Female',
         'undefined' => 'Undefined',
+    ];
+
+    protected $rules_update = [
+        'fullname' => 'string|max:100',
+        'email' => 'email',
+        'avatar' => 'image|max:2000',
     ];
 
     public function __construct()
@@ -123,7 +131,15 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $validate = User::validateUpdateUser($request->all());
+        $validate = Validator::make($request->all(), [
+            'fullname' => 'string|max:100',
+            'email' => [
+                'required',
+                'email',
+                Rule::unique('users')->ignore($id),
+            ],
+            'avatar' => 'image|max:2000',
+        ]);
         if ($validate->fails()) {
             return redirect()->back()->withErrors($validate)->withInput($request->all());
         }

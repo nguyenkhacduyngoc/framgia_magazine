@@ -113,35 +113,37 @@ class PostController extends Controller
             $post = Post::where('slug', $slug)
                 ->orWhere('id', $slug)
                 ->firstOrFail();
-            if ($post->category == null) {
-                return redirect()->route('admin.posts.index');
-            }
-
             if ($request['slider'] == 'side') {
-                if (Post::where('slider', 'side')->count() >= 2) {
-                    $request->session()->flash('status', trans('admin.enough_slider_side'));
-                }
-                if ($post->status != 2) {
+                if ($post->status != 2 && ($request['status'] != 2)) {
                     $request->session()->flash('status', trans('admin.need_approve'));
-                }
 
-                return redirect()->back();
+                    return redirect()->back();
+                }
+                if (($post->slider != 'side') && Post::where('slider', 'side')->count() >= 2) {
+                    $request->session()->flash('status', trans('admin.enough_slider_side'));
+
+                    return redirect()->back();
+                }
             }
 
             if ($request['slider'] == 'main') {
-                if (Post::where('slider', 'main')->count() >= 5) {
-                    $request->session()->flash('status', trans('admin.enough_slider_main'));
-                }
-                if ($post->status != 2) {
+                if ($post->status != 2 && ($request['status'] != 2)) {
                     $request->session()->flash('status', trans('admin.need_approve'));
+
+                    return redirect()->back();
                 }
-                return redirect()->back();
+                if (($post->slider != 'main') && Post::where('slider', 'main')->count() >= 5) {
+                    $request->session()->flash('status', trans('admin.enough_slider_main'));
+
+                    return redirect()->back();
+                }
             }
             $post_data = [
                 'category_id' => $request['category_id'],
                 'status' => $request['status'],
                 'slider' => $request['slider'],
             ];
+            // dd($post_data);
             $post->update($post_data);
 
             return redirect()->route('admin.posts.index');

@@ -19,3 +19,5 @@ framgia_magazine.sublime-workspace
 /public/upload
 .bowerrc
 bower.json
+/.framgia-ci-reports
+*.yml

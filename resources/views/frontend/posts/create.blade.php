@@ -21,12 +21,21 @@
                     <section class="card">
                         <header class="card-heading">
                         </header>
+                        @if ($errors->any())
+                            <div class="alert alert-danger">
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
                         <div class="card-body mx-auto col-md-12">
                             {!! Form::open(['route' => 'posts.store','method' => 'post','class' => 'form-horizontal', 'enctype' => 'multipart/form-data']) !!}
                             <div class="form-group form-row">
-                                {!! Form::label('category',trans('auth.category'),['class' => 'col-sm-2 control-label col-form-label']) !!}
+                                {!! Form::label('category_id',trans('auth.category'),['class' => 'col-sm-2 control-label col-form-label']) !!}
                                 <div class="col-lg-10">
-                                    {!! Form::select('category', $categories_array , null, ['class' => 'form-control'])  !!}
+                                    {!! Form::select('category_id', $categories_array , null, ['class' => 'form-control'])  !!}
                                 </div>
                             </div>
                             <div class="form-group form-row">
@@ -63,7 +72,7 @@
                                 <div class="mx-auto col-md-12">
                                     {!! Form::button(trans('auth.create'), ['type' => 'submit','class' => 'btn btn-primary col-md-2 offset-4']) !!}
                                     <a class="btn btn-danger offset-1 col-md-2"
-                                       href="{{ route('homepage') }}">{!! trans('auth.cancel') !!}</a>
+                                       href="{{ URL::previous() }}">{!! trans('auth.cancel') !!}</a>
                                 </div>
                             </div>
                             {!! Form::close() !!}
