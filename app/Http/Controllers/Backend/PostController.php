@@ -87,7 +87,7 @@ class PostController extends Controller
     {
         try {
             $post = Post::where('slug', $slug)
-                ->orWhere('id', $slug)
+            // ->orWhere('id', $slug)
                 ->firstOrFail();
 
             return view('backend.posts.update', ['post' => $post]);
@@ -111,7 +111,7 @@ class PostController extends Controller
         }
         try {
             $post = Post::where('slug', $slug)
-                ->orWhere('id', $slug)
+            // ->orWhere('id', $slug)
                 ->firstOrFail();
             if ($request['slider'] == 'side') {
                 if ($post->status != 2 && ($request['status'] != 2)) {
