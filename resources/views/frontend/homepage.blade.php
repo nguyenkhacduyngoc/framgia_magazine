@@ -132,7 +132,7 @@
                                             <li class="list-inline-item">{!! $first_post_category['category'] == null ? null : strtoupper($category->name) !!}</li>
                                             <li class="list-inline-item">{!! $first_post_category['created_at'] !!}</li>
                                         </ul>
-                                        <p>{!! substr($first_post_category['content'], 0, 100) !!}{!! strlen($first_post_category['content']) > 50 ? "....": "" !!}</p>
+                                        <p>{!! substr($first_post_category['subtitle'], 0, 100) !!}{!! strlen($first_post_category['subtitle']) > 50 ? "....": "" !!}</p>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -183,7 +183,7 @@
                                     <li class="list-inline-item">{!! $more_new->category ==null ? null :  $more_new->category->name !!}</li>
                                     <li class="list-inline-item">{!! $more_new->created_at !!}</li>
                                 </ul>
-                                <p>{!! substr($more_new->content, 0, 100) !!}{!! strlen($more_new->content) > 50 ? "....": "" !!}</p>
+                                <p>{!! substr($more_new->subtitle, 0, 100) !!}{!! strlen($more_new->subtitle) > 50 ? "....": "" !!}</p>
                             </div>
                         </div>
                     @endforeach

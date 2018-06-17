@@ -35,7 +35,7 @@
                             </li>
                             <li class="list-inline-item"><i class="fa fa-calendar"></i>{{ $post->created_at }}</li>
                         </ul>
-                        <img src="{{ asset('upload/posts/'.'/'.$post->img) }}" alt="" class="post_img img-fluid">
+                        {{-- <img src="{{ asset('upload/posts/'.'/'.$post->img) }}" alt="" class="post_img img-fluid"> --}}
                         {!! $post->content !!}
                     </div>
                     <div class="row">

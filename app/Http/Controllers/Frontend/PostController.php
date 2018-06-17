@@ -42,7 +42,6 @@ class PostController extends Controller
     {
         try {
             $post = Post::where('slug', $slug)
-                ->orWhere('id', $slug)
                 ->firstOrFail();
             if ($post->status == 0) {
                 return redirect()->route('homepage');
@@ -166,7 +165,6 @@ class PostController extends Controller
     {
         try {
             $post = Post::where('slug', $slug)
-                ->orWhere('id', $slug)
                 ->firstOrFail();
             if ($post->status == Post::POST_STATUS['accepted']) {
                 $categories_array = $this->queryCategoriesArray();
@@ -201,7 +199,6 @@ class PostController extends Controller
     {
         try {
             $post = Post::where('slug', $slug)
-                ->orWhere('id', $slug)
                 ->firstOrFail();
             if ($post->status != 0) {
                 request()->session()->flash('status', trans('auth.cant_edit_post'));
@@ -236,7 +233,6 @@ class PostController extends Controller
             return redirect()->back()->withErrors($validate)->withInput($request->all());
         }
         $post = Post::where('slug', $slug)
-            ->orWhere('id', $slug)
             ->firstOrFail();
         $user_id = Auth::user()->id;
         $post_data = [
@@ -288,7 +284,6 @@ class PostController extends Controller
         try {
             if ($request->ajax()) {
                 $post = Post::where('slug', $request->slug)
-                    ->orWhere('id', $request->slug)
                     ->firstOrFail();
                 $user = Auth::user();
                 $rate_data = [
@@ -324,7 +319,6 @@ class PostController extends Controller
         try {
             if ($request->ajax()) {
                 $post = Post::where('slug', $request->slug)
-                    ->orWhere('id', $request->slug)
                     ->firstOrFail();
                 $user = Auth::user();
                 $like_data = [

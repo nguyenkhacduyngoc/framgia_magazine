@@ -78,7 +78,7 @@
 	                            <li class="list-inline-item"><i class="fa fa-comments"></i><a
 	                                        href="#"> {{ trans('auth.number') }} {{ trans('auth.comments') }} </a></li>
 	                        </ul>
-	                        <img src="{{ asset(config('config.link_upload_file').$post->img) }}" alt="" class="post_img img-fluid">
+	                        {{-- <img src="{{ asset(config('config.link_upload_file').$post->img) }}" alt="" class="post_img img-fluid"> --}}
 	                        {!! $post->content !!}
 	                    </div>
 	                    <div class="row">

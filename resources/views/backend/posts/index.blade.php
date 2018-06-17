@@ -56,7 +56,7 @@
                                         <div class="btn-group">
                                             {!! Form::open(['route' => ['admin.posts.destroy', $post->slug], 'action' => 'PostController@destroy', 'method' => 'delete', 'onsubmit' => 'return ConfirmDelete()']) !!}
                                                 <a class="btn btn-success"
-                                                   href="{{ route('admin.posts.show', ['post' => $post]) }}"><i class="fa fa-eye"></i></a>
+                                                   href="{{ route('admin.posts.show', ['slug' => $post->slug]) }}"><i class="fa fa-eye"></i></a>
                                                 {!! Form::button('<i class="fa fa-trash"></i>', ['type' => 'submit', 'class' => 'btn btn-danger']) !!}
                                             {!! Form::close() !!}
                                         </div>

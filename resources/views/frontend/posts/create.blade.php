@@ -88,4 +88,14 @@
 @section('add-js')
     {!! Html::script('js/frontend/ckeditor/ckeditor.js') !!}
     {!! Html::script('js/frontend/tagsinput.js') !!}
+    <script>
+        CKEDITOR.replace( 'content', {
+        filebrowserBrowseUrl: '{{ asset('js/frontend/ckfinder/ckfinder.html') }}',
+        filebrowserImageBrowseUrl: '{{ asset('js/frontend/ckfinder/ckfinder.html?type=Images') }}',
+        filebrowserFlashBrowseUrl: '{{ asset('js/frontend/ckfinder/ckfinder.html?type=Flash') }}',
+        filebrowserUploadUrl: '{{ asset('js/frontend/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files') }}',
+        filebrowserImageUploadUrl: '{{ asset('js/frontend/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Images') }}',
+        filebrowserFlashUploadUrl: '{{ asset('js/frontend/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Flash') }}'
+    } );
+    </script>
 @endsection

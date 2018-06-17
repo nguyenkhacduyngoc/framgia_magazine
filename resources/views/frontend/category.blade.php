@@ -44,7 +44,7 @@
                                     <li class="list-inline-item">{!! $post->category->name !!}</li>
                                     <li class="list-inline-item">{!! $post->created_at !!}</li>
                                 </ul>
-                                <p>{!! substr($post->content, 0, 210) !!}{!! strlen($post->content) > 210 ? "...": "" !!}</p>
+                                <p>{!! substr($post->subtitle, 0, 210) !!}{!! strlen($post->subtitle) > 210 ? "...": "" !!}</p>
                             </div>
                         </div>
                     @endforeach

@@ -37,28 +37,25 @@
                     <div class="row">
                         <div class="col-md-12">
                             <ul class="list-unstyled">
-                            @foreach($mostviewed_lastweek_posts as $mostviewed_lastweek_post)
-                                <li><a href="{!! route('posts.show', $mostviewed_lastweek_post->slug ? $mostviewed_lastweek_post->slug : $mostviewed_lastweek_post->id) !!}">{!! substr($mostviewed_lastweek_post->title, 0, 40) !!}{!! strlen($mostviewed_lastweek_post->title) > 40 ? "...": "" !!}
-                                    <span>{!! $mostviewed_lastweek_post->count_viewed !!}</span>
-                                    </a>
-                                </li>
-                            @endforeach
+                            @if(!$mostviewed_lastweek_posts->isEmpty())
+                                @foreach($mostviewed_lastweek_posts as $mostviewed_lastweek_post)
+                                    <li><a href="{!! route('posts.show', $mostviewed_lastweek_post->slug ? $mostviewed_lastweek_post->slug : $mostviewed_lastweek_post->id) !!}">{!! substr($mostviewed_lastweek_post->title, 0, 40) !!}{!! strlen($mostviewed_lastweek_post->title) > 40 ? "...": "" !!}
+                                        <span>{!! $mostviewed_lastweek_post->count_viewed !!}</span>
+                                        </a>
+                                    </li>
+                                @endforeach
+                            @else
+                                @foreach($mostviewed_posts as $mostviewed_post)
+                                    <li><a href="{!! route('posts.show', $mostviewed_post->slug ? $mostviewed_post->slug : $mostviewed_post->id) !!}">{!! substr($mostviewed_post->title, 0, 40) !!}{!! strlen($mostviewed_post->title) > 40 ? "...": "" !!}
+                                            <span>{!! $mostviewed_post->count_viewed !!}</span>
+                                    </li>
+                                @endforeach
+                            @endif
                             </ul>
                         </div>
                     </div>
                 </div>
             </div>
-            {{-- <div class="tab-pane fade" id="comment" role="tabpanel">
-                <div class="comment-content">
-                    <div class="comment-img">
-                        <a href="#"><i class="fa fa-user"></i></a>
-                    </div>
-                    <div class="img-content">
-                        <p><a href="#"><span>{{ trans('auth.home') }}</span>{{ trans('auth.home') }}</a>
-                        </p>
-                    </div>
-                </div>
-            </div> --}}
             <div class="tab-pane fade" id="catagory" role="tabpanel">
                 <div class="catagory-content">
                     <div class="row">

@@ -66,7 +66,6 @@ class PostController extends Controller
     {
         try {
             $post = Post::where('slug', $slug)
-                ->orWhere('id', $slug)
                 ->firstOrFail();
             $categories_array = $this->queryCategoriesArray();
             $slider_option_array = Post::SLIDER_OPTIONS;
@@ -150,7 +149,6 @@ class PostController extends Controller
         } catch (Exception $e) {
             return redirect()->route('admin.posts.index');
         }
-
     }
 
     /**

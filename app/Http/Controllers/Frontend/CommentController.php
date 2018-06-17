@@ -53,7 +53,6 @@ class CommentController extends Controller
             if ($request->ajax()) {
 
                 $post = Post::where('slug', $request->id)
-                    ->orWhere('id', $request->id)
                     ->firstOrFail();
 
                 $validate = Comment::validateComment($request->all());
@@ -81,7 +80,6 @@ class CommentController extends Controller
         try {
             if ($request->ajax()) {
                 $post = Post::where('slug', $request->slug)
-                    ->orWhere('id', $request->slug)
                     ->firstOrFail();
                 $comment = Comment::where('id', $request->id)->firstOrFail();
                 $user_id = Auth::user()->id;
@@ -110,7 +108,6 @@ class CommentController extends Controller
         try {
             if ($request->ajax()) {
                 $post = Post::where('slug', $request->slug)
-                    ->orWhere('id', $request->slug)
                     ->firstOrFail();
                 $comment = Comment::where('id', $request->id)->firstOrFail();
                 $comment->delete();

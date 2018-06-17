@@ -42,7 +42,7 @@ class AppServiceProvider extends ServiceProvider
             }, SORT_REGULAR, true);
             $tags = Tag::with('posts')
                 ->where('created_at', '<', date('Y-m-d') . ' 00:00:00')
-                ->where('created_at', '>=', date("Y-m-d", strtotime("7 days ago")) . ' 00:00:00')
+                ->where('created_at', '>=', date('Y-m-d', strtotime('7 days ago')) . ' 00:00:00')
                 ->whereHas('posts', function ($query) {
                     $query->where('status', Post::POST_STATUS['accepted']);
                 })
@@ -54,14 +54,15 @@ class AppServiceProvider extends ServiceProvider
             $mostviewed_posts = Post::hasCategory()
                 ->orderBy('count_viewed', 'desc')
                 ->where('status', Post::POST_STATUS['accepted'])
-                ->take(self::NUMBER_MOST_VIEWED_POSTS)
+                ->limit(self::NUMBER_MOST_VIEWED_POSTS)
                 ->get();
             $mostviewed_lastweek_posts = Post::hasCategory()
                 ->orderBy('count_viewed', 'desc')
                 ->where('status', Post::POST_STATUS['accepted'])
-                ->where('created_at', '<', date('Y-m-d') . ' 00:00:00')
-                ->where('created_at', '>=', date("Y-m-d", strtotime("7 days ago")) . ' 00:00:00')
-                ->take(self::NUMBER_MOST_VIEWED_POSTS)->get();
+                ->where('updated_at', '<', date('Y-m-d') . ' 00:00:00')
+                ->where('updated_at', '>=', date('Y-m-d', strtotime('7 days ago')) . ' 00:00:00')
+                ->limit(self::NUMBER_MOST_VIEWED_POSTS)
+                ->get();
             $view->with([
                 'categories' => $categories,
                 'tags' => $tags,
