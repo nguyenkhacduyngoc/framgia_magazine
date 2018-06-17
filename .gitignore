@@ -11,3 +11,4 @@ framgia_magazine.sublime-workspace
 bower.json
 /.framgia-ci-reports
 *.yml
+/vendor
