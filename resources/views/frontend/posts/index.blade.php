@@ -65,9 +65,9 @@
                                     <div class="btn-group">
                                         {!! Form::open(['route' => ['posts.destroy', $post->slug], 'action' => 'PostController@destroy', 'method' => 'delete']) !!}
                                         <a class="btn btn-primary"
-                                           href="{{ route('posts.edit', ['post' => $post]) }}"><i class="fa fa-pencil-square-o"></i></a>
+                                           href="{{ route('posts.edit', ['slug' => $post->slug]) }}"><i class="fa fa-pencil-square-o"></i></a>
                                         <a class="btn btn-success"
-                                           href="{{ route('posts.show', ['post' => $post]) }}"><i class="fa fa-eye"></i></a>
+                                           href="{{ route('posts.show', ['slug' => $post->slug]) }}"><i class="fa fa-eye"></i></a>
                                         {!! Form::button('<i class="fa fa-trash"></i>', ['type' => 'submit', 'class' => 'btn btn-danger']) !!}
                                         {!! Form::close() !!}
                                     </div>
