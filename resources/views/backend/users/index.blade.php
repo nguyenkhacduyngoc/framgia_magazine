@@ -26,12 +26,22 @@
                         </header>
                         <table id="datatable" class="table table-striped table-advance table-hover table-bordered">
                             <thead>
-                                <th><i class="fa fa-user"></i> {!! trans('auth.fullname') !!}</th>
-                                <th><i class="fa fa-user"></i> {!! trans('auth.username') !!}</th>
-                                <th><i class="fa fa-envelope"></i> {!! trans('auth.email') !!}</th>
-                                <th><i class="fa fa-cog"></i> {!! trans('auth.role') !!}</th>
-                                <th><i class="fa fa-intersex"></i> {!! trans('auth.gender') !!}</th>
-                                <th style="text-align: center"><i class="fa fa-cogs"></i> Action</th>
+                                <tr>
+                                    <th><i class="fa fa-user"></i> {!! trans('auth.fullname') !!}</th>
+                                    <th><i class="fa fa-user"></i> {!! trans('auth.username') !!}</th>
+                                    <th><i class="fa fa-envelope"></i> {!! trans('auth.email') !!}</th>
+                                    <th><i class="fa fa-cog"></i> {!! trans('auth.role') !!}</th>
+                                    <th><i class="fa fa-intersex"></i> {!! trans('auth.gender') !!}</th>
+                                    <th style="text-align: center"><i class="fa fa-cogs"></i> Action</th>
+                                </tr>
+                                <tr class="search_table">
+                                    <th><i class="fa fa-user"></i> {!! trans('auth.fullname') !!}</th>
+                                    <th><i class="fa fa-user"></i> {!! trans('auth.username') !!}</th>
+                                    <th><i class="fa fa-envelope"></i> {!! trans('auth.email') !!}</th>
+                                    <th><i class="fa fa-cog"></i> {!! trans('auth.role') !!}</th>
+                                    <th><i class="fa fa-intersex"></i> {!! trans('auth.gender') !!}</th>
+                                    <th style="text-align: center"><i class="fa fa-cogs"></i> Action</th>
+                                </tr>
                             </thead>
                             <tbody>
                             @foreach($users as $user)
@@ -76,10 +86,29 @@
 {!! HTML::script('js/frontend/dataTables.bootstrap4.min.js') !!}
 <script>
     $(document).ready(function() {
-        $('#datatable').DataTable();
+        // Setup - add a text input to each footer cell
+        $('#datatable thead .search_table th ').each( function () {
+            var title = $(this).text();
+            $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
+        } );
+    
+        // DataTable
+        var table = $('#datatable').DataTable();
+    
+        // Apply the search
+        table.columns().every( function () {
+            var that = this;
+    
+            $( 'input', this.header() ).on( 'keyup change', function () {
+                if ( that.search() !== this.value ) {
+                    that
+                        .search( this.value )
+                        .draw();
+                }
+            } );
+        } );
+        
         $('.dataTables_filter').css({'display':'inline','float':'right'});
-        // $('.dataTables_length').css({'display':'none'});
-        // $('.dataTables_paginate').css({'display':'none'});
     } );
 </script>
 {!! Html::script('js/frontend/test.js') !!}
