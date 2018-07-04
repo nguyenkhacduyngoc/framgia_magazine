@@ -26,14 +26,24 @@
                         </header>
                         <table id="datatable" class="table table-striped table-advance table-hover table-bordered">
                             <thead>
-                                <th><i class="fa fa-pencil"></i> {!! trans('admin.title') !!} </th>
-                                <th><i class="fa fa-star"></i> {!! trans('admin.status') !!} </th>
-                                <th><i class="fa fa-archive"></i> {!! trans('admin.category') !!} </th>
-                                <th><i class="fa fa-user"></i> {!! trans('admin.user') !!} </th>
-                                <th><i class="fa fa-user"></i> {!! trans('Slider') !!} </th>
-                                <th><i class="fa fa-clock-o"></i> {!! trans('admin.created_at') !!} </th>
-                                <th style="text-align: center"><i class="fa fa-cogs"></i> {!! trans('admin.action') !!}
-                                </th>
+                                <tr>
+                                    <th><i class="fa fa-pencil"></i> {!! trans('admin.title') !!} </th>
+                                    <th><i class="fa fa-star"></i> {!! trans('admin.status') !!} </th>
+                                    <th><i class="fa fa-archive"></i> {!! trans('admin.category') !!} </th>
+                                    <th><i class="fa fa-user"></i> {!! trans('admin.user') !!} </th>
+                                    <th><i class="fa fa-user"></i> {!! trans('Slider') !!} </th>
+                                    <th><i class="fa fa-clock-o"></i> {!! trans('admin.created_at') !!} </th>
+                                    <th style="text-align: center"><i class="fa fa-cogs"></i> {!! trans('admin.action') !!}</th>
+                                </tr>
+                                <tr class="search_table">
+                                    <th><i class="fa fa-pencil"></i> {!! trans('admin.title') !!} </th>
+                                    <th><i class="fa fa-star"></i> {!! trans('admin.status') !!} </th>
+                                    <th><i class="fa fa-archive"></i> {!! trans('admin.category') !!} </th>
+                                    <th><i class="fa fa-user"></i> {!! trans('admin.user') !!} </th>
+                                    <th><i class="fa fa-user"></i> {!! trans('Slider') !!} </th>
+                                    <th><i class="fa fa-clock-o"></i> {!! trans('admin.created_at') !!} </th>
+                                    <th style="text-align: center"><i class="fa fa-cogs"></i> {!! trans('admin.action') !!}</th>
+                                </tr>
                             </thead>
                             <tbody>
                             @foreach($posts as $post)
@@ -79,16 +89,35 @@
 <script>
     var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
     $(document).ready(function() {
-        $('#datatable').DataTable({
+        // Setup - add a text input to each footer cell
+        $('#datatable thead .search_table th ').each( function () {
+            var title = $(this).text();
+            $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
+        } );
+    
+        // DataTable
+        var table = $('#datatable').DataTable({
             "order": [[ 4, "desc" ]],
             "columnDefs": [
                 { "width": "15%", "targets": 0 },
                 { "width": "10%", "targets": 6 }
             ]
         });
+    
+        // Apply the search
+        table.columns().every( function () {
+            var that = this;
+    
+            $( 'input', this.header() ).on( 'keyup change', function () {
+                if ( that.search() !== this.value ) {
+                    that
+                        .search( this.value )
+                        .draw();
+                }
+            } );
+        } );
+        
         $('.dataTables_filter').css({'display':'inline','float':'right'});
-        // $('.dataTables_length').css({'display':'none'});
-        // $('.dataTables_paginate').css({'display':'none'});
     } );
 </script>
 {!! Html::script('js/frontend/test.js') !!}

@@ -28,9 +28,16 @@
                         </header>
                         <table id="datatable" class="table table-striped table-advance table-hover table-bordered">
                             <thead>
-                                <th><i class="fa fa-list-ul"></i> {{ trans('admin.categories') }} </th>
-                                <th><i class="fa fa-pencil"></i> {{ trans('admin.description') }} </th>
-                                <th id='action_th'><i class="fa fa-cogs"></i> {{ trans('admin.action') }} </th>
+                                <tr>
+                                    <th><i class="fa fa-list-ul"></i> {{ trans('admin.categories') }} </th>
+                                    <th><i class="fa fa-pencil"></i> {{ trans('admin.description') }} </th>
+                                    <th id='action_th'><i class="fa fa-cogs"></i> {{ trans('admin.action') }} </th>
+                                </tr>
+                                <tr class="search_table">
+                                    <th><i class="fa fa-list-ul"></i> {{ trans('admin.categories') }} </th>
+                                    <th><i class="fa fa-pencil"></i> {{ trans('admin.description') }} </th>
+                                    <th id='action_th'><i class="fa fa-cogs"></i> {{ trans('admin.action') }} </th>
+                                </tr>
                             </thead>
                             <tbody>
                             @foreach($categories as $category)
@@ -68,10 +75,27 @@
 <script>
     var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
     $(document).ready(function() {
-        $('#datatable').DataTable();
+        // Setup - add a text input to each footer cell
+        $('#datatable thead .search_table th ').each( function () {
+            var title = $(this).text();
+            $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
+        } );
+    
+        // DataTable
+        var table = $('#datatable').DataTable();
         $('.dataTables_filter').css({'display':'inline','float':'right'});
-        // $('.dataTables_length').css({'display':'none'});
-        // $('.dataTables_paginate').css({'display':'none'});
+        // Apply the search
+        table.columns().every( function () {
+            var that = this;
+    
+            $( 'input', this.header() ).on( 'keyup change', function () {
+                if ( that.search() !== this.value ) {
+                    that
+                        .search( this.value )
+                        .draw();
+                }
+            } );
+        } );
     } );
 </script>
 {!! Html::script('js/frontend/test.js') !!}
