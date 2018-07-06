@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
 use App\Models\User;
-use Illuminate\Foundation\Auth\RegistersUsers;
+use App\Models\VerifyUser;
+use App\Mail\VerifyRegister;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Foundation\Auth\RegistersUsers;
 
 class RegisterController extends Controller
 {
@@ -65,13 +68,31 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+        $user =  User::create([
             'username' => $data['username'],
             'fullname' => $data['fullname'],
             'email' => $data['email'],
             'gender' => $data['gender'],
             'password' => bcrypt($data['password']),
         ]);
+
+        $verifyUser = VerifyUser::create([
+            'user_id' => $user->id,
+            'token' => str_random(40)
+        ]);
+
+        $mail = \Mail::to($user->email)->send(new VerifyRegister($user));
+        return $user;
+    }
+
+    public function verifyEmail(Request $request){
+        $verify_register = VerifyUser::where('token',$request->token)->firstOrFail();
+        $user = User::where('id',$verify_register->user_id)->firstOrFail();
+        if($user->verifyEmail == 1){
+            return redirect('login')->withErrors('Your email have been verified');
+        }
+        $user->update(['verifyEmail' => 1]);
+        return redirect('login')->withErrors('Verify Successfully');
     }
 
     public function register(Request $request)
@@ -83,6 +104,6 @@ class RegisterController extends Controller
 
         $users = $this->create($request->all());
 
-        return redirect('login')->with('register-success', 'Success');
+        return redirect('login')->with('check your email for verify register', 'Success');
     }
 }

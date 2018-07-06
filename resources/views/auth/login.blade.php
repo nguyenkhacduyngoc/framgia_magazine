@@ -8,6 +8,15 @@
                         <div class="card-heading">
                             <h3 class="card-title text-center text-gray-dark">{!! trans('auth.login') !!}</h3>
                         </div>
+                        @if ($errors->any())
+                            <div class="alert alert-danger">
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
                         <div class="card-body ">
                             {!! Form::open(['route' =>'login', 'method' => 'post', 'class' => 'form-horizontal']) !!}
                             <div class="form-group{{ $errors->has('username') ? ' has-error' : '' }}">

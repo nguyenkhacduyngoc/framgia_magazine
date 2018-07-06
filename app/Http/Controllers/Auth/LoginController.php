@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use App\Models\User;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 class LoginController extends Controller
 {
@@ -46,7 +47,11 @@ class LoginController extends Controller
             $field => $request->input('username'),
             'password' => $request->input('password'),
         ];
-        if (Auth::attempt($credentials)) {
+        $user = User::where('username', $request->input('username'))->first();
+        if($user->verifyEmail == 0){
+            return redirect('login')->withErrors('Check your email for verify User');
+        }
+        if (Auth::attempt($credentials)) {   
             return redirect()->intended('/');
         } else {
             return redirect('login');

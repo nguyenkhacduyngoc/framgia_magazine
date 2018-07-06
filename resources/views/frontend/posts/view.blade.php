@@ -30,6 +30,7 @@
                 <div class="col-lg-8 col-md-12">
                     <div class="news-heading">
                         <h4>{{ $post->title }}</h4>
+                        <h5>{!! $post->subtitle !!}</h5>
                         <ul class="list-unstyled list-inline">
                             <li class="list-inline-item"><i class="fa fa-user"></i><a href="#">{{ $post->user ? $post->user->fullname : null }}</a>
                             </li>
