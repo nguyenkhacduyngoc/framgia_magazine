@@ -16,6 +16,8 @@ Route::get('/', 'Frontend\PageController@index')->name('');
 Route::get('/homepage', 'Frontend\PageController@index')->name('homepage');
 Route::get('category/{id}', 'Frontend\PageController@category')->name('category');
 Route::get('tag/{id}', 'Frontend\PageController@tag')->name('tag');
+Route::post('verifyEmail','Auth\RegisterController@verifyEmail')->name('verifyEmail');
+Route::get('/mailDaily/{id}','Backend\EmailController@sendDailyMail')->name('sendDaiyMail');
 
 Route::post('posts/search', 'Frontend\PostController@search')->name('posts.search');
 Route::post('posts/rate', 'Frontend\PostController@ratePost')->name('posts.rate_post');

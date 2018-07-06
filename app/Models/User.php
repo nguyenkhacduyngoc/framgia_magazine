@@ -25,6 +25,7 @@ class User extends Authenticatable
         'birthday',
         'job',
         'gender',
+        'verifyEmail',
         'password',
     ];
 
@@ -99,5 +100,10 @@ class User extends Authenticatable
     public function likes()
     {
         return $this->hasMany(Like::class);
+    }
+
+    public function verifyUser()
+    {
+        return $this->hasOne('App\Models\VerifyUser');
     }
 }
