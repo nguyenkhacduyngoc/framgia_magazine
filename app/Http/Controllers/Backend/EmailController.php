@@ -9,9 +9,9 @@ use App\Http\Controllers\Controller;
 
 class EmailController extends Controller
 {
-    public function sendDailyMail($id)
+    public function sendDailyMail()
     {
-        $user = User::findOrFail($id);
+        // $user = User::findOrFail($id);
         SendDailyMailJob::dispatch();
         return redirect()->route('homepage');
     }

@@ -140,4 +140,98 @@ class CategoryController extends Controller
             return redirect()->route('admin');
         }
     }
+
+    /**
+     * Api store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function storeCategoryApi(Request $request)
+    {
+        $this->validate($request, [
+            'name' => 'required|min:5',
+            'description' => 'required',
+        ]);
+        Category::create([
+            'name' => $request->input('name'),
+            'description' => $request->input('description'),
+        ]);
+        return response([
+            'result' => 'success'
+        ], 200);
+    }
+
+    /**
+     * Api display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function showCategoryApi($id)
+    {
+        try {
+            $category = Category::findOrFail($id);
+
+            return view('backend.categories.view', compact('category'));
+        } catch (Exception $e) {
+            return redirect()->route('homepage');
+        }
+
+    }
+
+    /**
+     * Api show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function editCategoryApi($id)
+    {
+        try {
+            $category = Category::findOrFail($id);
+
+            return view('backend.categories.update', compact('category'));
+        } catch (Exception $e) {
+            return redirect()->route('homepage');
+        }
+
+    }
+
+    /**
+     * Api update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function updateCategoryApi(Request $request, $id)
+    {
+        $validate = Category::validateCategory($request->all());
+        if ($validate->fails()) {
+            return redirect()->back()->withErrors($validate)->withInput($request->all());
+        }
+        $this->updateCategory($request->all(), $id);
+
+        return redirect()->route('admin.categories.show', $id);
+    }
+
+    /**
+     * Api remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroyCategoryApi($id)
+    {
+        try {
+            $category = Category::findOrFail($id);
+            $category->delete();
+            Post::whereCategoryId($id)->update(['category_id' => 0, 'status' => 0]);
+
+            return redirect()->route('admin.categories.index');
+        } catch (Exception $e) {
+            return redirect()->route('admin');
+        }
+    }
 }

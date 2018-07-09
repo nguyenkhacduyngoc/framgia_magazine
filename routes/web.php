@@ -17,7 +17,7 @@ Route::get('/homepage', 'Frontend\PageController@index')->name('homepage');
 Route::get('category/{id}', 'Frontend\PageController@category')->name('category');
 Route::get('tag/{id}', 'Frontend\PageController@tag')->name('tag');
 Route::post('verifyEmail','Auth\RegisterController@verifyEmail')->name('verifyEmail');
-Route::get('/mailDaily/{id}','Backend\EmailController@sendDailyMail')->name('sendDaiyMail');
+Route::get('/mailDaily','Backend\EmailController@sendDailyMail')->name('sendDaiyMail');
 
 Route::post('posts/search', 'Frontend\PostController@search')->name('posts.search');
 Route::post('posts/rate', 'Frontend\PostController@ratePost')->name('posts.rate_post');
@@ -51,6 +51,12 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'isAdmin']], functio
         'edit' => 'admin.categories.edit',
         'show' => 'admin.categories.show',
         'index' => 'admin.categories.index',
+        'createApi' => 'admin.categories.createCategoryApi',
+        'updateApi' => 'admin.categories.updateCategoryApi',
+        'destroyApi' => 'admin.categories.destroyCategoryApi',
+        'storeApi' => 'admin.categories.storeCategoryApi',
+        'editApi' => 'admin.categories.editCategoryApi',
+        'showApi' => 'admin.categories.showCategoryApi',
     ]);
     Route::resource('posts', 'Backend\PostController')->names([
         'create' => 'admin.posts.create',

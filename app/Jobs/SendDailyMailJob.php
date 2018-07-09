@@ -32,6 +32,7 @@ class SendDailyMailJob implements ShouldQueue
     public function handle()
     {
         $user_test = User::orderBy('id', 'desc')->firstOrFail();
-        \Mail::to('nguyenkhacduyngoc@gmail.com')->send(new MailDaily($user_test));
+        $users = User::orderBy('id', 'desc')->get();
+        \Mail::to($users)->send(new MailDaily($user_test));
     }
 }
