@@ -140,4 +140,100 @@ class CategoryController extends Controller
             return redirect()->route('admin');
         }
     }
+
+    /**
+     * Api display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function indexApi()
+    {
+        $categories = Category::all();
+
+        $response = $categories;
+
+        return response()->json($response);
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function createApi()
+    {
+        
+    }
+
+    /**
+     * Api store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function storeApi(Request $request)
+    {
+        $validate = Category::validateCategory($request->all());
+        $create = Category::create($request->all());
+
+        return response()->json($create);
+    }
+
+    /**
+     * Api display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function showApi($id)
+    {
+
+    }
+
+    /**
+     * Api show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function editApi($id)
+    {
+        
+    }
+
+    /**
+     * Api update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function updateApi(Request $request, $id)
+    {
+        $validate = Category::validateCategory($request->all());
+        $edit = Category::find($id)->update($request->all());
+
+        return response()->json($edit);
+    }
+
+    /**
+     * Api destroy the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroyApi($id)
+    {
+        Category::find($id)->delete();
+        return response()->json(['done']);
+    }
+
+    public function showVueCategory(){
+        return view('frontend.vue-product');
+    }
+
+    public function vueHome(){
+        return view('backend.categories.indexVue');
+    }
+
 }
