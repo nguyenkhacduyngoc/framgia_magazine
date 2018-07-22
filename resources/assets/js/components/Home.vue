@@ -44,7 +44,9 @@
 </template>
 
 <script>
-    export default {
+    import moment from 'moment';
+    export default {  
+
         data() {
             return {
                 category: {
@@ -55,26 +57,10 @@
                 list_categories: [],
             }
         },
-       created() {
+        created() {
            this.getListCategories()
        },
         methods: {
-            createCategories(){
-                axios.post('/admin/categoriesApi', {
-                    name: this.category.name, 
-                    description: this.category.description
-                }).then(response => {
-                    console.log(response.data.result)
-                }).catch(error => {
-                    this.errors = []
-                    if(error.response.data.errors.name) {
-                        this.errors.push(error.response.data.errors.name)
-                    }
-                    if(error.response.data.errors.price) {
-                        this.errors.push(error.response.data.errors.price)
-                    }
-                })
-            },
             getListCategories(){
                 axios.get('/admin/categoriesApi')
                 .then(response => {
@@ -89,9 +75,32 @@
                         this.errors.push(error.response.data.errors.description)
                     }
                 })
-            }
+            },
+            createCategories(){
+                axios.post('/admin/categoriesApi', {
+                    name: this.category.name, 
+                    description: this.category.description
+                }).then(response => {
+                    console.log(response.data)
+                    this.list_categories.push({
+                        id: response.data.id,
+                        name: response.data.name,
+                        description: response.data.description,
+                        created_at: response.data.created_at,
+                        // created_at: moment().format('YYYY-MM-DD HH:mm:ss')
+                    })
+                }).catch(error => {
+                    this.errors = []
+                    if(error.response.data.errors.name) {
+                        this.errors.push(error.response.data.errors.name)
+                    }
+                    if(error.response.data.errors.price) {
+                        this.errors.push(error.response.data.errors.price)
+                    }
+                })
+            },
 
-            
+
         }
     }    
 </script>

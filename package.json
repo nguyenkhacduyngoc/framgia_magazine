@@ -23,6 +23,7 @@
         "bootstrap": "^4.1.1",
         "ckeditor": "^4.9.2",
         "font-awesome": "^4.7.0",
+        "moment": "^2.22.2",
         "popper.js": "^1.14.3"
     }
 }

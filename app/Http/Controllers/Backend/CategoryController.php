@@ -156,16 +156,6 @@ class CategoryController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function createApi()
-    {
-        
-    }
-
-    /**
      * Api store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -188,17 +178,6 @@ class CategoryController extends Controller
     public function showApi($id)
     {
 
-    }
-
-    /**
-     * Api show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function editApi($id)
-    {
-        
     }
 
     /**
@@ -226,10 +205,6 @@ class CategoryController extends Controller
     {
         Category::find($id)->delete();
         return response()->json(['done']);
-    }
-
-    public function showVueCategory(){
-        return view('frontend.vue-product');
     }
 
     public function vueHome(){
