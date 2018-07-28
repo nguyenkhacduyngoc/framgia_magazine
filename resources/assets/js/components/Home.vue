@@ -29,12 +29,32 @@
                            <th>Date created</th>
                        </tr>
                    </thead>
-                   <tbody>
-                       <tr v-for="category in list_categories">
-                           <td>{{ category.id }}</td>
-                           <td>{{ category.name }}</td>
-                           <td>{{ category.description }}</td>
-                           <td>{{ category.created_at }}</td>
+                    <tbody>
+                        <tr v-for="(category,index) in list_categories">
+                            <td>{{ category.id }}</td>
+                            <td>{{ category.name }}</td>
+                            <td>{{ category.description }}</td>
+                            <td>{{ category.created_at }}</td>
+                        </tr>
+                    </tbody>    
+                            
+                            <td v-if="!category.isEdit">{{ category.name }}</td>
+                            <td v-else>
+                                <input type=text v-model="category.name">
+                            </td>  
+                            <td v-if="!category.isEdit">{{ category.description }}</td>
+                            <td v-else>
+                                <input type=text v-model="category.description">
+                            </td>
+                            <td>{{ category.created_at }}</td>
+                            <td v-if="!category.isEdit">
+                                <button class="btn btn-success" @click="editCategory(category)">Edit</button>
+                                <button class="btn btn-success" @click="deleteCategory(category,index)">Delete</button>
+                            </td>
+                            <td v-else>
+                                <button class="btn btn-success" @click="updateCategory(category)">Update</button>
+                                <button class="btn btn-success" @click="cancelEdit(category)">Cancel</button>
+                            </td>
                        </tr>
                    </tbody>
                </table>
@@ -60,6 +80,9 @@
         created() {
            this.getListCategories()
        },
+       mounted(){
+           this.cachedCategory = {};
+       },
         methods: {
             getListCategories(){
                 axios.get('/admin/categoriesApi')
@@ -81,14 +104,18 @@
                     name: this.category.name, 
                     description: this.category.description
                 }).then(response => {
-                    console.log(response.data)
+
+                    console.log(response.data);
+                    console.log( this.list_categories);
                     this.list_categories.push({
                         id: response.data.id,
                         name: response.data.name,
                         description: response.data.description,
                         created_at: response.data.created_at,
-                        // created_at: moment().format('YYYY-MM-DD HH:mm:ss')
-                    })
+
+                        isEdit: false
+                    });
+                    this.category = []
                 }).catch(error => {
                     this.errors = []
                     if(error.response.data.errors.name) {
@@ -99,8 +126,54 @@
                     }
                 })
             },
-
-
+            getListCategories(){
+                axios.get('/admin/categoriesApi')
+                .then(response => {
+                    this.list_categories = response.data
+                    this.list_categories.forEach(item => {
+                        Vue.set(item, 'isEdit', false)
+                    })
+                    // console.log(list_categories);
+                }).catch(error => {
+                    this.errors = []
+                    if(error.response.data.errors.name){
+                        this.errors.push(error.response.data.errors.name)
+                    }
+                    if(error.response.data.erorrs.description){
+                        this.errors.push(error.response.data.errors.description)
+                    }
+                })
+            },
+            updateCategory(category){
+                axios.put('/admin/categoriesApi/'+category.id, {
+                    name: category.name,
+                    description: category.description,
+                }).then(response => {
+                    console.log(response.data)
+                    this.cachedCategory = Object.assign({}, category)
+                    category.isEdit = false
+                }).catch(error => {
+                    this.errors = error.response.data.errors.name
+                })
+            },
+            editCategory(category){
+                this.cachedCategory = Object.assign({}, category)
+                category.isEdit = true
+            },
+            cancelEdit(category){
+                category.name = this.cachedCategory.name
+                category.description = this.cachedCategory.description
+                category.isEdit = false
+            },
+            deleteCategory(category, index){
+                    console.log(category.id)
+                axios.delete('/admin/categoriesApi/'+category.id)
+                .then(response => {
+                    this.list_categories.splice(index, 1)
+                }).catch(error => {
+                    this.errors = error.response.data.errors.name
+                })
+            }
         }
     }    
 </script>
