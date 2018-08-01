@@ -21,14 +21,13 @@
     @yield('backend-add-css')
 </head>
 <body>
-
+<div id="app-backend">
 <!-- container section start -->
-<section id="container" class="">
-    <div id="app">
-        <dashboard></dashboard>
-    </div>
-</section>
+    <section id="container" class="">
+        <dash-board></dash-board>
+    </section>
 <!-- container section end -->
+</div>
 <!-- javascripts -->
 <script src="{{ asset('js/app.js') }}"></script>
 <script src="{{ asset('js/backend/jquery.scrollTo.min.js') }}"></script>

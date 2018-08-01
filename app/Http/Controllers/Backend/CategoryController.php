@@ -177,7 +177,9 @@ class CategoryController extends Controller
      */
     public function showApi($id)
     {
-
+            $category = Category::where('id', $id)->first();
+            
+            return response()->json($category);
     }
 
     /**

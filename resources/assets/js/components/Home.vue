@@ -66,7 +66,6 @@
 <script>
     import moment from 'moment';
     export default {  
-
         data() {
             return {
                 category: {
@@ -79,10 +78,10 @@
         },
         created() {
            this.getListCategories()
-       },
-       mounted(){
-           this.cachedCategory = {};
-       },
+        },
+        mounted(){
+            this.cachedCategory = {};
+        },
         methods: {
             getListCategories(){
                 axios.get('/admin/categoriesApi')
@@ -123,24 +122,6 @@
                     }
                     if(error.response.data.errors.price) {
                         this.errors.push(error.response.data.errors.price)
-                    }
-                })
-            },
-            getListCategories(){
-                axios.get('/admin/categoriesApi')
-                .then(response => {
-                    this.list_categories = response.data
-                    this.list_categories.forEach(item => {
-                        Vue.set(item, 'isEdit', false)
-                    })
-                    // console.log(list_categories);
-                }).catch(error => {
-                    this.errors = []
-                    if(error.response.data.errors.name){
-                        this.errors.push(error.response.data.errors.name)
-                    }
-                    if(error.response.data.erorrs.description){
-                        this.errors.push(error.response.data.errors.description)
                     }
                 })
             },
