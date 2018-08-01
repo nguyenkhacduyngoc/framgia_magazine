@@ -24,8 +24,8 @@
 
 <!-- container section start -->
 <section id="container" class="">
-    <div id="app">
-        <dashboard></dashboard>
+    <div id="app-backend">
+        <dash-board></dash-board>
     </div>
 </section>
 <!-- container section end -->

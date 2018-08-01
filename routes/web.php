@@ -33,7 +33,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'isAdmin']], functio
         return view('backend.master');
     })->name('admin');
     Route::get('/homeApi', function () {
-        return view('backend.categories.indexVue');
+        return view('backend.mastervue');
     })->name('adminApi');
     Route::resource('users', 'Backend\UserController')->names([
         'create' => 'admin.users.create',
@@ -55,6 +55,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'isAdmin']], functio
     ]);
 
     Route::get('categoriesApi', 'Backend\CategoryController@indexApi')->name('admin.posts.indexApi');
+    Route::get('categoriesApi/{category}', 'Backend\CategoryController@showApi')->name('admin.posts.showApi');
     Route::post('categoriesApi', 'Backend\CategoryController@storeApi')->name('admin.posts.storeApi');
     Route::put('categoriesApi/{category}', 'Backend\CategoryController@updateApi')->name('admin.posts.updateApi');
     Route::delete('categoriesApi/{category}', 'Backend\CategoryController@destroyApi')->name('admin.posts.destroyApi');
