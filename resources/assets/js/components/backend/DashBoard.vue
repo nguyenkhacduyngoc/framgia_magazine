@@ -2,6 +2,12 @@
         <div>
             <page-header></page-header>
             <page-sidebar></page-sidebar>
+            <!--main content start-->
+            <section id="main-content">
+                <section class="wrapper">
+                    <router-view></router-view>
+                </section>
+            </section>
         </div>
 </template>
 

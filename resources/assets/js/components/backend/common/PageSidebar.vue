@@ -5,10 +5,10 @@
                 <!-- sidebar menu start-->
                 <ul class="sidebar-menu">
                     <li class="">
-                        <a class="" href="">
+                        <router-link :to="{ name:'dashboard' }">
                             <i class="fa fa-home"></i>
                             <span> Dash Board </span>
-                        </a>
+                        </router-link>
                     </li>
                     <li class="sub-menu">
                         <a href="javascript:;" class="">
@@ -27,8 +27,8 @@
                             <span class="menu-arrow fa fa-arrow-right"></span>
                         </a>
                         <ul class="sub">
-                            <li><a class="fa fa-indent" href=""> Manage Categories </a></li>
-                            <li><a class="fa fa-plus-square" href=""> Create Category </a></li>
+                            <li><router-link class="fa fa-indent" :to="{ name:'categories' }">Category</router-link></li>
+                            <li><router-link class="fa fa-plus-square" :to="{ name:'create-category' }">Create Category</router-link></li>
                         </ul>
                     </li>
                     <li class="sub-menu">

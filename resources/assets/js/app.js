@@ -35,5 +35,5 @@ new Vue({
     el: '#app-backend',
     store,
     components: { DashBoard },
-    routes
+    router
 });

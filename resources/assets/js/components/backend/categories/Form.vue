@@ -1,16 +1,52 @@
 <template>
-    <div class="create-form">
-        <div class="category-name-input">
-            <input type="text" v-model="category.name">
+    <div>
+        <div class="row">
+            <div class="col-lg-12">
+                <h3 class="page-header"><i class="fa fa-table"></i> Category </h3>
+                <ol class="breadcrumb">
+                    <li><i class="fa fa-home"></i><a href="index.html"> Admin </a></li>
+                    <li><i class="fa fa-table"></i> Category </li>
+                    <li><i class="fa fa-th-list"></i> Create Category </li>
+                </ol>
+            </div>
         </div>
-        <div class="category-name-input">
-            <input type="text" v-model.number="category.description">
-        </div>
-        <div class="create-button">
-            <button @click="createCategories">Create</button>
-        </div>
+        <form class="create-form form-horizontal">
+            <div class="category-name-input form-group">
+                <label class="col-sm-3 control-label">Name</label>
+                <div class="col-sm-7">
+                    <input type="text" class="form-control" v-model="category.name">
+                </div>
+            </div>
+            <div class="category-name-input form-group">
+                <label class="col-sm-3 control-label">Description</label>
+                <div class="col-sm-7">
+                    <input type="text" class="form-control" v-model.number="category.description">
+                </div>
+            </div>
+            <div class="create-button">
+                <button @click="createCategories" class="col-md-1 col-md-offset-5 btn btn-primary">Create</button>
+            </div>
+        </form>
     </div>
 </template>
 
+<script>
+    import CategoryApi from '../../../api/CategoryApi';
+
+    export default {
+        data() {
+            return {
+                category: {}
+            }
+        },
+        methods: {
+            createCategories () {
+
+            }
+        }
+
+
+    }
+</script>
 
 

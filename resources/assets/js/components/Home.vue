@@ -31,12 +31,7 @@
                    </thead>
                     <tbody>
                         <tr v-for="(category,index) in list_categories">
-                            <td>{{ category.id }}</td>
-                            <td>{{ category.name }}</td>
-                            <td>{{ category.description }}</td>
-                            <td>{{ category.created_at }}</td>
-                        </tr>
-                    </tbody>    
+
                             
                             <td v-if="!category.isEdit">{{ category.name }}</td>
                             <td v-else>
@@ -86,8 +81,10 @@
             getListCategories(){
                 axios.get('/admin/categoriesApi')
                 .then(response => {
-                    this.list_categories = response.data
-                    // console.log(list_categories);
+                    this.list_categories = response.data;
+                    this.list_categories.forEach(item => {
+                        Vue.set(item, 'isEdit', false)
+                    });
                 }).catch(error => {
                     this.errors = []
                     if(error.response.data.errors.name){
@@ -111,7 +108,6 @@
                         name: response.data.name,
                         description: response.data.description,
                         created_at: response.data.created_at,
-
                         isEdit: false
                     });
                     this.category = []
@@ -147,7 +143,6 @@
                 category.isEdit = false
             },
             deleteCategory(category, index){
-                    console.log(category.id)
                 axios.delete('/admin/categoriesApi/'+category.id)
                 .then(response => {
                     this.list_categories.splice(index, 1)

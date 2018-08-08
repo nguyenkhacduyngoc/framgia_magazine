@@ -6,34 +6,16 @@ const routes = [
     {
         path: '/',
         name: 'dashboard',
-        component: Dashboard,
-        meta: {
-            accessedBy: ''
-        }
     },
     {
         path: '/categories',
         name: 'categories',
-        component: BackendCategoryList,
-        meta: {
-            accessedBy: ''
-        }
+        component: BackendCategoryList
     },
     {
         path: '/categories/create',
         name: 'create-category',
-        component: BackendCategoryForm,
-        meta: {
-            accessedBy: ''
-        }
-    },
-    {
-        path: '/categories/edit/:id',
-        name: 'edit-category',
-        component: BackendCategoryForm,
-        meta: {
-            accessedBy: ''
-        }
+        component: BackendCategoryForm
     },
 ];
 
