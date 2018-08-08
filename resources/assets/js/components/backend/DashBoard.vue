@@ -1,28 +1,27 @@
 <template>
-    <div class="home">
-        <div class="error" v-if="errors.length">
-            <span v-for="err in errors">
-                {{ err }}
-            </span>
-            <hr>
-        </div>
         <div>
-            <header></header>
-            <side-bar></side-bar>
+            <page-header></page-header>
+            <page-sidebar></page-sidebar>
         </div>
-    </div>
 </template>
 
 <script>
-    import Sidebar from './common/Sidebar';
-    import Header from './common/Header';
-    import Category from
+    import PageSidebar from './common/PageSidebar';
+    import PageHeader from './common/PageHeader';
 
     export default {
-        data(){
-            return {
-                errors: [],
-            }
+        computed: {
+            
+        },
+        created() {
+            
+        },
+        methods: {
+
+        },
+        components: {
+            PageSidebar,
+            PageHeader
         }
     }
 </script>
