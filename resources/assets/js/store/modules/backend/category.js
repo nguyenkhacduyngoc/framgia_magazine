@@ -12,7 +12,9 @@ const state = {
 };
 
 const getters = {
-
+    CATEGORIES: state => {
+        return state.categories;
+    }
 };
 
 const mutations = {
@@ -35,8 +37,6 @@ const mutations = {
     [SET_ERROR] (state, error) {
         state.error = error;
     },
-
-
 }
 
 const actions = {

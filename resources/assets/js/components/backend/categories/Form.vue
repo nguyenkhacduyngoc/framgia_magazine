@@ -24,7 +24,8 @@
                 </div>
             </div>
             <div class="create-button">
-                <button @click="createCategories" class="col-md-1 col-md-offset-5 btn btn-primary">Create</button>
+                <button @click="createCategories(category)" class="col-md-1 col-md-offset-5 btn btn-success">Create</button>
+                <router-link :to="{name: 'categories'}" class="col-md-1 col-md-offset-1 btn btn-danger">Cancel</router-link>
             </div>
         </form>
     </div>
@@ -39,10 +40,17 @@
                 category: {}
             }
         },
+        computed() {
+            
+        },
         methods: {
-            createCategories () {
-
-            }
+            async createCategories (category) {
+                try {
+                    const new_category = await CategoryApi.store(category);
+                } catch(e) {
+                    this.errors = e.response.data.errors;
+                }
+            },
         }
 
 
