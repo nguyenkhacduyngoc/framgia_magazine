@@ -82,15 +82,17 @@
                 axios.get('/admin/categoriesApi')
                 .then(response => {
                     this.list_categories = response.data;
+                    
                     this.list_categories.forEach(item => {
-                        Vue.set(item, 'isEdit', false)
+                        this.$set(item, 'isEdit', false)
+                        console.log(item.isEdit)
                     });
                 }).catch(error => {
                     this.errors = []
-                    if(error.response.data.errors.name){
+                    if(error.response){
                         this.errors.push(error.response.data.errors.name)
                     }
-                    if(error.response.data.erorrs.description){
+                    if(error.response){
                         this.errors.push(error.response.data.errors.description)
                     }
                 })

@@ -28,7 +28,7 @@ const router = new VueRouter({
  */
 
 // Vue.component('example-component', require('./components/ExampleComponent.vue'));
-// Vue.component('home', require('./components/Home.vue'));
+Vue.component('home', require('./components/Home.vue'));
 // Vue.component('dashboard', require('./components/backend/DashBoard.vue'));
 
 new Vue({

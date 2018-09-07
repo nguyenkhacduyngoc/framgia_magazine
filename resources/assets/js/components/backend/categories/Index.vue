@@ -50,6 +50,52 @@
                 category_cached: {}
             }
         },
+        async created() {
+            try {
+                const result = await CategoryApi.getCategory();
+                console.log(result);
+                this.list_categories = result.data;
+                this.list_categories.forEach(item => {
+                    this.$set(item, 'is_edit', false);
+            });
+            } catch (e) {
+                this.errors = e.response.data.errors;
+            }
+        },
+        mounted() {
+            this.category_cached = {};
+        },
+        methods: {
+            editCategory (category) {
+                category.is_edit = true;
+                this.category_cached = Object.assign({}, category);
+            },
+            async updateCategory (category) {
+                try {
+                    const result = await CategoryApi.update(category);
+                    this.category_cached = Object.assign({}, category);
+                    category.is_edit= false;
+                } catch (e) {
+                    this.errors = e.response.data.errors;
+                }
+            },
+            async deleteCategory (category, index) {
+                try {
+                    var confirm_value = confirm('Do you want to delete this category?');
+                    if(confirm_value) {
+                        await CategoryApi.destroy(category);
+                        this.list_categories.splice(index,1);
+                    }
+                } catch (e) {
+                    this.errors = e.response.data.errors;
+                }
+            },
+            async cancelEdit (category) {
+                category.name = this.category_cached.name;
+                category.description = this.category_cached.description;
+                category.is_edit= false;
+            }
+        }
         
     }
 </script>

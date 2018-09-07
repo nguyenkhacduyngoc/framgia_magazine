@@ -14,7 +14,7 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 <body>
-<div id="app">
+<div id="app-backend">
     <nav class="navbar navbar-expand-sm navbar-light bg-light">
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#nav-content"
                 aria-controls="nav-content" aria-expanded="false" aria-label="Toggle navigation">
@@ -44,6 +44,7 @@
         </div>
     </nav>
     @yield('content')
+    <home></home>
 </div>
 <!-- Scripts -->
 <script src="{{ asset('js/app.js') }}"></script>

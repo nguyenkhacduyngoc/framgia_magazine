@@ -70,3 +70,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'isAdmin']], functio
         'index' => 'admin.posts.index',
     ]);
 });
+Route::get('homehome', function (){
+    return view('home');
+});
